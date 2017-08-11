@@ -7,6 +7,19 @@
 //
 
 import UIKit
+import ReSwift
+import ReSwiftRouter
+import ReSwiftRecorder
+let defaults = UserDefaults.standard
+let store = RecordingMainStore<AppState>(
+    reducer: AppReducer(),
+    state: nil,
+    typeMaps: [
+               userActionTypeMap,
+               businessActionTypeMap,
+               reportActionTypeMap],
+    
+    recording: "recording.json")
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +29,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        guard let email = defaults.value(forKey: "email") else{
+            return true
+        }
+        guard let pass = defaults.value(forKey: "password") else{
+            return true
+        }
+        
+        store.dispatch(LogInAction(password: pass as! String, email: email as! String))
         return true
     }
 
