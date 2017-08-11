@@ -1,0 +1,47 @@
+PODS:
+  - Alamofire (4.5.0)
+  - EZLoadingActivity (1.01)
+  - ModelMapper (6.0.0)
+  - Moya (8.0.5):
+    - Moya/Core (= 8.0.5)
+  - Moya-ModelMapper (4.0.0):
+    - Moya-ModelMapper/Core (= 4.0.0)
+  - Moya-ModelMapper/Core (4.0.0):
+    - ModelMapper
+    - Moya (~> 8.0.0)
+  - Moya/Core (8.0.5):
+    - Alamofire (~> 4.1)
+    - Result (~> 3.0)
+  - Result (3.2.3)
+  - ReSwift (3.0.0)
+  - ReSwiftRecorder (0.4.0):
+    - ReSwift (~> 3.0)
+  - ReSwiftRouter (0.5.1):
+    - ReSwift (~> 3.0.0)
+  - Whisper (5.0.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.4)
+  - EZLoadingActivity
+  - Moya
+  - Moya-ModelMapper (= 4.0.0)
+  - ReSwift
+  - ReSwiftRecorder
+  - ReSwiftRouter
+  - Whisper
+
+SPEC CHECKSUMS:
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  EZLoadingActivity: edd7e387e5197b116ce2cccb3fd747ababc2a510
+  ModelMapper: 3596a82f26c43491f6a8d3a00bcdba6ba0e62a93
+  Moya: c37eec09a098ba9991b5a963b291fc5704bdb9ef
+  Moya-ModelMapper: ba729497d947b536837cf377b81c150512245d85
+  Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
+  ReSwift: f0255f4b4f2dacd12c5d97d34d13fc5dad6d6371
+  ReSwiftRecorder: f37a363425ad61c7ddc2172e14ab7799b6b27483
+  ReSwiftRouter: c620138bf94b57c068f789d51c0bd23efc42bf68
+  Whisper: 051f25e704bf8992641ffd28b20d5682ddc5f5d3
+
+PODFILE CHECKSUM: 1aeaa6ca0524520dc3dd1aa402d6b6f7a0d32337
+
+COCOAPODS: 1.2.1.rc.1
