@@ -36,6 +36,7 @@
 		02A3A47E1F3A55C60048750E /* BusinessReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47D1F3A55C60048750E /* BusinessReducer.swift */; };
 		02A3A4801F3A56B00048750E /* EnterprisesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47F1F3A56B00048750E /* EnterprisesService.swift */; };
 		02A3A4831F3A8F960048750E /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4821F3A8F960048750E /* ChildTableViewCell.swift */; };
+		02DD8D311F3E1CBE00896850 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DD8D301F3E1CBE00896850 /* UINavigationBar.swift */; };
 		02E7AB191F3D1EE50037B7D1 /* ReportActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7AB181F3D1EE50037B7D1 /* ReportActions.swift */; };
 		02E7AB1B1F3D238A0037B7D1 /* ReportReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7AB1A1F3D238A0037B7D1 /* ReportReducer.swift */; };
 		02E7AB1D1F3D24A80037B7D1 /* ReportState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7AB1C1F3D24A80037B7D1 /* ReportState.swift */; };
@@ -80,6 +81,7 @@
 		02A3A47D1F3A55C60048750E /* BusinessReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessReducer.swift; sourceTree = "<group>"; };
 		02A3A47F1F3A56B00048750E /* EnterprisesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterprisesService.swift; sourceTree = "<group>"; };
 		02A3A4821F3A8F960048750E /* ChildTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
+		02DD8D301F3E1CBE00896850 /* UINavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationBar.swift; sourceTree = "<group>"; };
 		02E7AB181F3D1EE50037B7D1 /* ReportActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportActions.swift; sourceTree = "<group>"; };
 		02E7AB1A1F3D238A0037B7D1 /* ReportReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportReducer.swift; sourceTree = "<group>"; };
 		02E7AB1C1F3D24A80037B7D1 /* ReportState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportState.swift; sourceTree = "<group>"; };
@@ -136,17 +138,12 @@
 				025EB9981F34F70C0075611F /* Reducers */,
 				025EB9971F34F7050075611F /* Actions */,
 				025EB9851F34F43F0075611F /* AppDelegate.swift */,
-				027FE2231F3CF124005C6FF8 /* ReportViewController.swift */,
-				025EB9871F34F43F0075611F /* ViewController.swift */,
+				02DD8D321F3E235B00896850 /* Controllers */,
 				025EB9891F34F43F0075611F /* Main.storyboard */,
-				025EB9A91F3507590075611F /* WeeksTableViewController.swift */,
 				025EB98C1F34F43F0075611F /* Assets.xcassets */,
 				025EB98E1F34F43F0075611F /* LaunchScreen.storyboard */,
 				025EB9911F34F43F0075611F /* Info.plist */,
-				025EB9A71F3506960075611F /* WeekSelectionViewController.swift */,
 				025EB9AD1F35464F0075611F /* Constants.swift */,
-				027D911D1F393D37007AB6D2 /* ProfileViewController.swift */,
-				02F4CCA11F3BD56E008312A6 /* ReponsableCollectionViewController.swift */,
 			);
 			path = dees;
 			sourceTree = "<group>";
@@ -212,6 +209,7 @@
 				02A3A4721F3A22450048750E /* UIViewcontroller.swift */,
 				02F4CC9D1F3B7310008312A6 /* UIColor.swift */,
 				02E7AB201F3D3BBD0037B7D1 /* DateFormatter.swift */,
+				02DD8D301F3E1CBE00896850 /* UINavigationBar.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -232,6 +230,19 @@
 				02F4CC9F1F3BD4E8008312A6 /* ResponsableCollectionViewCell.swift */,
 			);
 			name = cells;
+			sourceTree = "<group>";
+		};
+		02DD8D321F3E235B00896850 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				027FE2231F3CF124005C6FF8 /* ReportViewController.swift */,
+				025EB9871F34F43F0075611F /* ViewController.swift */,
+				025EB9A91F3507590075611F /* WeeksTableViewController.swift */,
+				025EB9A71F3506960075611F /* WeekSelectionViewController.swift */,
+				027D911D1F393D37007AB6D2 /* ProfileViewController.swift */,
+				02F4CCA11F3BD56E008312A6 /* ReponsableCollectionViewController.swift */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		36C24BFFD9BEDD55F5E09390 /* Pods */ = {
@@ -380,6 +391,7 @@
 				02A3A4801F3A56B00048750E /* EnterprisesService.swift in Sources */,
 				025EB99E1F34FB100075611F /* User.swift in Sources */,
 				025EB9A41F34FC660075611F /* UserReducer.swift in Sources */,
+				02DD8D311F3E1CBE00896850 /* UINavigationBar.swift in Sources */,
 				02E7AB1F1F3D32400037B7D1 /* Week.swift in Sources */,
 				02A3A4831F3A8F960048750E /* ChildTableViewCell.swift in Sources */,
 				02A3A47E1F3A55C60048750E /* BusinessReducer.swift in Sources */,

@@ -16,7 +16,7 @@ class WeekSelectionViewController: UITableViewController, Segue {
     var user: User!
     var enterprises = [Business]()
     
-
+    
     var cellSelected = -1
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +37,7 @@ class WeekSelectionViewController: UITableViewController, Segue {
         if segue.identifier == "responsableSegue" {
             let vc = segue.destination as! ReponsableCollectionViewController
             vc.business = sender as! Business
+            vc.week = week
         }
     }
     
@@ -55,7 +56,7 @@ extension WeekSelectionViewController {
         if indexPath.row % 2 == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BusinessTableViewCell
             let e = enterprises[Int(indexPath.row/2)]
-            if (e.business?.count)! > 0 {
+            if  e.business.count > 0 {
                 cell.arrowImg.isHidden = false
                 cell.accessoryType = .none
                 if cellSelected - 1 != indexPath.row {
@@ -68,8 +69,10 @@ extension WeekSelectionViewController {
                 cell.accessoryType = .detailDisclosureButton
             }
             cell.title.text = "\(e.name!)"
-           
-            cell.colorLbl.backgroundColor = UIColor(hexString: "#\(e.color!)ff")
+            if e.color != nil {
+                cell.colorLbl.backgroundColor = UIColor(hexString: "#\(e.color!)ff")
+            }
+            
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell2", for: indexPath) as! ChildTableViewCell
@@ -87,7 +90,7 @@ extension WeekSelectionViewController {
         }else{
             if indexPath.row == cellSelected {
                 let e = enterprises[(indexPath.row-1)/2]
-                let value = e.business?.count ?? 0
+                let value = e.business.count
                 let heigtht = value * 44
                 return CGFloat(heigtht)
             }
@@ -97,7 +100,7 @@ extension WeekSelectionViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row % 2 == 0 {
             let e = enterprises[indexPath.row/2]
-            if (e.business?.count)! == 0{
+            if e.business.count == 0{
                 self.performSegue(withIdentifier: "responsableSegue", sender: e)
                 return
             }
@@ -111,7 +114,7 @@ extension WeekSelectionViewController {
             cellSelected = indexPath.row + 1
         }
         tableView.reloadRows(at: [indexPath,], with: .automatic)
-
+        
         
     }
 }
@@ -119,12 +122,7 @@ extension WeekSelectionViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = BusinessState
     
     override func viewWillAppear(_ animated: Bool) {
-        if week == nil {
-           week = store.state.reportState.weeks.first
-        }else{
-            self.navigationItem.title = "Semana \(week.id!)"
-        }
-        
+        setTitle()
         store.subscribe(self){
             state in
             state.businessState
@@ -134,10 +132,71 @@ extension WeekSelectionViewController : StoreSubscriber {
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
     }
+    func commonElements<T: Sequence, U: Sequence>(_ lhs: T, _ rhs: U) -> [T.Iterator.Element]
+        where T.Iterator.Element: Equatable, T.Iterator.Element == U.Iterator.Element {
+            var common: [T.Iterator.Element] = []
+            
+            for lhsItem in lhs {
+                for rhsItem in rhs {
+                    if lhsItem == rhsItem {
+                        common.append(lhsItem)
+                    }
+                }
+            }
+            return common
+    }
     
     func newState(state: BusinessState) {
-        self.enterprises = state.business
-        week = store.state.reportState.weeks.first ?? week
+        self.user = store.state.user.user
+        self.enterprises = user.rol == .Superior ? state.business : state.business.filter({b in
+            return user.bussiness.contains(where: {ub in
+                return b.id == ub.id || b.business.contains(where: {$0.id == ub.id})
+            })
+        })
+        
+        setTitle()
         self.tableView.reloadData()
+    }
+    func setTitle(title:String, subtitle:String) -> UIView {
+        let titleLabel = UILabel(frame:  CGRect(x:0,y:-2,width: 0,height: 0))
+        
+        titleLabel.backgroundColor = UIColor.clear
+        titleLabel.textColor = UIColor.darkGray
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+        titleLabel.text = title
+        titleLabel.sizeToFit()
+        
+        let subtitleLabel = UILabel(frame: CGRect(x:0,y:18,width: 0,height: 0))
+        subtitleLabel.backgroundColor = UIColor.clear
+        subtitleLabel.textColor = UIColor.black
+        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
+        subtitleLabel.text = subtitle
+        subtitleLabel.sizeToFit()
+        
+        let titleView = UIView(frame: CGRect(x:0, y:0, width: max(titleLabel.frame.size.width,subtitleLabel.frame.size.width), height:30))
+        titleView.addSubview(titleLabel)
+        titleView.addSubview(subtitleLabel)
+        
+        let widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
+        
+        if widthDiff < 0 {
+            let newX = widthDiff / 2
+            subtitleLabel.frame.origin.x = abs(newX)
+        } else {
+            let newX = widthDiff / 2
+            titleLabel.frame.origin.x = newX
+        }
+        
+        return titleView
+    }
+    
+    func setTitle(){
+        if week == nil {
+            week = store.state.reportState.weeks.first
+        }else{
+            let view = setTitle(title: "Semana \(week.id!)", subtitle: (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
+            self.navigationItem.titleView = view
+        }
+        
     }
 }

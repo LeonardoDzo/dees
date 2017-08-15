@@ -48,6 +48,10 @@ struct UserReducer: Reducer {
             case .success(let response):
                 do {
                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
+                    if response.statusCode == 418  {
+                        store.state.user.status = .Failed("Email/Contraseña incorrecta!!")
+                        return
+                    }
                     guard let t = repos.value(forKey: "token") as? String else{
                         return
                     }
@@ -66,12 +70,14 @@ struct UserReducer: Reducer {
                    
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
+                    store.state.user.status = .Failed("Email/Contraseña incorrecta!!")
                 } catch {
                     print(":(")
                 }
                 break
             case .failure(let error):
                 print(error)
+                store.state.user.status = .Failed(messages.errorG_Murmur)
                 break
             }
             

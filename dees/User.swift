@@ -16,28 +16,22 @@ enum Rol: Int {
 struct User : Mappable {
     static let kName = "name"
     static let kEmail = "email"
-    static let kRol = "rol"
-    static let kBusiness = "bussiness"
+    static let kRol = "role"
+    static let kBusiness = "enterprises"
     
     var id: Int?
     var name: String?
     var email: String?
-    var rol: Rol! = .Superior
+    var rol: Rol? = .Superior
     var bussiness = [Business]()
-    
-    init(json: NSDictionary) {
-        self.id = json.value(forKey: "id") as? Int
-        self.name = json.value(forKey: User.kName) as? String
-        self.email = json.value(forKey:User.kEmail) as? String
-        if  let val = json.value(forKey:User.kRol) as? Int {
-            self.rol =  Rol(rawValue: val)
-        }
-    }
+
     init(map: Mapper) throws {
         try self.id = map.from("id")
         try self.email = map.from(User.kEmail)
         try self.name = map.from(User.kName)
-       // try self.rol = Rol(rawValue: map.from(User.kRol))
+
+        self.rol = Rol(rawValue: map.optionalFrom(User.kRol) ?? 0 )
+        self.bussiness = map.optionalFrom(User.kBusiness) ?? []
     }
     init() {
     }

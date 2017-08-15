@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.5.0)
-  - EZLoadingActivity (1.01)
+  - KDLoadingView (1.0.4)
   - ModelMapper (6.0.0)
   - Moya (8.0.5):
     - Moya/Core (= 8.0.5)
@@ -22,7 +22,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
-  - EZLoadingActivity
+  - KDLoadingView (~> 1.0.0)
   - Moya
   - Moya-ModelMapper (= 4.0.0)
   - ReSwift
@@ -32,7 +32,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
-  EZLoadingActivity: edd7e387e5197b116ce2cccb3fd747ababc2a510
+  KDLoadingView: fcb015daf91c245f0a212fd52b8061621f421dfe
   ModelMapper: 3596a82f26c43491f6a8d3a00bcdba6ba0e62a93
   Moya: c37eec09a098ba9991b5a963b291fc5704bdb9ef
   Moya-ModelMapper: ba729497d947b536837cf377b81c150512245d85
@@ -42,6 +42,6 @@ SPEC CHECKSUMS:
   ReSwiftRouter: c620138bf94b57c068f789d51c0bd23efc42bf68
   Whisper: 051f25e704bf8992641ffd28b20d5682ddc5f5d3
 
-PODFILE CHECKSUM: 1aeaa6ca0524520dc3dd1aa402d6b6f7a0d32337
+PODFILE CHECKSUM: 456141a4291d62835cc48b6f7db09b310546a30b
 
 COCOAPODS: 1.2.1.rc.1

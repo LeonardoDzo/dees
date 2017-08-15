@@ -9,10 +9,14 @@
 import UIKit
 import ReSwift
 
-class ProfileViewController: UIViewController {
-
+class ProfileViewController: UIViewController, UserBindible {
+    var user: User!
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var profileView: UIView!
+    
+    @IBOutlet weak var nameLbl: UILabel!
+    @IBOutlet weak var emailLbl: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         profileView.formatView()
@@ -45,10 +49,14 @@ extension ProfileViewController: StoreSubscriber{
     typealias StoreSubscriberStateType = UserState
     
     override func viewWillAppear(_ animated: Bool) {
+        self.user = store.state.user.user
+        self.bind()
+        
         store.subscribe(self){
             state in
             state.user
         }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -56,6 +64,7 @@ extension ProfileViewController: StoreSubscriber{
     }
     
     func newState(state: UserState) {
+        
         switch state.status {
         case .Finished(let s as String):
             if s == "logout"{

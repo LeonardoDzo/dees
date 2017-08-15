@@ -20,13 +20,19 @@ struct ReportReducer : Reducer {
         case let action as GetReportsByEnterpriseAndWeek:
             if action.eid != nil {
                 state.status = .loading
-                getWeeks()
+                getReports(by: action.wid, eid: action.eid)
             }
             break
         case is GetWeeksAction:
             if !token.isEmpty {
                 state.status = .loading
                 getWeeks()
+            } 
+            break
+        case let action as SaveReportAction:
+            if action.report != nil {
+                state.status = .loading
+                postUpdateReport(report: action.report)
             }
             break
         default:
@@ -41,10 +47,17 @@ struct ReportReducer : Reducer {
             case .success(let response):
                 do {
                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                    let array : NSArray = repos.value(forKey: "reports") as! NSArray
+                    let array : NSArray = repos.value(forKey: "formats") as! NSArray
                     
                     let reports = Report.from(array) ?? []
-                    store.state.reportState.reports = reports
+                    reports.forEach({ report in
+                        if !store.state.reportState.reports.contains(where: {$0.id == report.id}) {
+                            store.state.reportState.reports.append(report)
+                        }else if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
+                            store.state.reportState.reports[index] = report
+                        }
+                    })
+                    store.state.reportState.status = .none
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
                 } catch {
@@ -56,7 +69,7 @@ struct ReportReducer : Reducer {
                 print(error)
                 break
             }
-
+            
             
         })
     }
@@ -84,5 +97,65 @@ struct ReportReducer : Reducer {
                 break
             }
         })
+    }
+    func postUpdateReport(report: Report) -> Void {
+        if report.id == nil {
+            reportsProvider.request(.postReport(report: report), completion: {
+                result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let repos : NSDictionary = try response.mapJSON() as! NSDictionary
+                        
+                        if let report = Report.from(repos.value(forKey: "format") as! NSDictionary) {
+                            store.state.reportState.reports.append(report)
+                            store.state.reportState.status = .finished
+                        }
+                        store.state.reportState.status = .none
+                    } catch MoyaError.jsonMapping(let error) {
+                        print(error )
+                    } catch {
+                        print(":(")
+                    }
+                    
+                    break
+                case .failure(let error):
+                    print(error)
+                    break
+                }
+            })
+        }else {
+            reportsProvider.request(.updateReport(report: report), completion: {
+                result in
+                switch result {
+                case .success(let response):
+                    do {
+                        if response.statusCode == 404 {
+                            store.state.reportState.status = .failed
+                            return
+                        }
+                        let repos : NSDictionary = try response.mapJSON() as! NSDictionary
+                        let r : NSDictionary = repos.value(forKey: "format") as! NSDictionary
+                        if let report = Report.from(r) {
+                            print(store.state.reportState.reports)
+                            if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
+                                store.state.reportState.reports[index] = report
+                                store.state.reportState.status = .finished
+                            }
+                        }
+                        store.state.reportState.status = .none
+                    } catch MoyaError.jsonMapping(let error) {
+                        print(error )
+                    } catch {
+                        print(":(")
+                    }
+                    
+                    break
+                case .failure(let error):
+                    print(error)
+                    break
+                }
+            })
+        }
     }
 }

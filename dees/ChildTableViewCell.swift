@@ -32,7 +32,7 @@ class ChildTableViewCell: UITableViewCell {
         
     }
     func chageHeight() -> Void {
-        let value = data != nil ? data.business?.count ?? 0 : 0
+        let value = data != nil ? data.business.count : 0
         tableHeight.constant = CGFloat( value * 44)
     }
     
@@ -42,20 +42,21 @@ extension ChildTableViewCell: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let value = data != nil ? data.business?.count ?? 0 : 0
+        let value = data != nil ? data.business.count : 0
         return value
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell3", for: indexPath) as! BusinessTableViewCell
-        let e = data.business?[indexPath.row]
+        let e = data.business[indexPath.row]
+        //store.state.businessState.business.first(where: {$0.id == data.id})?.business?[indexPath.row].color = data.color
         cell.colorLbl.backgroundColor = UIColor(hexString: "#\(data.color!)ff")
-        cell.title.text = "  \(indexPath.row+1).-  \(e!.name!)"
+        cell.title.text = "  \(indexPath.row+1).-  \(e.name!)"
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        segueDelegate.selected("responsableSegue", sender: data.business?[indexPath.row])
+        segueDelegate.selected("responsableSegue", sender: data.business[indexPath.row])
         
 
         
