@@ -56,7 +56,7 @@ extension ViewController : StoreSubscriber {
         
         store.subscribe(self) {
             state in
-            state.user
+            state.userState
         }
         
         
@@ -74,8 +74,14 @@ extension ViewController : StoreSubscriber {
 
             break
         case .Finished(let u as User):
-
-            self.performSegue(withIdentifier: "mainSegue", sender: u)
+            if u.rol == .Superior {
+                self.performSegue(withIdentifier: "preSegue", sender: u)
+            }else{
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "tabBarController") as UIViewController
+                present(vc, animated: true, completion: nil)
+            }
+            
             break
         case .Failed(let m as Murmur):
             // Show and hide a message after delay

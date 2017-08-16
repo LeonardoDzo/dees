@@ -12,7 +12,8 @@ import ReSwiftRecorder
 
 let userActionTypeMap: TypeMap = [LogInAction.type: LogInAction.self,
                                   LogOutAction.type:LogOutAction.self,
-                                  GetUserAction.type: GetUserAction.self]
+                                  GetUserAction.type: GetUserAction.self,
+                                  ChangePassAction.type: ChangePassAction.self]
 
 struct LogInAction: StandardActionConvertible {
     static let type = "LOGIN_ACTION"
@@ -37,6 +38,22 @@ struct LogOutAction: StandardActionConvertible {
     
     func toStandardAction() -> StandardAction {
         return StandardAction(type: LogOutAction.type, payload: [:], isTypedAction: true)
+    }
+}
+struct ChangePassAction: StandardActionConvertible {
+    static let type = "CHANGEPASS_ACTION"
+    var oldPass: String!
+    var newPass: String!
+    
+    init(old: String, new: String) {
+        oldPass = old
+        newPass = new
+    }
+    init(_ standardAction: StandardAction) {
+    }
+    
+    func toStandardAction() -> StandardAction {
+        return StandardAction(type: ChangePassAction.type, payload: [:], isTypedAction: true)
     }
 }
 struct GetUserAction: StandardActionConvertible {

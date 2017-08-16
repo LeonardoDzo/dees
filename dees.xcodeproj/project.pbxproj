@@ -37,6 +37,8 @@
 		02A3A4801F3A56B00048750E /* EnterprisesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47F1F3A56B00048750E /* EnterprisesService.swift */; };
 		02A3A4831F3A8F960048750E /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4821F3A8F960048750E /* ChildTableViewCell.swift */; };
 		02DD8D311F3E1CBE00896850 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DD8D301F3E1CBE00896850 /* UINavigationBar.swift */; };
+		02E0EFB81F43C5CC00CE405A /* PreHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E0EFB71F43C5CC00CE405A /* PreHomeViewController.swift */; };
+		02E0EFBA1F43C97D00CE405A /* ChengePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */; };
 		02E7AB191F3D1EE50037B7D1 /* ReportActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7AB181F3D1EE50037B7D1 /* ReportActions.swift */; };
 		02E7AB1B1F3D238A0037B7D1 /* ReportReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7AB1A1F3D238A0037B7D1 /* ReportReducer.swift */; };
 		02E7AB1D1F3D24A80037B7D1 /* ReportState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7AB1C1F3D24A80037B7D1 /* ReportState.swift */; };
@@ -82,6 +84,8 @@
 		02A3A47F1F3A56B00048750E /* EnterprisesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterprisesService.swift; sourceTree = "<group>"; };
 		02A3A4821F3A8F960048750E /* ChildTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
 		02DD8D301F3E1CBE00896850 /* UINavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationBar.swift; sourceTree = "<group>"; };
+		02E0EFB71F43C5CC00CE405A /* PreHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreHomeViewController.swift; sourceTree = "<group>"; };
+		02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChengePasswordViewController.swift; sourceTree = "<group>"; };
 		02E7AB181F3D1EE50037B7D1 /* ReportActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportActions.swift; sourceTree = "<group>"; };
 		02E7AB1A1F3D238A0037B7D1 /* ReportReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportReducer.swift; sourceTree = "<group>"; };
 		02E7AB1C1F3D24A80037B7D1 /* ReportState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportState.swift; sourceTree = "<group>"; };
@@ -241,6 +245,8 @@
 				025EB9A71F3506960075611F /* WeekSelectionViewController.swift */,
 				027D911D1F393D37007AB6D2 /* ProfileViewController.swift */,
 				02F4CCA11F3BD56E008312A6 /* ReponsableCollectionViewController.swift */,
+				02E0EFB71F43C5CC00CE405A /* PreHomeViewController.swift */,
+				02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -404,7 +410,9 @@
 				025EB99B1F34F9020075611F /* AppState.swift in Sources */,
 				025EB9881F34F43F0075611F /* ViewController.swift in Sources */,
 				02E7AB1B1F3D238A0037B7D1 /* ReportReducer.swift in Sources */,
+				02E0EFB81F43C5CC00CE405A /* PreHomeViewController.swift in Sources */,
 				025EB9A61F34FCC60075611F /* UserSatate.swift in Sources */,
+				02E0EFBA1F43C97D00CE405A /* ChengePasswordViewController.swift in Sources */,
 				027FE2241F3CF124005C6FF8 /* ReportViewController.swift in Sources */,
 				02F4CC9E1F3B7310008312A6 /* UIColor.swift in Sources */,
 				02A3A4731F3A22450048750E /* UIViewcontroller.swift in Sources */,

@@ -94,7 +94,7 @@ extension ReportBindible {
         let endDate = Date(string: week.endDate, formatter: .yearMonthAndDay)?.toMillis()
         if let operativeTxv = self.operativeTxv {
             operativeTxv.text = report.operative ?? ""
-            if store.state.user.user.id != report.uid || (endDate! < date!) {
+            if store.state.userState.user.id != report.uid || (endDate! < date!) {
                 operativeTxv.isEditable = false
             }else{
                 operativeTxv.isEditable = true
@@ -102,7 +102,7 @@ extension ReportBindible {
         }
         if let observationsTxv = self.observationsTxv {
             observationsTxv.text = report.observations ?? ""
-            if store.state.user.user.rol == .Superior  {
+            if store.state.userState.user.rol == .Superior  {
                 observationsTxv.isEditable = true
             }else{
                 observationsTxv.isEditable = false
@@ -110,7 +110,7 @@ extension ReportBindible {
         }
         if let financialTxv = self.financialTxv {
             financialTxv.text = report.financial ?? ""
-            if store.state.user.user.id != report.uid || (endDate! < date!) {
+            if store.state.userState.user.id != report.uid || (endDate! < date!) {
                 financialTxv.isEditable = false
             }else{
                 financialTxv.isEditable = true
@@ -118,7 +118,7 @@ extension ReportBindible {
         }
         if let replySwt = self.replySwt {
             replySwt.isOn = report.reply ?? false
-            if store.state.user.user.rol == .Superior {
+            if store.state.userState.user.rol == .Superior {
                 replySwt.isEnabled = true
             }else{
                 replySwt.isEnabled = false

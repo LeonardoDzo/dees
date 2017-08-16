@@ -10,7 +10,7 @@ import Foundation
 import ReSwift
 
 struct AppState: StateType{
-    var user : UserState
+    var userState : UserState
     var businessState: BusinessState
     var reportState: ReportState
 }

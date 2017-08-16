@@ -49,12 +49,12 @@ extension ProfileViewController: StoreSubscriber{
     typealias StoreSubscriberStateType = UserState
     
     override func viewWillAppear(_ animated: Bool) {
-        self.user = store.state.user.user
+        self.user = store.state.userState.user
         self.bind()
         
         store.subscribe(self){
             state in
-            state.user
+            state.userState
         }
         
     }

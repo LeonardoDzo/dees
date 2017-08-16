@@ -14,7 +14,7 @@ struct AppReducer: Reducer {
     func handleAction(action: Action, state: AppState?) -> AppState {
         
         return AppState(
-            user: UserReducer().handleAction(action: action, state: state?.user),
+            userState: UserReducer().handleAction(action: action, state: state?.userState),
             businessState: BusinessReducer().handleAction(action: action, state: state?.businessState),
             reportState: ReportReducer().handleAction(action: action, state: state?.reportState)
         )

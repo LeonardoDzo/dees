@@ -15,7 +15,7 @@ class WeekSelectionViewController: UITableViewController, Segue {
     var week: Week!
     var user: User!
     var enterprises = [Business]()
-    
+    var type: Int!
     
     var cellSelected = -1
     override func viewDidLoad() {
@@ -147,7 +147,7 @@ extension WeekSelectionViewController : StoreSubscriber {
     }
     
     func newState(state: BusinessState) {
-        self.user = store.state.user.user
+        self.user = store.state.userState.user
         self.enterprises = user.rol == .Superior ? state.business : state.business.filter({b in
             return user.bussiness.contains(where: {ub in
                 return b.id == ub.id || b.business.contains(where: {$0.id == ub.id})

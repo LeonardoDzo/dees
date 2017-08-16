@@ -33,6 +33,12 @@ struct UserReducer: Reducer {
                 self.getUser(by: action.uid)
             }
             break
+        case let action as ChangePassAction:
+            if action.oldPass != nil {
+                state.status = .loading
+                changePass(old: action.oldPass, new: action.newPass)
+            }
+            break
         case _ as LogOutAction:
             self.logOut()
             state.status = .Finished("logout")
@@ -49,7 +55,7 @@ struct UserReducer: Reducer {
                 do {
                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
                     if response.statusCode == 418  {
-                        store.state.user.status = .Failed("Email/Contraseña incorrecta!!")
+                        store.state.userState.status = .Failed("Email/Contraseña incorrecta!!")
                         return
                     }
                     guard let t = repos.value(forKey: "token") as? String else{
@@ -62,29 +68,62 @@ struct UserReducer: Reducer {
                         let user  = User.from(userJson)
                         defaults.set(email, forKey: "email")
                         defaults.set(password, forKey: "password")
-                        store.state.user.user = user
-                        store.state.user.status = .Finished(user!)
+                        store.state.userState.user = user
+                        store.state.userState.status = .Finished(user!)
                         store.dispatch(GetBusinessAction())
                         store.dispatch(GetWeeksAction())
                     }
                    
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
-                    store.state.user.status = .Failed("Email/Contraseña incorrecta!!")
+                    store.state.userState.status = .Failed("Email/Contraseña incorrecta!!")
                 } catch {
                     print(":(")
                 }
                 break
             case .failure(let error):
                 print(error)
-                store.state.user.status = .Failed(messages.errorG_Murmur)
+                store.state.userState.status = .Failed(messages.errorG_Murmur)
                 break
             }
             
         })
         
     }
-    
+    func changePass(old: String, new: String) -> Void {
+        userProvider.request(.changePass(old: old, new: new), completion: { result in
+            switch result {
+            case .success(let response):
+                do {
+                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
+                    print(repos)
+                    if response.statusCode == 200 {
+                        defaults.set(new, forKey: "password")
+                        store.state.userState.status = .finished
+                    }else if response.statusCode == 401{
+                        store.state.userState.status = .Failed("Contraseña actual incorrecta")
+                    }else if response.statusCode == 403 {
+                         store.state.userState.status = .Failed("Hubo algun error")
+                    }
+                    
+                    store.state.userState.status = .none
+
+                } catch MoyaError.jsonMapping(let error) {
+                    print(error )
+                    store.state.userState.status = .Failed("Hubo algun error")
+                } catch {
+                    print(":(")
+                }
+                break
+            case .failure(let error):
+                print(error)
+                store.state.userState.status = .Failed("Hubo algun error")
+                store.state.userState.status = .none
+                break
+            }
+            
+        })
+    }
     func getUser(by id: Int) -> Void {
         userProvider.request(.showUser(id: id), completion: {result in
             switch result {

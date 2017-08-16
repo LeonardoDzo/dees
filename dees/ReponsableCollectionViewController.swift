@@ -52,7 +52,7 @@ class ReponsableCollectionViewController: UICollectionViewController {
     }
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let user = business.users[indexPath.item]
-        if store.state.user.user.rol == .Superior || store.state.user.user.id == user.id{
+        if store.state.userState.user.rol == .Superior || store.state.userState.user.id == user.id{
             self.performSegue(withIdentifier: "reportSegue", sender: user)
         }
         
