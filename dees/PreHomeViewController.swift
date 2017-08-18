@@ -10,9 +10,11 @@ import UIKit
 
 class PreHomeViewController: UIViewController {
 
+    @IBOutlet weak var oppesa: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        handleGDETouch.formatView()
+        oppesa.formatView()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {

@@ -117,6 +117,7 @@ struct BusinessReducer: Reducer {
             result in
             switch result {
             case .success(let response):
+                   
                     if response.statusCode == 201 {
                         store.dispatch(GetBusinessAction(id: eid))
                         store.state.businessState.status = .finished

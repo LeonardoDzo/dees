@@ -20,11 +20,7 @@ class WeekSelectionViewController: UITableViewController, Segue {
     var cellSelected = -1
     override func viewDidLoad() {
         super.viewDidLoad()
-        let back = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back))
         
-        if self.tabBarController?.selectedIndex == 0 {
-            self.navigationItem.leftBarButtonItem = back
-        }
     }
     
     
@@ -137,6 +133,11 @@ extension WeekSelectionViewController : StoreSubscriber {
             state in
             state.businessState
         }
+        let back = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back))
+        
+        if self.tabBarController?.selectedIndex == 0 && user.rol == .Superior {
+            self.navigationItem.leftBarButtonItem = back
+        }
         
     }
     
@@ -158,9 +159,11 @@ extension WeekSelectionViewController : StoreSubscriber {
     }
     
     func setTitle(){
+       
         if week == nil {
             week = store.state.reportState.weeks.first
         }else{
+            
             self.navigationItem.titleView = UIView().setTitle(title: "Semana:", subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
         }
         

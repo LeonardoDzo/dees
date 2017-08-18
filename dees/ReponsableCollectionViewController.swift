@@ -16,16 +16,20 @@ class ReponsableCollectionViewController: UICollectionViewController, UIGestureR
     var week: Week!
     override func viewDidLoad() {
         super.viewDidLoad()
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addUser))
-        self.navigationItem.rightBarButtonItem = addButton
-        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureReconizer:)))
-        lpgr.minimumPressDuration = 0.5
-        lpgr.delaysTouchesBegan = true
-        lpgr.delegate = self
-        self.collectionView?.addGestureRecognizer(lpgr)
+        if store.state.userState.user.rol != nil, store.state.userState.user.rol == .Superior {
+            let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addUser))
+            self.navigationItem.rightBarButtonItem = addButton
+            
+            
+            let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureReconizer:)))
+            lpgr.minimumPressDuration = 0.5
+            lpgr.delaysTouchesBegan = true
+            lpgr.delegate = self
+            self.collectionView?.addGestureRecognizer(lpgr)
+        }
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -47,9 +51,9 @@ class ReponsableCollectionViewController: UICollectionViewController, UIGestureR
         }
     }
     
-
+    
     // MARK: UICollectionViewDataSource
-
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -61,13 +65,13 @@ class ReponsableCollectionViewController: UICollectionViewController, UIGestureR
         }
         
     }
-
-
+    
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return business.users.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ResponsableCollectionViewCell
         let user = business.users[indexPath.item]
@@ -102,8 +106,8 @@ class ReponsableCollectionViewController: UICollectionViewController, UIGestureR
         }
     }
     
- 
-
+    
+    
 }
 extension ReponsableCollectionViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = AppState
@@ -144,7 +148,7 @@ extension ReponsableCollectionViewController : StoreSubscriber {
                     b.business.enumerated().forEach({
                         i2, b2 in
                         if b2.id == business?.id {
-                             business = store.state.businessState.business[index].business[i2]
+                            business = store.state.businessState.business[index].business[i2]
                             return
                         }
                     })
