@@ -20,9 +20,13 @@ class WeekSelectionViewController: UITableViewController, Segue {
     var cellSelected = -1
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.formatView()
-        // Do any additional setup after loading the view.
+        let back = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back))
+        
+        if self.tabBarController?.selectedIndex == 0 {
+            self.navigationItem.leftBarButtonItem = back
+        }
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -69,6 +73,7 @@ extension WeekSelectionViewController {
                 cell.accessoryType = .detailDisclosureButton
             }
             cell.title.text = "\(e.name!)"
+            
             if e.color != nil {
                 cell.colorLbl.backgroundColor = UIColor(hexString: "#\(e.color!)ff")
             }
@@ -123,32 +128,26 @@ extension WeekSelectionViewController : StoreSubscriber {
     
     override func viewWillAppear(_ animated: Bool) {
         setTitle()
+        if type == nil {
+            type = store.state.userState.type
+        }else{
+            store.state.userState.type = type
+        }
         store.subscribe(self){
             state in
             state.businessState
         }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
     }
-    func commonElements<T: Sequence, U: Sequence>(_ lhs: T, _ rhs: U) -> [T.Iterator.Element]
-        where T.Iterator.Element: Equatable, T.Iterator.Element == U.Iterator.Element {
-            var common: [T.Iterator.Element] = []
-            
-            for lhsItem in lhs {
-                for rhsItem in rhs {
-                    if lhsItem == rhsItem {
-                        common.append(lhsItem)
-                    }
-                }
-            }
-            return common
-    }
     
     func newState(state: BusinessState) {
         self.user = store.state.userState.user
-        self.enterprises = user.rol == .Superior ? state.business : state.business.filter({b in
+        
+        self.enterprises = user.rol == .Superior ? state.business.filter({$0.type == type}) : state.business.filter({b in
             return user.bussiness.contains(where: {ub in
                 return b.id == ub.id || b.business.contains(where: {$0.id == ub.id})
             })
@@ -157,45 +156,12 @@ extension WeekSelectionViewController : StoreSubscriber {
         setTitle()
         self.tableView.reloadData()
     }
-    func setTitle(title:String, subtitle:String) -> UIView {
-        let titleLabel = UILabel(frame:  CGRect(x:0,y:-2,width: 0,height: 0))
-        
-        titleLabel.backgroundColor = UIColor.clear
-        titleLabel.textColor = UIColor.darkGray
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
-        titleLabel.text = title
-        titleLabel.sizeToFit()
-        
-        let subtitleLabel = UILabel(frame: CGRect(x:0,y:18,width: 0,height: 0))
-        subtitleLabel.backgroundColor = UIColor.clear
-        subtitleLabel.textColor = UIColor.black
-        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
-        subtitleLabel.text = subtitle
-        subtitleLabel.sizeToFit()
-        
-        let titleView = UIView(frame: CGRect(x:0, y:0, width: max(titleLabel.frame.size.width,subtitleLabel.frame.size.width), height:30))
-        titleView.addSubview(titleLabel)
-        titleView.addSubview(subtitleLabel)
-        
-        let widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
-        
-        if widthDiff < 0 {
-            let newX = widthDiff / 2
-            subtitleLabel.frame.origin.x = abs(newX)
-        } else {
-            let newX = widthDiff / 2
-            titleLabel.frame.origin.x = newX
-        }
-        
-        return titleView
-    }
     
     func setTitle(){
         if week == nil {
             week = store.state.reportState.weeks.first
         }else{
-            let view = setTitle(title: "Semana \(week.id!)", subtitle: (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
-            self.navigationItem.titleView = view
+            self.navigationItem.titleView = UIView().setTitle(title: "Semana:", subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
         }
         
     }

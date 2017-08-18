@@ -51,7 +51,8 @@ extension ChildTableViewCell: UITableViewDelegate, UITableViewDataSource {
         let e = data.business[indexPath.row]
         //store.state.businessState.business.first(where: {$0.id == data.id})?.business?[indexPath.row].color = data.color
         cell.colorLbl.backgroundColor = UIColor(hexString: "#\(data.color!)ff")
-        cell.title.text = "  \(indexPath.row+1).-  \(e.name!)"
+        cell.accessoryType = .detailDisclosureButton
+        cell.title.text = "  ·  \(e.name!)"
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

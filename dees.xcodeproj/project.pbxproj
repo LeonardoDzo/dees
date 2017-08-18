@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022CF0581F460129007EEF1C /* UsersTableViewController.swift */; };
 		025EB9861F34F43F0075611F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9851F34F43F0075611F /* AppDelegate.swift */; };
 		025EB9881F34F43F0075611F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9871F34F43F0075611F /* ViewController.swift */; };
 		025EB98B1F34F43F0075611F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 025EB9891F34F43F0075611F /* Main.storyboard */; };
@@ -36,6 +37,8 @@
 		02A3A47E1F3A55C60048750E /* BusinessReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47D1F3A55C60048750E /* BusinessReducer.swift */; };
 		02A3A4801F3A56B00048750E /* EnterprisesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47F1F3A56B00048750E /* EnterprisesService.swift */; };
 		02A3A4831F3A8F960048750E /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4821F3A8F960048750E /* ChildTableViewCell.swift */; };
+		02B974D21F465E2500884A82 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B974D11F465E2500884A82 /* File.swift */; };
+		02B974D41F4660F900884A82 /* FileViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B974D31F4660F900884A82 /* FileViewViewController.swift */; };
 		02DD8D311F3E1CBE00896850 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DD8D301F3E1CBE00896850 /* UINavigationBar.swift */; };
 		02E0EFB81F43C5CC00CE405A /* PreHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E0EFB71F43C5CC00CE405A /* PreHomeViewController.swift */; };
 		02E0EFBA1F43C97D00CE405A /* ChengePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */; };
@@ -52,6 +55,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		022CF0581F460129007EEF1C /* UsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		025EB9821F34F43F0075611F /* dees.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dees.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		025EB9851F34F43F0075611F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		025EB9871F34F43F0075611F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 		02A3A47D1F3A55C60048750E /* BusinessReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessReducer.swift; sourceTree = "<group>"; };
 		02A3A47F1F3A56B00048750E /* EnterprisesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterprisesService.swift; sourceTree = "<group>"; };
 		02A3A4821F3A8F960048750E /* ChildTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
+		02B974D11F465E2500884A82 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		02B974D31F4660F900884A82 /* FileViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewViewController.swift; sourceTree = "<group>"; };
 		02DD8D301F3E1CBE00896850 /* UINavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationBar.swift; sourceTree = "<group>"; };
 		02E0EFB71F43C5CC00CE405A /* PreHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreHomeViewController.swift; sourceTree = "<group>"; };
 		02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChengePasswordViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +197,7 @@
 				025EB9AB1F350A730075611F /* Business.swift */,
 				027FE2251F3CF151005C6FF8 /* Report.swift */,
 				02E7AB1E1F3D32400037B7D1 /* Week.swift */,
+				02B974D11F465E2500884A82 /* File.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -247,6 +254,8 @@
 				02F4CCA11F3BD56E008312A6 /* ReponsableCollectionViewController.swift */,
 				02E0EFB71F43C5CC00CE405A /* PreHomeViewController.swift */,
 				02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */,
+				022CF0581F460129007EEF1C /* UsersTableViewController.swift */,
+				02B974D31F4660F900884A82 /* FileViewViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -397,11 +406,13 @@
 				02A3A4801F3A56B00048750E /* EnterprisesService.swift in Sources */,
 				025EB99E1F34FB100075611F /* User.swift in Sources */,
 				025EB9A41F34FC660075611F /* UserReducer.swift in Sources */,
+				022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */,
 				02DD8D311F3E1CBE00896850 /* UINavigationBar.swift in Sources */,
 				02E7AB1F1F3D32400037B7D1 /* Week.swift in Sources */,
 				02A3A4831F3A8F960048750E /* ChildTableViewCell.swift in Sources */,
 				02A3A47E1F3A55C60048750E /* BusinessReducer.swift in Sources */,
 				025EB9A81F3506960075611F /* WeekSelectionViewController.swift in Sources */,
+				02B974D21F465E2500884A82 /* File.swift in Sources */,
 				025EB9AA1F3507590075611F /* WeeksTableViewController.swift in Sources */,
 				02F4CCA01F3BD4E8008312A6 /* ResponsableCollectionViewCell.swift in Sources */,
 				02E7AB1D1F3D24A80037B7D1 /* ReportState.swift in Sources */,
@@ -416,6 +427,7 @@
 				027FE2241F3CF124005C6FF8 /* ReportViewController.swift in Sources */,
 				02F4CC9E1F3B7310008312A6 /* UIColor.swift in Sources */,
 				02A3A4731F3A22450048750E /* UIViewcontroller.swift in Sources */,
+				02B974D41F4660F900884A82 /* FileViewViewController.swift in Sources */,
 				025EB9861F34F43F0075611F /* AppDelegate.swift in Sources */,
 				025EB9AC1F350A730075611F /* Business.swift in Sources */,
 				025EB9A21F34FC4D0075611F /* UserActions.swift in Sources */,

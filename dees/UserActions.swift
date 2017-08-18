@@ -66,6 +66,9 @@ struct GetUserAction: StandardActionConvertible {
     init(email: String) {
         self.email = email
     }
+    init() {
+        
+    }
     init(_ standardAction: StandardAction) {
     }
     

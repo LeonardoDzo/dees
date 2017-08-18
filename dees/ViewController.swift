@@ -81,7 +81,7 @@ extension ViewController : StoreSubscriber {
                 let vc = storyboard.instantiateViewController(withIdentifier: "tabBarController") as UIViewController
                 present(vc, animated: true, completion: nil)
             }
-            
+
             break
         case .Failed(let m as Murmur):
             // Show and hide a message after delay

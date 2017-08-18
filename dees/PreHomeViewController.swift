@@ -27,17 +27,27 @@ class PreHomeViewController: UIViewController {
     }
     
     @IBAction func handleTouch(_ sender: UIButton) {
-        
+        self.performSegue(withIdentifier: "infoSegue", sender: 1)
     }
 
-    /*
+    @IBAction func handleTouchGDE(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "infoSegue", sender: 2)
+    }
+    @IBOutlet weak var handleGDETouch: UIButton!
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "infoSegue" {
+            let tb = segue.destination as! UITabBarController
+            if let nb = tb.childViewControllers[0] as? UINavigationController {
+                if let vc = nb.childViewControllers[0] as? WeekSelectionViewController {
+                    vc.type = sender as! Int
+                }
+            }
+        }
     }
-    */
+
 
 }

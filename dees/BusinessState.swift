@@ -10,5 +10,5 @@ import Foundation
 import ReSwift
 struct BusinessState: StateType {
     var business = [Business]()
-    var status: Result<Any>!
+    var status: Result<Any>
 }

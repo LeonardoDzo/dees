@@ -14,4 +14,5 @@ target 'dees' do
   pod 'Moya-ModelMapper', '4.0.0'
   pod 'Whisper'
   pod 'KDLoadingView', '~> 1.0.0'
+  pod 'SwipeCellKit'
 end

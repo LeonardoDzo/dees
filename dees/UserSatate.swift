@@ -10,5 +10,7 @@ import Foundation
 import ReSwift
 struct UserState: StateType {
     var user: User!
+    var type: Int!
+    var users = [User]()
     var status: Result<Any>
 }

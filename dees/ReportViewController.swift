@@ -16,6 +16,7 @@ class ReportViewController: UIViewController,UITextViewDelegate, ReportBindible,
     var business: Business!
     var week: Week!
     
+    @IBOutlet weak var tableView: UITableView!
     //Outlets
     @IBOutlet weak var loading: KDLoadingView!
     @IBOutlet weak var UserLbl: UILabel!
@@ -73,7 +74,7 @@ class ReportViewController: UIViewController,UITextViewDelegate, ReportBindible,
     func setupNavBar() -> Void {
         let saveBtn = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
         self.navigationItem.rightBarButtonItem = saveBtn
-        self.navigationItem.title = "Report"
+        self.navigationItem.titleView =  UIView().setTitle(title: "Reporte:", subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
     }
     
     func save() -> Void {
@@ -114,10 +115,40 @@ extension ReportViewController: StoreSubscriber {
                 report = Report(uid: user.id!, eid: business.id!, wid: week.id!)
             }
             self.bind()
+            self.tableView.reloadData()
             break
         }
-        
-        
-        
+
+    }
+}
+
+extension ReportViewController : UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if report == nil {
+            return 0
+        }
+        return report.files.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let f = report.files[indexPath.row]
+        cell.textLabel?.text = f.name
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let f = report.files[indexPath.row]
+        self.performSegue(withIdentifier: "detailsSegue", sender: f)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detailsSegue" {
+            let vc = segue.destination as! FileViewViewController
+            vc.file = sender as! File
+            
+        }
     }
 }

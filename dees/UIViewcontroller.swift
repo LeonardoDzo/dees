@@ -25,4 +25,7 @@ extension UIViewController {
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
     }
+    func back() -> Void {
+        self.dismiss(animated: true, completion: nil)
+    }
 }

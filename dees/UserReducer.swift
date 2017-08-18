@@ -18,7 +18,7 @@ let userProvider = MoyaProvider<UserService>(plugins: [authPlugin])
 let authProvider = MoyaProvider<AuthService>(plugins: [])
 struct UserReducer: Reducer {
     func handleAction(action: Action, state: UserState? ) -> UserState {
-        var state = state ?? UserState(user: nil, status: .none)
+        var state = state ?? UserState(user: nil, type: 1, users: [], status: .none)
         
         switch action {
         case let action as LogInAction:
@@ -30,7 +30,11 @@ struct UserReducer: Reducer {
         case let action as GetUserAction:
             if action.uid != nil {
                 state.status = .loading
-                self.getUser(by: action.uid)
+                if action.uid == -1{
+                    self.getUsers()
+                }else{
+                    self.getUser(by: action.uid)
+                }
             }
             break
         case let action as ChangePassAction:
@@ -143,6 +147,29 @@ struct UserReducer: Reducer {
             }
         })
       
+    }
+    func getUsers() -> Void {
+        userProvider.request(.getAll(), completion: {result in
+            switch result {
+            case .success(let response):
+                do {
+                    let repos : NSDictionary = try response.mapJSON() as! NSDictionary
+                    let array : NSArray = repos.value(forKey: "users") as! NSArray
+                    let users = User.from(array) ?? []
+                    store.state.userState.users = users
+                    store.state.userState.status = .none
+                } catch MoyaError.jsonMapping(let error) {
+                    print(error )
+                } catch {
+                    print(":(")
+                }
+                break
+            case .failure(let error):
+                print(error)
+                break
+            }
+        })
+        
     }
     func logOut() -> Void {
         UserDefaults().removeObject(forKey: "token")
