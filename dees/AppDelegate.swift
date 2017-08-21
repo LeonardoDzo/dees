@@ -17,9 +17,7 @@ let store = RecordingMainStore<AppState>(
     typeMaps: [
                userActionTypeMap,
                businessActionTypeMap,
-               reportActionTypeMap],
-    
-    recording: "recording.json")
+               reportActionTypeMap])
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

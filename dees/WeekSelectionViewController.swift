@@ -11,7 +11,7 @@ import ReSwift
 protocol Segue: class {
     func selected(_ segue: String, sender: Any?) -> Void
 }
-class WeekSelectionViewController: UITableViewController, Segue {
+class WeekSelectionViewController: UITableViewController, Segue, UIGestureRecognizerDelegate {
     var week: Week!
     var user: User!
     var enterprises = [Business]()
@@ -20,9 +20,27 @@ class WeekSelectionViewController: UITableViewController, Segue {
     var cellSelected = -1
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureReconizer:)))
+        lpgr.minimumPressDuration = 0.5
+        lpgr.delaysTouchesBegan = true
+        lpgr.delegate = self
+        self.tableView?.addGestureRecognizer(lpgr)
     }
     
+    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        if gestureReconizer.state != UIGestureRecognizerState.ended {
+            return
+        }
+        
+        let p = gestureReconizer.location(in: self.tableView)
+        let indexPath = self.tableView?.indexPathForRow(at: p)
+        
+        if let index = indexPath {
+            let e = enterprises[index.item]
+            self.performSegue(withIdentifier: "responsableSegue", sender: e)
+        } else {
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
