@@ -25,14 +25,14 @@ extension UIView {
         let titleLabel = UILabel(frame:  CGRect(x:0,y:-2,width: 0,height: 0))
         
         titleLabel.backgroundColor = UIColor.clear
-        titleLabel.textColor = UIColor.darkGray
+        titleLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.text = title
         titleLabel.sizeToFit()
         
         let subtitleLabel = UILabel(frame: CGRect(x:0,y:18,width: 0,height: 0))
         subtitleLabel.backgroundColor = UIColor.clear
-        subtitleLabel.textColor = UIColor.black
+        subtitleLabel.textColor = #colorLiteral(red: 0.5450980392, green: 0.8274509804, blue: 0.9764705882, alpha: 1)
         subtitleLabel.font = UIFont.systemFont(ofSize: 12)
         subtitleLabel.text = subtitle
         subtitleLabel.sizeToFit()

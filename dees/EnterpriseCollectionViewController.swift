@@ -16,9 +16,13 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
     var type: Int!
     var week: Week!
     var user: User!
+    var count = 1
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.07843137255, green: 0.1019607843, blue: 0.1647058824, alpha: 1)
+        self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.1215686275, green: 0.6901960784, blue: 0.9882352941, alpha: 1)
+        self.tabBarController?.tabBar.barTintColor = #colorLiteral(red: 0.07843137255, green: 0.1019607843, blue: 0.1647058824, alpha: 1)
+         self.tabBarController?.tabBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -61,12 +65,47 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id, for: indexPath) as! EnterpriseCollectionViewCell
         let e = enterprises.last?[indexPath.item]
         cell.nameLbl.text = e?.name!
-        cell.background.image = #imageLiteral(resourceName: "background_company3c")
+        switch (enterprises.last?.count)! {
+        case 1:
+             cell.background.image = #imageLiteral(resourceName: "background_company1")
+            break
+        case 2:
+            if count == 1 {
+                cell.background.image = #imageLiteral(resourceName: "background_company2a")
+                count = 2
+            }else{
+                cell.background.image = #imageLiteral(resourceName: "background_company2b")
+                count = 1
+            }
+            break
+        default:
+            switch count {
+            case 1:
+                cell.background.image = #imageLiteral(resourceName: "background_company3a")
+                break
+            case 2:
+                cell.background.image = #imageLiteral(resourceName: "background_company3b")
+                break
+            case 3:
+                cell.background.image = #imageLiteral(resourceName: "background_company3c")
+                break
+            default:
+                cell.background.image = #imageLiteral(resourceName: "background_company3d")
+                count = 0
+                break
+            }
+            count += 1
+        break
+            
+        }
+        
+    
+        
         if e?.color != nil {
-            cell.colorLbl.backgroundColor = UIColor(hexString: "#\(e?.color!)ff")
+            cell.colorLbl.backgroundColor = UIColor(hexString: "#\(e?.color! ?? "000000")ff")
         }
         // Configure the cell
-     
+       // cell.formatView()
         return cell
     }
     func setupNavBar() -> Void {
@@ -91,13 +130,15 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-         let e = enterprises.last
-        if e?.count == 1 {
+         let e = enterprises.last!
+        if e.count == 1 {
             return CGSize(width: (self.collectionView?.frame.size.width)!, height: (self.collectionView?.frame.height)!-60)
-        }else if e?.count == 2 {
+        }else if e.count == 2 {
             return CGSize(width: (self.collectionView?.frame.size.width)!, height: (self.collectionView?.frame.height)!/2-60)
         }else{
-            return CGSize(width: (self.collectionView?.frame.size.width)!/2, height: 120)
+            var c =  (self.collectionView?.frame.height)!/CGFloat(e.count)
+            c = c > 100 ? c : 100
+            return CGSize(width: (self.collectionView?.frame.size.width)!/2, height: c)
         }
         
     }
@@ -119,6 +160,7 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
     */
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (enterprises.last?[indexPath.item].business.count)! > 0 {
+          
             enterprises.append((enterprises.last?[indexPath.item].business)!)
             setupNavBar()
             AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "left")
@@ -145,11 +187,13 @@ extension EnterpriseCollectionViewController : StoreSubscriber {
     
     override func viewWillAppear(_ animated: Bool) {
         setTitle()
+        
         if type == nil {
             type = store.state.userState.type
         }else{
             store.state.userState.type = type
         }
+    
         store.subscribe(self){
             state in
             state.businessState
@@ -172,7 +216,8 @@ extension EnterpriseCollectionViewController : StoreSubscriber {
         }))
         setupNavBar()
         setTitle()
-         AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "up")
+        collectionView?.reloadData()
+         //AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "up")
     }
     
     func setTitle(){

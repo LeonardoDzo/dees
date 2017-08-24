@@ -45,6 +45,9 @@ class PreHomeViewController: UIViewController {
                 if let vc = nb.childViewControllers[0] as? WeekSelectionViewController {
                     vc.type = sender as! Int
                 }
+                if let vc = nb.childViewControllers[0] as? EnterpriseCollectionViewController {
+                    vc.type = sender as! Int
+                }
             }
         }
     }

@@ -73,7 +73,12 @@ struct BusinessReducer: Reducer {
                         let repos : NSDictionary = try response.mapJSON() as! NSDictionary
                         let array : NSArray = repos.value(forKey: "enterprises") as! NSArray
                         
-                        let enterprises = Business.from(array) ?? []
+                        var enterprises = Business.from(array) ?? []
+                        enterprises.enumerated().forEach({i,b in
+                            b.business.enumerated().forEach({ i2,b2 in
+                                enterprises[i].business[i2].color = b.color
+                                })
+                        })
                         store.state.businessState.business = enterprises
                         store.state.businessState.status = .none
                     } catch MoyaError.jsonMapping(let error) {
