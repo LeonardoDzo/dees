@@ -16,7 +16,6 @@ class WeekSelectionViewController: UITableViewController, Segue, UIGestureRecogn
     var user: User!
     var enterprises = [Business]()
     var type: Int!
-    
     var cellSelected = -1
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +24,14 @@ class WeekSelectionViewController: UITableViewController, Segue, UIGestureRecogn
         lpgr.delaysTouchesBegan = true
         lpgr.delegate = self
         self.tableView?.addGestureRecognizer(lpgr)
+        
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "Jale para actualizar")
+        self.refreshControl?.addTarget(self, action:#selector(refresh(sender:)), for: UIControlEvents.valueChanged)
+       
+    }
+    func refresh(sender:AnyObject) {
+        // Code to refresh table view
+        store.dispatch(GetBusinessAction())
     }
     
     func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
@@ -36,9 +43,10 @@ class WeekSelectionViewController: UITableViewController, Segue, UIGestureRecogn
         let indexPath = self.tableView?.indexPathForRow(at: p)
         
         if let index = indexPath {
-            let e = enterprises[index.item]
-            self.performSegue(withIdentifier: "responsableSegue", sender: e)
-        } else {
+            if index.row % 2 == 0 {
+                let e = enterprises[index.row/2]
+                self.performSegue(withIdentifier: "enterpriseSegue", sender: e)
+            }
         }
     }
     
@@ -48,6 +56,10 @@ class WeekSelectionViewController: UITableViewController, Segue, UIGestureRecogn
     }
     
     func selected(_ segue: String, sender: Any?) {
+        if segue.isEmpty {
+            add(sender as! Business)
+            return
+        }
         self.performSegue(withIdentifier: segue, sender: sender)
     }
     
@@ -56,7 +68,43 @@ class WeekSelectionViewController: UITableViewController, Segue, UIGestureRecogn
             let vc = segue.destination as! ReponsableCollectionViewController
             vc.business = sender as! Business
             vc.week = week
+        }else if segue.identifier == "enterpriseSegue" {
+            let vc = segue.destination as! EnterpriseViewViewController
+            vc.enterprise = sender as! Business
         }
+    }
+    func add(_ enterpriseFather: Business) -> Void {
+        let alertController = UIAlertController(title: "Cambiar Nombre", message: "", preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
+            alert -> Void in
+            
+            let firstTextField = alertController.textFields![0] as UITextField
+            var e = Business()
+            e.color = enterpriseFather.color
+            e.type = enterpriseFather.type
+            e.ext = enterpriseFather.id
+            guard let name = firstTextField.text, !name.isEmpty, (firstTextField.text?.characters.count)! > 4 else {
+                
+                return
+            }
+            e.name = name
+            store.dispatch(CreateBusinessAction(e: e))
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
+            (action : UIAlertAction!) -> Void in
+            
+        })
+        
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Cual es el nombre"
+        }
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
 }
@@ -74,18 +122,15 @@ extension WeekSelectionViewController {
         if indexPath.row % 2 == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BusinessTableViewCell
             let e = enterprises[Int(indexPath.row/2)]
-            if  e.business.count > 0 {
-                cell.arrowImg.isHidden = false
-                cell.accessoryType = .none
-                if cellSelected - 1 != indexPath.row {
-                    cell.arrowImg.image = #imageLiteral(resourceName: "expand")
-                }else{
-                    cell.arrowImg.image = #imageLiteral(resourceName: "collapse")
-                }
+            
+            cell.arrowImg.isHidden = false
+            cell.accessoryType = .none
+            if cellSelected - 1 != indexPath.row {
+                cell.arrowImg.image = #imageLiteral(resourceName: "expand")
             }else{
-                cell.arrowImg.isHidden = true
-                cell.accessoryType = .detailDisclosureButton
+                cell.arrowImg.image = #imageLiteral(resourceName: "collapse")
             }
+            
             cell.title.text = "\(e.name!)"
             
             if e.color != nil {
@@ -109,7 +154,7 @@ extension WeekSelectionViewController {
         }else{
             if indexPath.row == cellSelected {
                 let e = enterprises[(indexPath.row-1)/2]
-                let value = e.business.count
+                let value = e.business.count + 1
                 let heigtht = value * 44
                 return CGFloat(heigtht)
             }
@@ -117,15 +162,11 @@ extension WeekSelectionViewController {
         }
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row % 2 == 0 {
-            let e = enterprises[indexPath.row/2]
-            if e.business.count == 0{
-                self.performSegue(withIdentifier: "responsableSegue", sender: e)
-                return
-            }
-        }
+      
         if indexPath.row == cellSelected - 1 {
-            cellSelected = -1
+            let e = enterprises[indexPath.row/2]
+            self.performSegue(withIdentifier: "responsableSegue", sender: e)
+            return
         }else{
             if cellSelected != -1 {
                 tableView.reloadData()
@@ -177,7 +218,7 @@ extension WeekSelectionViewController : StoreSubscriber {
     }
     
     func setTitle(){
-       
+        
         if week == nil {
             week = store.state.reportState.weeks.first
         }else{

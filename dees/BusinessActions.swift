@@ -11,7 +11,9 @@ import ReSwift
 import ReSwiftRecorder
 
 let businessActionTypeMap: TypeMap = [GetBusinessAction.type: GetBusinessAction.self, AddUserBusinessAction.type :  AddUserBusinessAction.self,
-                                      DeleteUserBusinessAction.type : DeleteUserBusinessAction.self]
+                                      CreateBusinessAction.type :  CreateBusinessAction.self,
+                                       DeleteBusinessAction.type :  DeleteBusinessAction.self,
+                                      DeleteUserBusinessAction.type : DeleteUserBusinessAction.self,PutBusinessAction.type: PutBusinessAction.self]
 
 struct GetBusinessAction: StandardActionConvertible {
     static let type = "GET_BUSINESS_ACTION"
@@ -24,6 +26,19 @@ struct GetBusinessAction: StandardActionConvertible {
     
     func toStandardAction() -> StandardAction {
         return StandardAction(type: GetBusinessAction.type, payload: [:], isTypedAction: true)
+    }
+}
+struct DeleteBusinessAction: StandardActionConvertible {
+    static let type = "DELETE_BUSINESS_ACTION"
+    var id : Int!
+    init(id: Int ) {
+        self.id = id
+    }
+    init(_ standardAction: StandardAction) {
+    }
+    
+    func toStandardAction() -> StandardAction {
+        return StandardAction(type: DeleteBusinessAction.type, payload: [:], isTypedAction: true)
     }
 }
 struct AddUserBusinessAction: StandardActionConvertible {
@@ -39,6 +54,32 @@ struct AddUserBusinessAction: StandardActionConvertible {
     
     func toStandardAction() -> StandardAction {
         return StandardAction(type: AddUserBusinessAction.type, payload: [:], isTypedAction: true)
+    }
+}
+struct CreateBusinessAction: StandardActionConvertible {
+    static let type = "Create_BUSINESS_ACTION"
+    var e:Business!
+    init(e: Business) {
+        self.e = e
+    }
+    init(_ standardAction: StandardAction) {
+    }
+    
+    func toStandardAction() -> StandardAction {
+        return StandardAction(type: CreateBusinessAction.type, payload: [:], isTypedAction: true)
+    }
+}
+struct PutBusinessAction: StandardActionConvertible {
+    static let type = "PUTBUSINESS_ACTION"
+    var enterprise : Business!
+    init(e : Business) {
+        self.enterprise = e
+    }
+    init(_ standardAction: StandardAction) {
+    }
+    
+    func toStandardAction() -> StandardAction {
+        return StandardAction(type: PutBusinessAction.type, payload: [:], isTypedAction: true)
     }
 }
 

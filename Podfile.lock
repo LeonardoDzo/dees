@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.5.0)
+  - AnimatableReload (0.1.0)
   - KDLoadingView (1.0.4)
   - ModelMapper (6.0.0)
   - Moya (8.0.5):
@@ -23,6 +24,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
+  - AnimatableReload
   - KDLoadingView (~> 1.0.0)
   - Moya
   - Moya-ModelMapper (= 4.0.0)
@@ -34,6 +36,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  AnimatableReload: dcef76a16258b82bf845225012aa8f3b1aa7df6c
   KDLoadingView: fcb015daf91c245f0a212fd52b8061621f421dfe
   ModelMapper: 3596a82f26c43491f6a8d3a00bcdba6ba0e62a93
   Moya: c37eec09a098ba9991b5a963b291fc5704bdb9ef
@@ -45,6 +48,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: 893661973276ae3512a84ac0a47055923b10731e
   Whisper: 051f25e704bf8992641ffd28b20d5682ddc5f5d3
 
-PODFILE CHECKSUM: 88991783ebfb9ffec18d795af3f03974eb5eb9b0
+PODFILE CHECKSUM: 1def778839dbb980419b9b1b66c911b266ab6762
 
 COCOAPODS: 1.2.1.rc.1

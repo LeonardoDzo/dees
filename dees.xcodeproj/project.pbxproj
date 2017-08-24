@@ -24,6 +24,8 @@
 		025EB9AC1F350A730075611F /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9AB1F350A730075611F /* Business.swift */; };
 		025EB9AE1F35464F0075611F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9AD1F35464F0075611F /* Constants.swift */; };
 		025EB9B01F354B740075611F /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9AF1F354B740075611F /* UserService.swift */; };
+		0272A3731F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0272A3721F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift */; };
+		0272A3751F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0272A3741F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift */; };
 		027D911A1F3907A8007AB6D2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027D91191F3907A8007AB6D2 /* AuthService.swift */; };
 		027D911E1F393D37007AB6D2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027D911D1F393D37007AB6D2 /* ProfileViewController.swift */; };
 		027FE2241F3CF124005C6FF8 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2231F3CF124005C6FF8 /* ReportViewController.swift */; };
@@ -39,6 +41,7 @@
 		02A3A4831F3A8F960048750E /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4821F3A8F960048750E /* ChildTableViewCell.swift */; };
 		02B974D21F465E2500884A82 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B974D11F465E2500884A82 /* File.swift */; };
 		02B974D41F4660F900884A82 /* FileViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B974D31F4660F900884A82 /* FileViewViewController.swift */; };
+		02DAC0A21F4D02950063B08F /* EnterpriseViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DAC0A11F4D02950063B08F /* EnterpriseViewViewController.swift */; };
 		02DD8D311F3E1CBE00896850 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DD8D301F3E1CBE00896850 /* UINavigationBar.swift */; };
 		02E0EFB81F43C5CC00CE405A /* PreHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E0EFB71F43C5CC00CE405A /* PreHomeViewController.swift */; };
 		02E0EFBA1F43C97D00CE405A /* ChengePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */; };
@@ -74,6 +77,8 @@
 		025EB9AB1F350A730075611F /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		025EB9AD1F35464F0075611F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		025EB9AF1F354B740075611F /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		0272A3721F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseCollectionViewController.swift; sourceTree = "<group>"; };
+		0272A3741F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseCollectionViewCell.swift; sourceTree = "<group>"; };
 		027D91191F3907A8007AB6D2 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		027D911D1F393D37007AB6D2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		027FE2231F3CF124005C6FF8 /* ReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +94,7 @@
 		02A3A4821F3A8F960048750E /* ChildTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
 		02B974D11F465E2500884A82 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		02B974D31F4660F900884A82 /* FileViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewViewController.swift; sourceTree = "<group>"; };
+		02DAC0A11F4D02950063B08F /* EnterpriseViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseViewViewController.swift; sourceTree = "<group>"; };
 		02DD8D301F3E1CBE00896850 /* UINavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationBar.swift; sourceTree = "<group>"; };
 		02E0EFB71F43C5CC00CE405A /* PreHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreHomeViewController.swift; sourceTree = "<group>"; };
 		02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChengePasswordViewController.swift; sourceTree = "<group>"; };
@@ -239,6 +245,7 @@
 				02A3A4821F3A8F960048750E /* ChildTableViewCell.swift */,
 				02F4CC991F3B6F16008312A6 /* BusinessTableViewCell.swift */,
 				02F4CC9F1F3BD4E8008312A6 /* ResponsableCollectionViewCell.swift */,
+				0272A3741F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -256,6 +263,8 @@
 				02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */,
 				022CF0581F460129007EEF1C /* UsersTableViewController.swift */,
 				02B974D31F4660F900884A82 /* FileViewViewController.swift */,
+				02DAC0A11F4D02950063B08F /* EnterpriseViewViewController.swift */,
+				0272A3721F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -427,7 +436,9 @@
 				027FE2241F3CF124005C6FF8 /* ReportViewController.swift in Sources */,
 				02F4CC9E1F3B7310008312A6 /* UIColor.swift in Sources */,
 				02A3A4731F3A22450048750E /* UIViewcontroller.swift in Sources */,
+				02DAC0A21F4D02950063B08F /* EnterpriseViewViewController.swift in Sources */,
 				02B974D41F4660F900884A82 /* FileViewViewController.swift in Sources */,
+				0272A3751F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift in Sources */,
 				025EB9861F34F43F0075611F /* AppDelegate.swift in Sources */,
 				025EB9AC1F350A730075611F /* Business.swift in Sources */,
 				025EB9A21F34FC4D0075611F /* UserActions.swift in Sources */,
@@ -440,6 +451,7 @@
 				027D911E1F393D37007AB6D2 /* ProfileViewController.swift in Sources */,
 				025EB9AE1F35464F0075611F /* Constants.swift in Sources */,
 				027FE2281F3CFB54005C6FF8 /* RerpotService.swift in Sources */,
+				0272A3731F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift in Sources */,
 				027D911A1F3907A8007AB6D2 /* AuthService.swift in Sources */,
 				02E7AB191F3D1EE50037B7D1 /* ReportActions.swift in Sources */,
 			);

@@ -71,9 +71,51 @@ class ReportViewController: UIViewController,UITextViewDelegate, ReportBindible,
         
     }
     
+    @IBAction func replyChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            popUpController()
+        }
+    }
+    func popUpController()
+    {
+        
+        let alertController = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let margin:CGFloat = 8.0
+        let rect = CGRect(x:margin,y: margin, width: alertController.view.bounds.size.width - margin * 4.0, height: 120.0)
+        let customView = UITextView(frame: rect)
+        
+        customView.backgroundColor = UIColor.white
+        customView.formatView()
+        customView.font = UIFont(name: "Helvetica", size: 15)
+        customView.text = report.replyTxt ?? "No contiene"
+        
+        
+        //  customView.backgroundColor = UIColor.greenColor()
+        alertController.view.addSubview(customView)
+        
+        let somethingAction = UIAlertAction(title: "AGREGAR", style: UIAlertActionStyle.default, handler: {(alert: UIAlertAction!) in
+            
+            self.report.replyTxt = customView.text
+            
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: {(alert: UIAlertAction!) in print("cancel")})
+        
+        if store.state.userState.user.rol == .Superior {
+            alertController.addAction(somethingAction)
+        }
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion:{})
+        
+    }
+   
     func setupNavBar() -> Void {
         let saveBtn = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
-        self.navigationItem.rightBarButtonItem = saveBtn
+        
+        self.navigationItem.rightBarButtonItems = [saveBtn]
+        
         self.navigationItem.titleView =  UIView().setTitle(title: "Reporte:", subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
     }
     
@@ -87,7 +129,7 @@ class ReportViewController: UIViewController,UITextViewDelegate, ReportBindible,
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.characters.count
-        return numberOfChars < 501
+        return numberOfChars < 10
     }
 
 
@@ -113,6 +155,13 @@ extension ReportViewController: StoreSubscriber {
             report = state.reports.first(where: {$0.eid == business.id && $0.wid == week.id && $0.uid == user.id })
             if report == nil {
                 report = Report(uid: user.id!, eid: business.id!, wid: week.id!)
+            }
+            let notButton = UIBarButtonItem(image: #imageLiteral(resourceName: "notification"), style: .plain, target: self, action: #selector(self.popUpController))
+            if !(self.report.replyTxt?.isEmpty)! && (self.navigationItem.rightBarButtonItems?.count)! < 2 && report.reply! {
+                self.navigationItem.rightBarButtonItems?.append(notButton)
+                if store.state.userState.user.rol != .Superior {
+                    popUpController()
+                }
             }
             self.bind()
             self.tableView.reloadData()

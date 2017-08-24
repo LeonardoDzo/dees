@@ -35,6 +35,11 @@ struct User : Mappable {
     }
     init() {
     }
+    func toDictionary() -> NSDictionary {
+        return [User.kEmail: self.email ?? "",
+                User.kName: self.name ?? "",
+            User.kRol : self.rol?.rawValue ?? 0]
+    }
     
 }
 protocol UserBindible: AnyObject {

@@ -12,22 +12,27 @@ import Moya
 enum EnterpriseService {
     case getAll,
          get(id: Int),
+         create(e: Business),
+         delete(id: Int),
          addUserAt(bid: Int, uid: Int),
-         deleteUser(eid: Int, uid: Int)
+         deleteUser(eid: Int, uid: Int),
+         putEnterprise(enterprise: Business)
     
 }
 extension EnterpriseService: TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return URL(string: "\(Constants.ServerApi.url)Enterprises")! }
     var path: String {
         switch self {
-        case .get(let id):
+        case .get(let id),.delete(let id):
             return"/\(id)"
-        case .getAll:
+        case .getAll, .create:
             return ""
         case .addUserAt:
             return  "/AddUser"
         case .deleteUser(let eid, let uid):
             return "/\(eid)/\(uid)"
+        case .putEnterprise(let enterprise):
+            return "/\(enterprise.id!)"
 
         }
     }
@@ -35,44 +40,48 @@ extension EnterpriseService: TargetType, AccessTokenAuthorizable {
         switch self {
         case .getAll, .get:
             return .get
-        case .addUserAt:
+        case .addUserAt,.create:
             return .post
-        case .deleteUser:
+        case .deleteUser,.delete:
             return .delete
+        case .putEnterprise:
+            return .put
         }
     }
     var shouldAuthorize: Bool {
         switch self {
-        case .getAll, .addUserAt, .deleteUser, .get:
+        case .getAll, .addUserAt, .deleteUser, .get, .putEnterprise, .create, .delete:
             return true
         }
     }
     var parameters: [String: Any]? {
         switch self {
-        case .getAll, .deleteUser, .get:
+        case .getAll, .deleteUser, .get, .delete:
             return nil
         case .addUserAt(let bid, let uid):
             return ["id_user": uid,
                     "id_enterprise": bid]
+        case .putEnterprise(let e), .create(let e):
+            return e.toDictionary() as? [String : Any]
         }
     }
     var parameterEncoding: ParameterEncoding {
         switch self {
-        case .getAll, .deleteUser, .get:
+        case .getAll, .deleteUser, .get, .delete:
             return URLEncoding.default// Send parameters in URL for GET, DELETE and HEAD. For other HTTP methods, parameters will be sent in request body
-        case .addUserAt:
+        case .addUserAt, .putEnterprise, .create:
             return JSONEncoding.default
         }
     }
     var sampleData: Data {
         switch self {
-        case .getAll, .addUserAt, .deleteUser, .get:
+        case .getAll, .addUserAt, .deleteUser, .get, .putEnterprise, .create, .delete:
             return "{ \"name\": \"Harry Potter\"}".utf8Encoded
         }
     }
     var task: Task {
         switch self {
-        case .getAll, .addUserAt, .deleteUser, .get:
+        case .getAll, .addUserAt, .deleteUser, .get, .putEnterprise, .create, .delete:
             return .request
         }
     }

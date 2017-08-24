@@ -20,6 +20,7 @@ struct Report : Mappable {
     static let kenterpriseId = "id_enterprise"
     static let kuserId = "id_user"
     static let kreply = "reply"
+    static let kreply_txt = "reply_txt"
     static let kfiles = "files"
     
     var id: Int!
@@ -34,6 +35,7 @@ struct Report : Mappable {
     var uid: Int!
     var files = [File]()
     var reply: Bool? = false
+    var replyTxt: String?
     init(uid: Int, eid: Int, wid: Int) {
         operative = "No existe"
         financial = "No existe"
@@ -41,6 +43,7 @@ struct Report : Mappable {
         self.eid = eid
         self.wid = wid
         self.uid = uid
+        replyTxt = ""
     }
     
     init(map: Mapper) throws {
@@ -52,6 +55,7 @@ struct Report : Mappable {
         try eid = map.from(r.kenterpriseId)
         try uid = map.from(r.kuserId)
         reply = map.optionalFrom(r.kreply)
+        replyTxt = map.optionalFrom(r.kreply_txt)
         files = map.optionalFrom(r.kfiles) ?? []
     }
     func toDictionary() -> NSDictionary {
@@ -62,7 +66,8 @@ struct Report : Mappable {
             r.koperative : self.operative ?? "No existe operativo",
             r.kreply : self.reply ?? false,
             r.kuserId: self.uid,
-            r.kweekId: self.wid
+            r.kweekId: self.wid,
+            r.kreply_txt: self.replyTxt ?? ""
         ]
     }
 }

@@ -15,4 +15,5 @@ target 'dees' do
   pod 'Whisper'
   pod 'KDLoadingView', '~> 1.0.0'
   pod 'SwipeCellKit'
+  pod 'AnimatableReload'
 end
