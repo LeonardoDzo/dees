@@ -10,16 +10,16 @@ import Foundation
 import UIKit
 extension UIView {
     func formatView() -> Void {
-        self.layer.cornerRadius = 5
+        //self.layer.cornerRadius = 5
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor( red: 204/255, green: 204/255, blue:204.0/255, alpha: 1.0 ).cgColor
+        self.layer.borderColor = UIColor( red: 62/255, green: 69/255, blue:88/255, alpha: 1.0 ).cgColor
     }
     func profileUser() -> Void {
         self.layer.cornerRadius = self.frame.size.width/2
         self.clipsToBounds = true
-        self.layer.borderWidth = 1.0
+        //self.layer.borderWidth = 1.0
 
-        self.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1).cgColor
+        //self.layer.borderColor = #colorLiteral(red: 0.2431372549, green: 0.2705882353, blue: 0.3450980392, alpha: 1).cgColor
     }
     func setTitle(title:String, subtitle:String) -> UIView {
         let titleLabel = UILabel(frame:  CGRect(x:0,y:-2,width: 0,height: 0))
