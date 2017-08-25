@@ -101,7 +101,7 @@ struct BusinessReducer: Reducer {
                     do {
                         let repos : NSDictionary = try response.mapJSON() as! NSDictionary
                         let dic = repos.value(forKey: "enterprise") as! NSDictionary
-                        let enterprise = Business.from(dic)
+                        var enterprise = Business.from(dic)
                         store.state.businessState.business.enumerated().forEach({
                             index, b in
                             if b.id == enterprise?.id {
@@ -110,7 +110,7 @@ struct BusinessReducer: Reducer {
                             }else{
                                 b.business.enumerated().forEach({
                                     i2, b2 in
-                                    store.state.businessState.business[index].business[i2].color = b.color
+                                    enterprise?.color = b.color
                                     if b2.id == enterprise?.id {
                                         store.state.businessState.business[index].business[i2] = enterprise!
                                         return

@@ -31,7 +31,6 @@
 		0279A4BE1F4F84700085030D /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0279A4BD1F4F84700085030D /* ChildTableViewCell.swift */; };
 		027D911A1F3907A8007AB6D2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027D91191F3907A8007AB6D2 /* AuthService.swift */; };
 		027D911E1F393D37007AB6D2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027D911D1F393D37007AB6D2 /* ProfileViewController.swift */; };
-		027FE2241F3CF124005C6FF8 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2231F3CF124005C6FF8 /* ReportViewController.swift */; };
 		027FE2261F3CF151005C6FF8 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2251F3CF151005C6FF8 /* Report.swift */; };
 		027FE2281F3CFB54005C6FF8 /* RerpotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2271F3CFB54005C6FF8 /* RerpotService.swift */; };
 		02A3A4711F3A1D6F0048750E /* UIVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4701F3A1D6F0048750E /* UIVIew.swift */; };
@@ -85,7 +84,6 @@
 		0279A4BD1F4F84700085030D /* ChildTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
 		027D91191F3907A8007AB6D2 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		027D911D1F393D37007AB6D2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		027FE2231F3CF124005C6FF8 /* ReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		027FE2251F3CF151005C6FF8 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		027FE2271F3CFB54005C6FF8 /* RerpotService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RerpotService.swift; sourceTree = "<group>"; };
 		02A3A4701F3A1D6F0048750E /* UIVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIVIew.swift; sourceTree = "<group>"; };
@@ -255,7 +253,6 @@
 		02DD8D321F3E235B00896850 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				027FE2231F3CF124005C6FF8 /* ReportViewController.swift */,
 				025EB9871F34F43F0075611F /* ViewController.swift */,
 				025EB9A91F3507590075611F /* WeeksTableViewController.swift */,
 				027D911D1F393D37007AB6D2 /* ProfileViewController.swift */,
@@ -436,7 +433,6 @@
 				02E0EFB81F43C5CC00CE405A /* PreHomeViewController.swift in Sources */,
 				025EB9A61F34FCC60075611F /* UserSatate.swift in Sources */,
 				02E0EFBA1F43C97D00CE405A /* ChengePasswordViewController.swift in Sources */,
-				027FE2241F3CF124005C6FF8 /* ReportViewController.swift in Sources */,
 				02F4CC9E1F3B7310008312A6 /* UIColor.swift in Sources */,
 				02A3A4731F3A22450048750E /* UIViewcontroller.swift in Sources */,
 				02DAC0A21F4D02950063B08F /* EnterpriseViewViewController.swift in Sources */,

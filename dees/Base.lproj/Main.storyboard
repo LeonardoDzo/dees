@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -187,7 +187,7 @@
         <scene sceneID="Gl5-YT-WyU">
             <objects>
                 <collectionViewController storyboardIdentifier="EnterpriseCollectionViewController" id="7Ku-9c-RhW" customClass="EnterpriseCollectionViewController" customModule="dees" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="x7U-LE-H8f">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="x7U-LE-H8f">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.11372549019607843" green="0.13725490196078433" blue="0.19215686274509802" alpha="1" colorSpace="calibratedRGB"/>
@@ -812,7 +812,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fDl-Ha-xoh" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Actual" image="actual-icon" id="Ppa-Ui-8he"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="neN-uv-r94">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="neN-uv-r94">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1142,7 +1142,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xLu-kK-jHz" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Semanas" image="more-icon" selectedImage="more-icon" id="KKM-GR-Czc"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="AI1-IW-bn3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AI1-IW-bn3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1163,7 +1163,7 @@
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="iKz-Xp-wUa">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iKz-Xp-wUa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
