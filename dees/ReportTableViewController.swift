@@ -16,6 +16,9 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
     var user: User!
     var business: Business!
     var week: Week!
+    
+    let titlesSections = ["","Operativo","Financiero","Observaciones","Anexos"]
+    
     @IBOutlet weak var UserLbl: UILabel!
     @IBOutlet weak var enterpriseLbl: UILabel!
     @IBOutlet weak var operativeTxv: UITextView!
@@ -29,7 +32,7 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
         let rect = CGRect(x: self.tableView.frame.width/2, y: self.tableView.frame.height/2, width: 100, height: 100)
         loading = KDLoadingView(frame: rect)
         setupNavBar()
-        
+       
         //loading.hidesWhenStopped = true
         self.hideKeyboardWhenTappedAround()
     }
@@ -48,7 +51,7 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
             }
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -121,7 +124,7 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
         
         self.navigationItem.titleView =  UIView().setTitle(title: "Reporte:", subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
     }
-
+    
     func save() -> Void {
         report.financial = financialTxv.text
         report.operative = operativeTxv.text
@@ -141,21 +144,29 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
             self.performSegue(withIdentifier: "anexoSegue", sender: nil)
         }
     }
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
-        view.frame = CGRect(x: 0, y: 0, width: Int(self.tableView.frame.width), height: 60)
-        view.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        let myCustomView = UIImageView(frame: CGRect(x: 0, y: view.frame.height/2-4, width: 35, height: 10))
-        let myImage: UIImage = #imageLiteral(resourceName: "bullet")
-        myCustomView.image = myImage
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            return nil
+        }
+        let view = UIView()
+        view.tintColor = #colorLiteral(red: 0.08339247853, green: 0.1178589687, blue: 0.1773400605, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.08339247853, green: 0.1178589687, blue: 0.1773400605, alpha: 1)
+        let myCustomView = UIImageView(frame: CGRect(x: 5, y: 19, width: 40, height: 12))
+        myCustomView.image = #imageLiteral(resourceName: "bullet")
+        view.addSubview(myCustomView)
+        let lbl = UILabel()
+        lbl.text = titlesSections[section]
+        lbl.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        lbl.frame = CGRect(x: 50, y: 16, width: Int(self.view.frame.width - 35), height: 20)
+        view.addSubview(lbl)
         
-        
-     
-        let header = view as! UITableViewHeaderFooterView
-        header.addSubview(myCustomView)
-        header.textLabel?.textColor = UIColor.white
+        return view
+
     }
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 80
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return section > 0 ? 44 : 0
     }
     
 }
