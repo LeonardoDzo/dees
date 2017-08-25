@@ -36,21 +36,7 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
         //loading.hidesWhenStopped = true
         self.hideKeyboardWhenTappedAround()
     }
-    func keyboardWillShow(notification: Notification){
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
     
-    func keyboardWillHide(notification: Notification){
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y += keyboardSize.height
-            }
-        }
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -101,7 +87,8 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
             self.report.replyTxt = customView.text
             
         })
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(alertController.keyboardWillShow), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(alertController.keyboardWillHide), name: Notification.Name.UIKeyboardWillHide, object: nil)
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: {(alert: UIAlertAction!) in print("cancel")})
         
         if store.state.userState.user.rol == .Superior {
@@ -208,4 +195,5 @@ extension ReportTableViewController: StoreSubscriber {
         
     }
 }
+
 
