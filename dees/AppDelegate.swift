@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let pass = defaults.value(forKey: "password") else{
             return true
         }
-        
+     
         store.dispatch(LogInAction(password: pass as! String, email: email as! String))
         return true
     }
@@ -59,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
 
 
 }

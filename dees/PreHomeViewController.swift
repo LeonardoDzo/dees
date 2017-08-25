@@ -8,17 +8,19 @@
 
 import UIKit
 
-class PreHomeViewController: UIViewController {
-
-    @IBOutlet weak var oppesa: UIButton!
+class PreHomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+       
     }
     override func viewWillAppear(_ animated: Bool) {
         if store.state.userState.user.rol != .Superior {
             self.performSegue(withIdentifier: "infoSegue", sender: nil)
         }
+           NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,6 +49,43 @@ class PreHomeViewController: UIViewController {
                 }
             }
         }
+    }
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 2
+    }
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell\(indexPath.item+1)", for: indexPath)
+        
+        return cell
+    }
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "infoSegue", sender: indexPath.item+1)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var height = 0
+        var width = 0
+        if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown  || UIDevice.current.orientation == .faceDown || UIDevice.current.orientation == .faceUp{
+            height = Int((self.collectionView?.frame.height)!/CGFloat(2))
+            width = Int((self.collectionView?.frame.width)!)
+        }else{
+            height = Int((self.collectionView?.frame.height)!)
+            width = Int((self.collectionView?.frame.width)!/CGFloat(2))
+        }
+        
+        return CGSize(width: width, height: height)
+    }
+    func rotated() {
+        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+            collectionView?.reloadData()
+        }
+        
+        if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
+            collectionView?.reloadData()
+        }
+        
     }
 
 
