@@ -78,6 +78,7 @@ protocol ReportBindible: AnyObject {
     var observationsTxv: UITextView! {get}
     var financialTxv: UITextView! {get}
     var replySwt: UISwitch! {get}
+    var anexosLbl: UILabel! {get}
 }
 
 extension ReportBindible {
@@ -85,6 +86,7 @@ extension ReportBindible {
     var observationsTxv: UITextView! {return nil}
     var financialTxv: UITextView! {return nil}
     var replySwt: UISwitch! {return nil}
+    var anexosLbl: UILabel! {return nil}
     
     func bind(by report: Report) -> Void {
         self.report = report
@@ -131,6 +133,9 @@ extension ReportBindible {
             }else{
                 replySwt.isEnabled = false
             }
+        }
+        if let anexosLbl = anexosLbl {
+            anexosLbl.text = report.files.count > 0 ? "Existen \(report.files.count)" : "No hay Reportes"
         }
         
     }

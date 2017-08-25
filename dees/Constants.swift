@@ -11,8 +11,8 @@ import Alamofire
 import Whisper
 struct Constants {
     struct ServerApi {
-        static let url = "http://res.cotecnologias.com/api/"
-        static let fileurl = "http://res.cotecnologias.com/api/"
+        static let url = "http://resapi.cotecnologias.com/api/"
+        static let fileurl = "http://resapi.cotecnologias.com/api/"
         static let headers: HTTPHeaders = [
             "Content-Type": "application/json"
         ]

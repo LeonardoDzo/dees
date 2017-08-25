@@ -15,7 +15,8 @@ class UsersTableViewController: UITableViewController {
     var enterprise : Business!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationItem.title = "Usuarios"
+        tableView.tableFooterView = UIView(frame: .zero)
     }
 
     override func didReceiveMemoryWarning() {

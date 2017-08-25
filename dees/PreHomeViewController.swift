@@ -42,9 +42,6 @@ class PreHomeViewController: UIViewController {
         if segue.identifier == "infoSegue" {
             let tb = segue.destination as! UITabBarController
             if let nb = tb.childViewControllers[0] as? UINavigationController {
-                if let vc = nb.childViewControllers[0] as? WeekSelectionViewController {
-                    vc.type = sender as! Int
-                }
                 if let vc = nb.childViewControllers[0] as? EnterpriseCollectionViewController {
                     vc.type = sender as! Int
                 }

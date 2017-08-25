@@ -21,7 +21,10 @@ class ProfileViewController: UIViewController, UserBindible {
         super.viewDidLoad()
         profileView.formatView()
         profileImg.profileUser()
-        // Do any additional setup after loading the view.
+        profileView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        profileView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+       
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,17 +35,6 @@ class ProfileViewController: UIViewController, UserBindible {
     @IBAction func logout(_ sender: Any) {
         store.dispatch(LogOutAction())
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension ProfileViewController: StoreSubscriber{

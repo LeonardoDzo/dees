@@ -10,7 +10,6 @@ import UIKit
 
 class ChildTableViewCell: UITableViewCell {
     var data : Business!
-    weak var segueDelegate : Segue!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -68,10 +67,10 @@ extension ChildTableViewCell: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == data.business.count {
-            segueDelegate.selected("", sender:  data)
+          //  segueDelegate.selected("", sender:  data)
             return
         }
-        segueDelegate.selected("responsableSegue", sender: data.business[indexPath.row])
+        //segueDelegate.selected("responsableSegue", sender: data.business[indexPath.row])
         
 
         
@@ -86,7 +85,7 @@ extension ChildTableViewCell: UITableViewDelegate, UITableViewDataSource {
         
         if let index = indexPath {
             let e = data.business[(index.row)]
-            segueDelegate.selected("enterpriseSegue", sender: e)
+            //segueDelegate.selected("enterpriseSegue", sender: e)
         } else {
         }
     }
