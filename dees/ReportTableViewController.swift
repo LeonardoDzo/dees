@@ -68,7 +68,9 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
         
         UserLbl.text = user.name!
         enterpriseLbl.text = business.name!
-        
+        if business.color != nil {
+            colorLbl.backgroundColor = UIColor(hexString: "#\(business.color! ?? "000000")ff")
+        }
     }
     
     @IBAction func replyChanged(_ sender: UISwitch) {
