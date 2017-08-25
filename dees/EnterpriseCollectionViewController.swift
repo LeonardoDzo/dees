@@ -35,6 +35,164 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "responsableSegue" {
+            let vc = segue.destination as! ResponsableTableViewController
+            vc.business = sender as! Business
+            vc.week = week
+            
+        }else if segue.identifier == "enterpriseSegue" {
+            let vc = segue.destination as! EnterpriseViewViewController
+            vc.enterprise = sender as! Business
+        }
+    }
+
+    // MARK: UICollectionViewDataSource
+
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+
+
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of items
+        return enterprises.last?.count ?? 0
+    }
+
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let id = "CELL2"
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id, for: indexPath) as! EnterpriseCollectionViewCell
+        let e = enterprises.last?[indexPath.item]
+        cell.nameLbl.text = e?.name!
+        switch (enterprises.last?.count)! {
+        case 1:
+             cell.background.image = #imageLiteral(resourceName: "background_company1")
+            break
+        case 2:
+            if count == 1 {
+                cell.background.image = #imageLiteral(resourceName: "background_company2a")
+                count = 2
+            }else{
+                cell.background.image = #imageLiteral(resourceName: "background_company2b")
+                count = 1
+            }
+            break
+        default:
+            switch count {
+            case 1:
+                cell.background.image = #imageLiteral(resourceName: "background_company3a")
+                break
+            case 2:
+                cell.background.image = #imageLiteral(resourceName: "background_company3b")
+                break
+            case 3:
+                cell.background.image = #imageLiteral(resourceName: "background_company3c")
+                break
+            default:
+                cell.background.image = #imageLiteral(resourceName: "background_company3d")
+                count = 0
+                break
+            }
+            count += 1
+        break
+            
+        }
+        
+        if e?.color != nil {
+            cell.colorLbl.backgroundColor = UIColor(hexString: "#\(e?.color! ?? "000000")ff")
+        }
+        cell.setupView()
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+         let e = enterprises.last!
+        if e.count == 1 {
+            return CGSize(width: (self.collectionView?.frame.size.width)!, height: (self.collectionView?.frame.height)!-60)
+        }else if e.count == 2 {
+            return CGSize(width: (self.collectionView?.frame.size.width)!, height: (self.collectionView?.frame.height)!/2-60)
+        }else{
+            var c =  (self.collectionView?.frame.height)!/CGFloat(e.count)
+            c = c > 100 ? c : 150
+            return CGSize(width: (self.collectionView?.frame.size.width)!/2, height: c)
+        }
+        
+    }
+   
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let e = enterprises.last?[indexPath.item]
+        if (e?.business.count)! > 0 {
+           
+            enterprises.append((enterprises.last?[indexPath.item].business)!)
+            setupNavBar()
+            AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "left")
+        }else{
+            self.performSegue(withIdentifier: "responsableSegue", sender: e)
+        }
+    }
+
+
+}
+extension EnterpriseCollectionViewController : StoreSubscriber {
+    typealias StoreSubscriberStateType = BusinessState
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setTitle()
+        
+        if type == nil {
+            type = store.state.userState.type
+        }else{
+            store.state.userState.type = type
+        }
+    
+        store.subscribe(self){
+            state in
+            state.businessState
+        }
+        
+        
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        store.unsubscribe(self)
+    }
+    
+    func newState(state: BusinessState) {
+        self.user = store.state.userState.user
+        enterprises.removeAll()
+        user.rol == .Superior ? self.enterprises.append(state.business.filter({$0.type == type})) : self.enterprises.append(state.business.filter({b in
+            return user.bussiness.contains(where: {ub in
+                return b.id == ub.id || b.business.contains(where: {$0.id == ub.id})
+            })
+        }))
+        setupNavBar()
+        setTitle()
+        collectionView?.reloadData()
+        if entFather != nil {
+            if let index = enterprises.last?.index(where: {entFather.id == $0.id}),  entFather.business.count > 0 {
+                self.collectionView(self.collectionView!, didSelectItemAt: IndexPath(item: index, section: 0))
+            }
+        }
+    }
+    
+    func setTitle(){
+        
+        if week == nil {
+            week = store.state.reportState.weeks.first
+        }else{
+            
+            self.navigationItem.titleView = UIView().setTitle(title: "Semana:", subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
+        }
+        
+    }
+}
+extension EnterpriseCollectionViewController {
     func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
         if gestureReconizer.state != UIGestureRecognizerState.ended {
             return
@@ -118,84 +276,13 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
     }
     func delete(_ e: Business) -> Void {
         if store.state.userState.user.rol == .Superior {
-      
+            
             if let ent = enterprises[enterprises.count - 2].first(where: {$0.id == e.ext}){
                 entFather = ent
             }
             
             store.dispatch(DeleteBusinessAction(id: e.id))
         }
-    }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "responsableSegue" {
-            let vc = segue.destination as! ResponsableTableViewController
-            vc.business = sender as! Business
-            vc.week = week
-            
-        }else if segue.identifier == "enterpriseSegue" {
-            let vc = segue.destination as! EnterpriseViewViewController
-            vc.enterprise = sender as! Business
-        }
-    }
-
-    // MARK: UICollectionViewDataSource
-
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return enterprises.last?.count ?? 0
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let id = "CELL2"
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id, for: indexPath) as! EnterpriseCollectionViewCell
-        let e = enterprises.last?[indexPath.item]
-        cell.nameLbl.text = e?.name!
-        switch (enterprises.last?.count)! {
-        case 1:
-             cell.background.image = #imageLiteral(resourceName: "background_company1")
-            break
-        case 2:
-            if count == 1 {
-                cell.background.image = #imageLiteral(resourceName: "background_company2a")
-                count = 2
-            }else{
-                cell.background.image = #imageLiteral(resourceName: "background_company2b")
-                count = 1
-            }
-            break
-        default:
-            switch count {
-            case 1:
-                cell.background.image = #imageLiteral(resourceName: "background_company3a")
-                break
-            case 2:
-                cell.background.image = #imageLiteral(resourceName: "background_company3b")
-                break
-            case 3:
-                cell.background.image = #imageLiteral(resourceName: "background_company3c")
-                break
-            default:
-                cell.background.image = #imageLiteral(resourceName: "background_company3d")
-                count = 0
-                break
-            }
-            count += 1
-        break
-            
-        }
-        
-        if e?.color != nil {
-            cell.colorLbl.backgroundColor = UIColor(hexString: "#\(e?.color! ?? "000000")ff")
-        }
-        cell.setupView()
-        return cell
     }
     func setupNavBar() -> Void {
         
@@ -227,89 +314,6 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         self.enterprises.removeLast()
         AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "right")
         setupNavBar()
-        
-    }
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-         let e = enterprises.last!
-        if e.count == 1 {
-            return CGSize(width: (self.collectionView?.frame.size.width)!, height: (self.collectionView?.frame.height)!-60)
-        }else if e.count == 2 {
-            return CGSize(width: (self.collectionView?.frame.size.width)!, height: (self.collectionView?.frame.height)!/2-60)
-        }else{
-            var c =  (self.collectionView?.frame.height)!/CGFloat(e.count)
-            c = c > 100 ? c : 150
-            return CGSize(width: (self.collectionView?.frame.size.width)!/2, height: c)
-        }
-        
-    }
-   
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let e = enterprises.last?[indexPath.item]
-        if (e?.business.count)! > 0 {
-           
-            enterprises.append((enterprises.last?[indexPath.item].business)!)
-            setupNavBar()
-            AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "left")
-        }else{
-            self.performSegue(withIdentifier: "responsableSegue", sender: e)
-        }
-    }
-
-
-}
-extension EnterpriseCollectionViewController : StoreSubscriber {
-    typealias StoreSubscriberStateType = BusinessState
-    
-    override func viewWillAppear(_ animated: Bool) {
-        setTitle()
-        
-        if type == nil {
-            type = store.state.userState.type
-        }else{
-            store.state.userState.type = type
-        }
-    
-        store.subscribe(self){
-            state in
-            state.businessState
-        }
-        
-        
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        store.unsubscribe(self)
-    }
-    
-    func newState(state: BusinessState) {
-        self.user = store.state.userState.user
-        enterprises.removeAll()
-        user.rol == .Superior ? self.enterprises.append(state.business.filter({$0.type == type})) : self.enterprises.append(state.business.filter({b in
-            return user.bussiness.contains(where: {ub in
-                return b.id == ub.id || b.business.contains(where: {$0.id == ub.id})
-            })
-        }))
-        setupNavBar()
-        setTitle()
-        collectionView?.reloadData()
-        if entFather != nil {
-            if let index = enterprises.last?.index(where: {entFather.id == $0.id}),  entFather.business.count > 0 {
-                self.collectionView(self.collectionView!, didSelectItemAt: IndexPath(item: index, section: 0))
-            }
-        }
-    }
-    
-    func setTitle(){
-        
-        if week == nil {
-            week = store.state.reportState.weeks.first
-        }else{
-            
-            self.navigationItem.titleView = UIView().setTitle(title: "Semana:", subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
-        }
         
     }
 }
