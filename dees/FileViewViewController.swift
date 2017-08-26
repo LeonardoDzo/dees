@@ -13,7 +13,8 @@ class FileViewViewController: UIViewController {
     @IBOutlet weak var webView: UIWebView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        setupBack()
         // Do any additional setup after loading the view.
     }
 

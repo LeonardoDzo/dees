@@ -13,6 +13,8 @@ class AnexosTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.titleView = UIView().setTitle(title: "Reporte", subtitle: "")
+        tableView.tableFooterView = UIView(frame: .zero)
+        setupBack()
     }
 
     override func didReceiveMemoryWarning() {

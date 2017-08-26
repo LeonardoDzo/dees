@@ -10,18 +10,19 @@ import UIKit
 import ReSwift
 import Whisper
 
-class ResponsableTableViewController: UITableViewController {
+class ResponsableTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var business: Business!
     var week: Week!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if store.state.userState.user.rol != nil, store.state.userState.user.rol == .Superior {
             let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addUser))
             self.navigationItem.rightBarButtonItem = addButton
             
         }
+        self.hideKeyboardWhenTappedAround()
         tableView.tableFooterView = UIView(frame: .zero)
+        setupBack()
     }
     
     override func didReceiveMemoryWarning() {
@@ -80,7 +81,7 @@ class ResponsableTableViewController: UITableViewController {
         let alertView = UIAlertController(title: "\(business.name!)", message: "Desea sacar a: \(u.name!) de la empresa?", preferredStyle: .alert)
         let action = UIAlertAction(title: "Eliminar", style: .destructive, handler: { (alert) in
             store.dispatch(DeleteUserBusinessAction(uid: u.id!, bid: self.business.id))
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            
         })
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancelar", style: .cancel) { action -> Void in
             //Just dismiss the action sheet

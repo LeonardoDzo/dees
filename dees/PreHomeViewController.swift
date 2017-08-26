@@ -13,13 +13,13 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+       NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
         if store.state.userState.user.rol != .Superior {
             self.performSegue(withIdentifier: "infoSegue", sender: nil)
         }
-           NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
         
     }
 

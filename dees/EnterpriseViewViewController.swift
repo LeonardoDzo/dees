@@ -17,7 +17,8 @@ class EnterpriseViewViewController: UIViewController {
     @IBOutlet weak var editBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationItem.titleView = UIView().setTitle(title: "Perfil", subtitle: "")
+        setupBack()
         // Do any additional setup after loading the view.
     }
     

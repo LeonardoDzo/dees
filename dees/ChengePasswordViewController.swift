@@ -18,8 +18,8 @@ class ChengePasswordViewController: UIViewController {
     @IBOutlet weak var repeatPass: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Cambiar Contraseña"
-        // Do any additional setup after loading the view.
+        self.navigationItem.titleView = UIView().setTitle(title: "Cambiar Contraseña", subtitle: "")
+        setupBack()
     }
 
     override func didReceiveMemoryWarning() {

@@ -32,7 +32,7 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
         let rect = CGRect(x: self.tableView.frame.width/2, y: self.tableView.frame.height/2, width: 100, height: 100)
         loading = KDLoadingView(frame: rect)
         setupNavBar()
-       
+        setupBack()
         //loading.hidesWhenStopped = true
         self.hideKeyboardWhenTappedAround()
     }

@@ -19,11 +19,18 @@ extension UIViewController {
     func dismissKeyboard() {
         view.endEditing(true)
     }
+    func setupBack() -> Void {
+        let backBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back3))
+        self.navigationItem.leftBarButtonItem = backBtn
+    }
     func alertMessage(title: String, msg: String){
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    func back3() -> Void {
+        _ = navigationController?.popViewController(animated: true)
     }
     func back() -> Void {
         self.dismiss(animated: true, completion: nil)

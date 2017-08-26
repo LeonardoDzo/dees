@@ -29,6 +29,7 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         lpgr.delaysTouchesBegan = true
         lpgr.delegate = self
         self.collectionView?.addGestureRecognizer(lpgr)
+        self.hideKeyboardWhenTappedAround()
     }
 
     override func didReceiveMemoryWarning() {
@@ -112,7 +113,9 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
          let e = enterprises.last!
+        
         if e.count == 1 {
+
             return CGSize(width: (self.collectionView?.frame.size.width)!, height: (self.collectionView?.frame.height)!-60)
         }else if e.count == 2 {
             return CGSize(width: (self.collectionView?.frame.size.width)!, height: (self.collectionView?.frame.height)!/2-60)
@@ -215,7 +218,11 @@ extension EnterpriseCollectionViewController {
             alert -> Void in
             self.performSegue(withIdentifier: "enterpriseSegue", sender: e)
         })
-        let addAction = UIAlertAction(title: "Agregar Empresa", style: .default, handler: {
+        let addAction = UIAlertAction(title: "Ver Reporte", style: .default, handler: {
+            (action : UIAlertAction!) -> Void in
+            self.performSegue(withIdentifier: "responsableSegue", sender: e)
+        })
+        let reportAction = UIAlertAction(title: "Agregar Empresa", style: .default, handler: {
             (action : UIAlertAction!) -> Void in
             self.add(e)
         })
@@ -227,7 +234,9 @@ extension EnterpriseCollectionViewController {
             (action : UIAlertAction!) -> Void in
             
         })
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(alertController.keyboardWillShow), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(alertController.keyboardWillHide), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        alertController.addAction(reportAction)
         if e.business.count > 0  || enterprises.count == 1{
             alertController.addAction(addAction)
         }else{
@@ -293,6 +302,7 @@ extension EnterpriseCollectionViewController {
         if enterprises.count == 1 {
             let back = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back))
             self.navigationItem.leftBarButtonItem = nil
+            
             if self.tabBarController?.selectedIndex == 0 && user.rol == .Superior {
                 self.navigationItem.leftBarButtonItem = back
             }
@@ -316,5 +326,6 @@ extension EnterpriseCollectionViewController {
         setupNavBar()
         
     }
+
 }
 
