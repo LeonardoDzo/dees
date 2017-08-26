@@ -296,7 +296,8 @@ extension EnterpriseCollectionViewController {
     func setupNavBar() -> Void {
         
         
-        let actions = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.preSelect(sender:)))
+        //let actions = UIBarButtonItem(barButtonSystemItem: #imageLiteral(resourceName: "more_icon_vertical") as UIBarButtonSystemItem, target: self, action: #selector(self.preSelect(sender:)))
+        let actions = UIBarButtonItem(image: #imageLiteral(resourceName: "more_icon_vertical"), style: .plain, target: self, action: #selector(self.preSelect(sender:)))
         
         self.navigationItem.rightBarButtonItems = []
         if enterprises.count == 1 {

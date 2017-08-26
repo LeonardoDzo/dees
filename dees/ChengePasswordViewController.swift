@@ -16,6 +16,7 @@ class ChengePasswordViewController: UIViewController {
     @IBOutlet weak var oldPass: UITextField!
     @IBOutlet weak var newPass: UITextField!
     @IBOutlet weak var repeatPass: UITextField!
+    @IBOutlet weak var cardView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.titleView = UIView().setTitle(title: "Cambiar Contraseña", subtitle: "")
