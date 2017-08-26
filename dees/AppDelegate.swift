@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let pass = defaults.value(forKey: "password") else{
             return true
         }
-     
+        UIApplication.shared.statusBarStyle = .lightContent
         store.dispatch(LogInAction(password: pass as! String, email: email as! String))
         return true
     }
