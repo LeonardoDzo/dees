@@ -53,7 +53,7 @@ class ChengePasswordViewController: UIViewController {
         }
         
         if repeatPassword == newPassword {
-            store.dispatch(ChangePassAction(old: oldPassword, new: newPassword))
+            store.dispatch(AuthActions.ChangePass(old: oldPassword, new: newPassword))
         }else{
             let message = Message(title: "Contraseñas no coinciden")
             Whisper.show(whisper: message, to: navigationController!, action: .present)
@@ -67,8 +67,9 @@ extension ChengePasswordViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = UserState
     override func viewWillAppear(_ animated: Bool) {
         store.subscribe(self) {
-            state in
-            state.userState
+            $0.select({
+                s in s.userState
+            })
         }
     }
     

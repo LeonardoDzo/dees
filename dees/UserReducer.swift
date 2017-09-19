@@ -11,23 +11,23 @@ import ReSwift
 import Alamofire
 import Moya
 import Mapper
-
+import Whisper
 var token = ""
 var authPlugin = AccessTokenPlugin(token: token)
 let userProvider = MoyaProvider<UserService>(plugins: [authPlugin])
 let authProvider = MoyaProvider<AuthService>(plugins: [])
-struct UserReducer: Reducer {
+struct UserReducer {
     func handleAction(action: Action, state: UserState? ) -> UserState {
         var state = state ?? UserState(user: nil, type: 1, users: [], status: .none)
         
         switch action {
-        case let action as LogInAction:
+        case let action as AuthActions.LogIn:
             if action.email != nil {
                 state.status = .loading
                 login(whit: action.email, password: action.password)
             }
             break
-        case let action as GetUserAction:
+        case let action as UsersAction.get:
             if action.uid != nil {
                 state.status = .loading
                 if action.uid == -1{
@@ -37,13 +37,13 @@ struct UserReducer: Reducer {
                 }
             }
             break
-        case let action as ChangePassAction:
+        case let action as AuthActions.ChangePass:
             if action.oldPass != nil {
                 state.status = .loading
                 changePass(old: action.oldPass, new: action.newPass)
             }
             break
-        case _ as LogOutAction:
+        case _ as AuthActions.LogOut:
             self.logOut()
             state.status = .Finished("logout")
         default:
@@ -59,7 +59,7 @@ struct UserReducer: Reducer {
                 do {
                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
                     if response.statusCode == 418  {
-                        store.state.userState.status = .Failed("Email/Contraseña incorrecta!!")
+                        store.state.userState.status = .Failed(Murmur(title: "Email/Contraseña incorrecta!!",backgroundColor: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), titleColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  ) )
                         return
                     }
                     guard let t = repos.value(forKey: "token") as? String else{
@@ -74,8 +74,8 @@ struct UserReducer: Reducer {
                         defaults.set(password, forKey: "password")
                         store.state.userState.user = user
                         store.state.userState.status = .Finished(user!)
-                        store.dispatch(GetBusinessAction())
-                        store.dispatch(GetWeeksAction())
+                        store.dispatch(baction.Get())
+                        store.dispatch(wAction.Get())
                     }
                    
                 } catch MoyaError.jsonMapping(let error) {

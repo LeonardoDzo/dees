@@ -7,9 +7,7 @@ target 'dees' do
   
   # Pods for dees
   pod 'Moya'
-  pod 'ReSwift' 
-  pod 'ReSwiftRouter'
-  pod 'ReSwiftRecorder'
+  pod 'ReSwift'
   pod 'Alamofire', '~> 4.4'
   pod 'Moya-ModelMapper', '4.0.0'
   pod 'Whisper'

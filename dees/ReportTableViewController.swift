@@ -10,7 +10,12 @@ import UIKit
 import ReSwift
 import KDLoadingView
 import Whisper
-class ReportTableViewController: UITableViewController,ReportBindible,UIGestureRecognizerDelegate {
+
+protocol reportDelegate: class {
+    var report: Report! {get set}
+}
+
+class ReportTableViewController: UITableViewController,ReportBindible,UIGestureRecognizerDelegate, reportDelegate {
     var loading : KDLoadingView! = nil
     var report: Report!
     var user: User!
@@ -43,29 +48,34 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(_ animated: Bool) {
-        store.dispatch(GetReportsByEnterpriseAndWeek(eid: business.id, wid: week.id))
+        store.dispatch(rAction.Get(eid: business.id, wid: week.id))
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: Notification.Name.UIKeyboardWillHide, object: nil)
         
         store.subscribe(self) {
-            state in
-            state.reportState
+            $0.select({
+                s in s.reportState
+            })
         }
         
         UserLbl.text = user.name!
         enterpriseLbl.text = business.name!
         if business.color != nil {
-            colorLbl.backgroundColor = UIColor(hexString: "#\(business.color! ?? "000000")ff")
+            colorLbl.backgroundColor = UIColor(hexString: "#\(business.color! )ff")
         }
     }
     
     @IBAction func replyChanged(_ sender: UISwitch) {
         if sender.isOn {
-            popUpController()
+            self.performSegue(withIdentifier: "replySegue", sender: self)
         }
     }
     func popUpController()
     {
+        if store.state.userState.user.rol == .Superior {
+            self.performSegue(withIdentifier: "replySegue", sender: self)
+            return
+        }
         
         let alertController = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
@@ -78,22 +88,14 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
         customView.font = UIFont(name: "Helvetica", size: 15)
         customView.text = report.replyTxt ?? "No contiene"
         
-        
+        customView.isEditable = false
         //  customView.backgroundColor = UIColor.greenColor()
         alertController.view.addSubview(customView)
-        
-        let somethingAction = UIAlertAction(title: "AGREGAR", style: UIAlertActionStyle.default, handler: {(alert: UIAlertAction!) in
-            
-            self.report.replyTxt = customView.text
-            
-        })
-        NotificationCenter.default.addObserver(self, selector: #selector(alertController.keyboardWillShow), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(alertController.keyboardWillHide), name: Notification.Name.UIKeyboardWillHide, object: nil)
+      
+      
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: {(alert: UIAlertAction!) in print("cancel")})
         
-        if store.state.userState.user.rol == .Superior {
-            alertController.addAction(somethingAction)
-        }
+        
         alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true, completion:{})
@@ -103,6 +105,12 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
         if segue.identifier == "anexoSegue" {
             let vc = segue.destination as! AnexosTableViewController
             vc.report = report
+        }else if segue.identifier == "replySegue" {
+            if let nb = segue.destination as? UINavigationController {
+                if let vc = nb.childViewControllers[0] as? ReplyViewController {
+                    vc.delegate = sender as! ReportTableViewController
+                }
+            }
         }
     }
     
@@ -119,13 +127,9 @@ class ReportTableViewController: UITableViewController,ReportBindible,UIGestureR
         report.operative = operativeTxv.text
         report.observations = observationsTxv.text
         report.reply = replySwt.isOn
-        store.dispatch(SaveReportAction(report: self.report))
+        store.dispatch(rAction.Post(report: self.report))
     }
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        let numberOfChars = newText.characters.count
-        return numberOfChars < 10
-    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if report.files.count == 0 {
             return
@@ -181,11 +185,11 @@ extension ReportTableViewController: StoreSubscriber {
             if report == nil {
                 report = Report(uid: user.id!, eid: business.id!, wid: week.id!)
             }
-            let notButton = UIBarButtonItem(image: #imageLiteral(resourceName: "notification"), style: .plain, target: self, action: #selector(self.popUpController))
+            let notButton = UIBarButtonItem(image: #imageLiteral(resourceName: "notification"), style: .plain, target: self, action: #selector( self.popUpController))
             if !(self.report.replyTxt?.isEmpty)! && (self.navigationItem.rightBarButtonItems?.count)! < 2 && report.reply! {
                 self.navigationItem.rightBarButtonItems?.append(notButton)
                 if store.state.userState.user.rol != .Superior {
-                    popUpController()
+                   popUpController()
                 }
             }
             self.bind()

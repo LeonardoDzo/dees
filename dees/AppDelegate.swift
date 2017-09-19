@@ -8,16 +8,12 @@
 
 import UIKit
 import ReSwift
-import ReSwiftRouter
-import ReSwiftRecorder
+
 let defaults = UserDefaults.standard
-let store = RecordingMainStore<AppState>(
-    reducer: AppReducer(),
-    state: nil,
-    typeMaps: [
-               userActionTypeMap,
-               businessActionTypeMap,
-               reportActionTypeMap])
+
+let store = Store<AppState>(
+    reducer: AppReducer().handleAction,
+    state: nil)
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -34,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         UIApplication.shared.statusBarStyle = .lightContent
-        store.dispatch(LogInAction(password: pass as! String, email: email as! String))
+        store.dispatch(AuthActions.LogIn(password: pass as! String, email: email as! String))
         return true
     }
 

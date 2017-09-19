@@ -13,45 +13,45 @@ import Moya
 import Mapper
 let businessProvider = MoyaProvider<EnterpriseService>(plugins: [authPlugin])
 
-struct BusinessReducer: Reducer {
+struct BusinessReducer {
     func handleAction(action: Action, state: BusinessState?) -> BusinessState {
         var state = state ?? BusinessState(business: [], status: .none)
         switch action {
-        case let action as GetBusinessAction:
+        case let action as baction.Get:
             if token != "" {
                 state.status = .loading
                 getEnterprise(id: action.id)
             }
             break
-        case is GetWeeksAction:
+        case is wAction.Get:
             if !token.isEmpty {
                 state.status = .loading
             }
             break
-        case let action as AddUserBusinessAction:
+        case let action as baction.AddUser:
             if action.bid != nil {
                 state.status = .loading
                 addUser(of: action.bid, uid: action.uid)
             }
             break
-        case let action as DeleteUserBusinessAction:
+        case let action as baction.DeleteUser:
             if action.bid != nil {
                 state.status = .loading
                 deleteUser(of: action.bid, uid: action.uid)
             }
             break
-        case let action as PutBusinessAction:
+        case let action as baction.Put:
             if action.enterprise != nil {
                 state.status = .loading
                 putEnterprise(ent: action.enterprise)
             }
-        case let action as CreateBusinessAction:
+        case let action as baction.Create:
             if action.e != nil {
                 state.status = .loading
                 postEnterprise(ent: action.e)
             }
             break
-        case let action as DeleteBusinessAction:
+        case let action as baction.Delete:
             if action.id != nil {
                 state.status = .loading
                 delete(eid: action.id)
@@ -143,7 +143,7 @@ struct BusinessReducer: Reducer {
             case .success(let response):
                 
                 if response.statusCode == 201 {
-                    store.dispatch(GetBusinessAction(id: eid))
+                    store.dispatch(baction.Get(id: eid))
                     store.state.businessState.status = .finished
                     
                 }else{
@@ -165,7 +165,7 @@ struct BusinessReducer: Reducer {
             switch result {
             case .success(let response):
                 if response.statusCode == 200 {
-                    store.dispatch(GetBusinessAction(id: eid))
+                    store.dispatch(baction.Get(id: eid))
                     store.state.businessState.status = .finished
                     
                 }else{
@@ -185,7 +185,7 @@ struct BusinessReducer: Reducer {
             switch result {
             case .success(let response):
                 if response.statusCode == 200 {
-                    store.dispatch(GetBusinessAction())
+                    store.dispatch(baction.Get())
                     store.state.businessState.status = .finished
                     
                 }else{
@@ -206,7 +206,7 @@ struct BusinessReducer: Reducer {
             case .success(let response):
                 
                 if response.statusCode == 201 {
-                    store.dispatch(GetBusinessAction(id: ent.id!))
+                    store.dispatch(baction.Get(id: ent.id!))
                     store.state.businessState.status = .finished
                     
                 }else{
@@ -235,7 +235,7 @@ struct BusinessReducer: Reducer {
                         if let index = store.state.businessState.business.index(where: {$0.id == ent.ext!}) {
                             store.state.businessState.business[index].business.append(enterprise!)
                         }
-                        store.dispatch(AddUserBusinessAction(uid: store.state.userState.user.id!, bid: (enterprise?.id)!))
+                        store.dispatch(baction.AddUser(uid: store.state.userState.user.id!, bid: (enterprise?.id)!))
                     }else{
                         store.state.businessState.status = .failed
                     }

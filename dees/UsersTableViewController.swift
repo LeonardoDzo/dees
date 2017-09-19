@@ -51,7 +51,7 @@ extension UsersTableViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = AppState
     
     override func viewWillAppear(_ animated: Bool) {
-        store.dispatch( GetUserAction(uid: -1) )
+        store.dispatch( UsersAction.get(uid: -1) )
         
         store.subscribe(self) {
             state in
@@ -107,7 +107,7 @@ extension UsersTableViewController : SwipeTableViewCellDelegate {
         guard orientation == .left else { return nil }
         let u = users[indexPath.row]
         let addAction = SwipeAction(style: .default, title: "Agregar") { action, indexPath in
-            store.dispatch(AddUserBusinessAction(uid: u.id!, bid: self.enterprise.id))
+            store.dispatch(baction.AddUser(uid: u.id!, bid: self.enterprise.id))
         }
         return [addAction]
     }

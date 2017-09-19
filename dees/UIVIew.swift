@@ -8,6 +8,18 @@
 
 import Foundation
 import UIKit
+
+
+@objc
+protocol weekProtocol : class {
+    func tapRightWeek() -> Void
+    func tapLeftWeek() -> Void
+    var weekSelected : Int { get set}
+    func changeWeek(direction: UISwipeGestureRecognizerDirection) -> Void
+    func selectWeek() -> Void
+}
+
+
 extension UIView {
     func formatView() -> Void {
         //self.layer.cornerRadius = 5
@@ -52,6 +64,88 @@ extension UIView {
         }
         
         return titleView
+    }
+    
+    func titleOfEnterprise(section: Int, controller: AllReportsTableViewController) -> UIView {
+        let view = UIView()
+        view.tintColor = #colorLiteral(red: 0.08339247853, green: 0.1178589687, blue: 0.1773400605, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.08339247853, green: 0.1178589687, blue: 0.1773400605, alpha: 1)
+        view.frame.size.width = controller.view.frame.width
+        let next = UIImageView()
+        next.frame = CGRect(x: Int(controller.view.frame.width-30), y: 12, width: 25, height: 15)
+        next.image = #imageLiteral(resourceName: "foward").maskWithColor(color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1))
+        let tapRight = UITapGestureRecognizer(target: controller, action: #selector(controller.tapRigth))
+        next.isUserInteractionEnabled = true
+        next.addGestureRecognizer(tapRight)
+        
+        let left = UIImageView()
+        left.frame = CGRect(x: 10, y: 12, width: 25, height: 15)
+        left.image = #imageLiteral(resourceName: "back").maskWithColor(color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1))
+        let tapLeft = UITapGestureRecognizer(target: controller, action: #selector(controller.tapLeft))
+        left.isUserInteractionEnabled = true
+        left.addGestureRecognizer(tapLeft)
+        
+        
+        let lbl = UILabel()
+        let border = UIView()
+        border.frame = CGRect(x: 0, y: 39, width: Int(controller.view.frame.width), height: 5)
+        border.backgroundColor = UIColor(hexString: "#\(controller.enterprises[section].color! )ff")
+        
+        let tap = UITapGestureRecognizer(target: controller, action: #selector(controller.selectBusiness))
+        
+        let numberUser = controller.enterprises[section].users.count > 1 ? " (\(String(controller.enterprises[section].users.count)))" : ""
+        lbl.text = controller.enterprises[section].name! + numberUser
+        lbl.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        lbl.frame = CGRect(x: 0, y: 12, width: 0, height: 0)
+        lbl.textAlignment = .center
+        lbl.tag = section
+        lbl.sizeToFit()
+        lbl.frame.origin.x = CGFloat(Int(controller.view.frame.width/2)-Int(lbl.frame.width/2))
+        
+        lbl.addGestureRecognizer(tap)
+        lbl.isUserInteractionEnabled = true
+        
+        view.addSubview(left)
+        view.addSubview(next)
+        view.addSubview(border)
+        view.addSubview(lbl)
+        
+        return view
+
+    }
+    
+    func setWeeks(title:String, subtitle:String, controller: weekProtocol) -> UIView {
+        let tapRight = UITapGestureRecognizer(target: controller, action: #selector(controller.tapRightWeek))
+        
+        
+        let next = UIImageView()
+        next.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        next.image = #imageLiteral(resourceName: "foward").maskWithColor(color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1))
+        next.addGestureRecognizer(tapRight)
+        next.isUserInteractionEnabled = true
+        
+        
+        let left = UIImageView()
+        left.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        left.image = #imageLiteral(resourceName: "back").maskWithColor(color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1))
+        let tapLeft = UITapGestureRecognizer(target: controller, action: #selector(controller.tapLeftWeek))
+        left.addGestureRecognizer(tapLeft)
+        left.isUserInteractionEnabled = true
+        let view = self.setTitle(title: title, subtitle: subtitle)
+        let tap = UITapGestureRecognizer(target: controller, action: #selector(controller.selectWeek))
+        
+        view.addGestureRecognizer(tap)
+        view.isUserInteractionEnabled = true
+        let titleView = UIView(frame: CGRect(x:-20, y:0, width: view.frame.width+30, height:30))
+        next.frame.origin.x = view.frame.width + 15
+        left.frame.origin.x =  view.frame.origin.x - 15
+        view.frame.origin.x = (titleView.frame.width - view.frame.width)/2
+        titleView.addSubview(view)
+        titleView.addSubview(left)
+        titleView.addSubview(next)
+        titleView.isUserInteractionEnabled = true
+        return titleView
+        
     }
 
    

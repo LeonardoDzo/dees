@@ -11,25 +11,23 @@ import ReSwift
 import Moya
 
 let reportsProvider = MoyaProvider<ReportService>(plugins: [authPlugin])
-struct ReportReducer : Reducer {
+struct ReportReducer  {
     func handleAction(action: Action, state: ReportState?) -> ReportState {
         
         var state = state ?? ReportState(reports: [], weeks: [], status: .none)
         
         switch action {
-        case let action as GetReportsByEnterpriseAndWeek:
-            if action.eid != nil {
+        case let action as rAction.Get:
                 state.status = .loading
                 getReports(by: action.wid, eid: action.eid)
-            }
             break
-        case is GetWeeksAction:
+        case is wAction.Get:
             if !token.isEmpty {
                 state.status = .loading
                 getWeeks()
             } 
             break
-        case let action as SaveReportAction:
+        case let action as rAction.Post:
             if action.report != nil {
                 state.status = .loading
                 postUpdateReport(report: action.report)
@@ -41,8 +39,19 @@ struct ReportReducer : Reducer {
         return state
     }
     
-    func getReports(by wid: Int, eid: Int) -> Void {
-        reportsProvider.request(.get(wid: wid, eid: eid), completion: {result in
+    func getReports(by wid: Int?, eid: Int? = nil) -> Void {
+        var request : ReportService!
+        
+        if eid != nil {
+            request = ReportService.get(wid: wid!, eid: eid!)
+        }else if wid != nil {
+            request = ReportService.getByWeeks(wid: wid!)
+        }else {
+            return
+        }
+        
+        
+        reportsProvider.request(request, completion: {result in
             switch result {
             case .success(let response):
                 do {

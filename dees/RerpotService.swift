@@ -10,17 +10,21 @@ import Foundation
 import Moya
 enum ReportService {
     case get(wid: Int, eid: Int)
+    case getByWeeks(wid: Int)
     case postReport(report: Report)
     case updateReport(report: Report)
     case getWeeks()
+
 }
 extension ReportService: TargetType, AccessTokenAuthorizable {
     var baseURL:URL {return URL(string: Constants.ServerApi.url)!}
     
     var path: String {
         switch self {
-        case .get(let wid,let eid):
+        case .get(let wid, let eid):
             return "Formats/Week/\(wid)/Enterprise/\(eid)"
+        case .getByWeeks(let wid):
+            return "Formats/Week/\(wid)/"
         case .getWeeks():
             return "Weeks"
         case .postReport:
@@ -31,7 +35,7 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
     }
     var method: Moya.Method {
         switch self {
-        case .get, .getWeeks:
+        case .get, .getWeeks, .getByWeeks:
             return .get
         case .postReport:
             return .post
@@ -42,13 +46,13 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
     
     var shouldAuthorize: Bool {
         switch self {
-        case .get,.getWeeks, .postReport, .updateReport:
+        case .get,.getWeeks, .postReport, .updateReport, .getByWeeks:
             return true
         }
     }
     var parameters: [String: Any]? {
         switch self {
-        case .get,.getWeeks:
+        case .get,.getWeeks, .getByWeeks:
             return nil
         case .postReport(let report):
             let r = report.toDictionary()
@@ -60,7 +64,7 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
     
     var parameterEncoding: ParameterEncoding {
         switch self {
-        case .get, .getWeeks:
+        case .get, .getWeeks, .getByWeeks:
              return URLEncoding.default
         case .postReport,.updateReport:
              return JSONEncoding.default
@@ -72,7 +76,7 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
     
     var task: Task {
         switch self {
-        case .get, .getWeeks, .postReport,.updateReport:
+        case .get, .getWeeks, .postReport,.updateReport, .getByWeeks:
             return .request
 
         }

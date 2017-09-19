@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.5.0)
+  - Alamofire (4.5.1)
   - AnimatableReload (0.1.0)
   - KDLoadingView (1.0.4)
   - ModelMapper (6.0.0)
@@ -14,12 +14,8 @@ PODS:
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
   - Result (3.2.3)
-  - ReSwift (3.0.0)
-  - ReSwiftRecorder (0.4.0):
-    - ReSwift (~> 3.0)
-  - ReSwiftRouter (0.5.1):
-    - ReSwift (~> 3.0.0)
-  - SwipeCellKit (1.9.0)
+  - ReSwift (4.0.0)
+  - SwipeCellKit (1.9.1)
   - Whisper (5.0.0)
 
 DEPENDENCIES:
@@ -29,25 +25,21 @@ DEPENDENCIES:
   - Moya
   - Moya-ModelMapper (= 4.0.0)
   - ReSwift
-  - ReSwiftRecorder
-  - ReSwiftRouter
   - SwipeCellKit
   - Whisper
 
 SPEC CHECKSUMS:
-  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   AnimatableReload: dcef76a16258b82bf845225012aa8f3b1aa7df6c
   KDLoadingView: fcb015daf91c245f0a212fd52b8061621f421dfe
   ModelMapper: 3596a82f26c43491f6a8d3a00bcdba6ba0e62a93
   Moya: c37eec09a098ba9991b5a963b291fc5704bdb9ef
   Moya-ModelMapper: ba729497d947b536837cf377b81c150512245d85
   Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
-  ReSwift: f0255f4b4f2dacd12c5d97d34d13fc5dad6d6371
-  ReSwiftRecorder: f37a363425ad61c7ddc2172e14ab7799b6b27483
-  ReSwiftRouter: c620138bf94b57c068f789d51c0bd23efc42bf68
-  SwipeCellKit: 893661973276ae3512a84ac0a47055923b10731e
+  ReSwift: f058ef13b46ae5f463f10605ccbbb7fb04424d8d
+  SwipeCellKit: e9ff953c820394a4e641cfb0118b6c959506aec2
   Whisper: 051f25e704bf8992641ffd28b20d5682ddc5f5d3
 
-PODFILE CHECKSUM: 1def778839dbb980419b9b1b66c911b266ab6762
+PODFILE CHECKSUM: 8b2d2090f18464dd6034a864127821eade78b6f3
 
 COCOAPODS: 1.2.1.rc.1

@@ -42,11 +42,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
         
-        store.dispatch(LogInAction(password: pass, email: email))
+        store.dispatch(AuthActions.LogIn(password: pass, email: email))
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
        
     }
+    
 
 
 }
@@ -55,8 +56,9 @@ extension ViewController : StoreSubscriber {
     override func viewWillAppear(_ animated: Bool) {
         
         store.subscribe(self) {
-            state in
-            state.userState
+            $0.select({
+                s in s.userState
+            })
         }
         
         
@@ -85,7 +87,7 @@ extension ViewController : StoreSubscriber {
             break
         case .Failed(let m as Murmur):
             // Show and hide a message after delay
-            Whisper.show(whistle: m, action: .show(0.5))
+            Whisper.show(whistle: m, action: .show(3))
 
             break
         default:

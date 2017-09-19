@@ -20,10 +20,7 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
     var count = 1
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.07843137255, green: 0.1019607843, blue: 0.1647058824, alpha: 1)
-        self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.1215686275, green: 0.6901960784, blue: 0.9882352941, alpha: 1)
-        self.tabBarController?.tabBar.barTintColor = #colorLiteral(red: 0.07843137255, green: 0.1019607843, blue: 0.1647058824, alpha: 1)
-        self.tabBarController?.tabBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        self.styleNavBarAndTab_1()
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureReconizer:)))
         lpgr.minimumPressDuration = 0.5
         lpgr.delaysTouchesBegan = true
@@ -154,8 +151,9 @@ extension EnterpriseCollectionViewController : StoreSubscriber {
         }
     
         store.subscribe(self){
-            state in
-            state.businessState
+            $0.select({
+                s in s.businessState
+            })
         }
         
         
@@ -266,7 +264,7 @@ extension EnterpriseCollectionViewController {
             }
             e.name = name
             self.entFather = enterpriseFather
-            store.dispatch(CreateBusinessAction(e: e))
+            store.dispatch(baction.Create(e: e))
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
@@ -290,7 +288,7 @@ extension EnterpriseCollectionViewController {
                 entFather = ent
             }
             
-            store.dispatch(DeleteBusinessAction(id: e.id))
+            store.dispatch(baction.Delete(id: e.id))
         }
     }
     func setupNavBar() -> Void {

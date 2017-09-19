@@ -80,7 +80,7 @@ class ResponsableTableViewController: UITableViewController, UIGestureRecognizer
     func deleteUser(_ u: User, indexPath: IndexPath){
         let alertView = UIAlertController(title: "\(business.name!)", message: "Desea sacar a: \(u.name!) de la empresa?", preferredStyle: .alert)
         let action = UIAlertAction(title: "Eliminar", style: .destructive, handler: { (alert) in
-            store.dispatch(DeleteUserBusinessAction(uid: u.id!, bid: self.business.id))
+            store.dispatch(baction.DeleteUser(uid: u.id!, bid: self.business.id))
             
         })
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancelar", style: .cancel) { action -> Void in
@@ -117,7 +117,7 @@ extension ResponsableTableViewController : StoreSubscriber {
             state in
             state
         }
-        store.dispatch(GetBusinessAction(id: business.id))
+        store.dispatch(baction.Get(id: business.id))
         
     }
     override func viewWillDisappear(_ animated: Bool) {

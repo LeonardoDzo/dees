@@ -28,8 +28,9 @@ class EnterpriseViewViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         store.subscribe(self) {
-            state in
-            state.businessState
+            $0.select({
+                s in s.businessState
+            })
         }
     }
     func bind() -> Void {
@@ -61,7 +62,7 @@ class EnterpriseViewViewController: UIViewController {
                 return
             }
             self.enterprise.name = name
-            store.dispatch(PutBusinessAction(e: self.enterprise))
+            store.dispatch(baction.Put(e: self.enterprise))
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {

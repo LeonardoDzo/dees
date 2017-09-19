@@ -19,8 +19,6 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         if store.state.userState.user.rol != .Superior {
             self.performSegue(withIdentifier: "infoSegue", sender: nil)
         }
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,7 +55,11 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         return 2
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell\(indexPath.item+1)", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath) as! preHomeCollectionViewCell
+        if indexPath.item == 1 {
+            cell.backgroundImg.image = #imageLiteral(resourceName: "background-gde")
+            cell.mainLogo.image = #imageLiteral(resourceName: "gde")
+        }
         
         return cell
     }
@@ -67,6 +69,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height = 0
         var width = 0
+        //entra al if si el celular esta de lado o acostado
         if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown  || UIDevice.current.orientation == .faceDown || UIDevice.current.orientation == .faceUp{
             height = Int((self.collectionView?.frame.height)!/CGFloat(2))
             width = Int((self.collectionView?.frame.width)!)

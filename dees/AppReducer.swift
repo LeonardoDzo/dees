@@ -8,8 +8,9 @@
 
 import Foundation
 import ReSwift
-import ReSwiftRouter
-struct AppReducer: Reducer {
+
+
+struct AppReducer {
     
     func handleAction(action: Action, state: AppState?) -> AppState {
         
