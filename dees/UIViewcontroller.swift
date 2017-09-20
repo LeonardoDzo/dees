@@ -58,3 +58,38 @@ extension UIViewController {
         }
     }
 }
+
+extension UIViewController {
+    
+    func popToView(view: RoutingDestination, sender: Any? = nil) -> Void {
+        
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: view.getStoryBoard(), bundle: nil)
+        let viewcontroller : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: view.rawValue)
+        
+        switch viewcontroller {
+        case let vc as AllReportsTableViewController:
+            vc.weekSelected = sender as! Int
+            break
+        default:
+            return
+        }
+        
+        self.navigationController?.popToViewController(viewcontroller, animated: true)
+    }
+    
+    func pushToView(view: RoutingDestination, sender: Any? = nil) -> Void {
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: view.getStoryBoard(), bundle: nil)
+        let viewcontroller : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: view.rawValue)
+        
+        
+        switch viewcontroller {
+        case _ as WeeksTableViewController:
+            break
+        default:
+           break
+        }
+        
+        self.navigationController?.pushViewController(viewcontroller, animated: true)
+    }
+    
+}

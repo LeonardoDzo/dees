@@ -48,20 +48,16 @@ class WeeksTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "infoSegue", sender:weeks[indexPath.row])
-    }
-   
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "infoSegue" {
-            let vc = segue.destination as! EnterpriseCollectionViewController
-            vc.week = sender as? Week
-            
+        if let navController = self.navigationController, navController.viewControllers.count >= 2 {
+            if let vc =  navController.viewControllers[navController.viewControllers.count - 2] as? weekProtocol {
+                vc.weekSelected = indexPath.row
+                self.navigationController?.popViewController(animated: true)
+            }
+           
+          
         }
     }
-    
-    
+
 
 }
 extension WeeksTableViewController : StoreSubscriber {
@@ -83,6 +79,7 @@ extension WeeksTableViewController : StoreSubscriber {
         default:
             break
         }
+        self.tableView.reloadData()
     }
     
 }

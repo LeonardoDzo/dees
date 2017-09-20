@@ -12,7 +12,7 @@ class AllReportsTableViewController: UITableViewController {
     var enterprises = [Business]()
     var type : Int!
     var user: User!
-    var section = 0
+    var enterpriseSelected = 0
     var Bsection = -1
     var weeks = [Week]()
     var weekSelected: Int = 0
@@ -28,40 +28,8 @@ class AllReportsTableViewController: UITableViewController {
         self.tableView.addGestureRecognizer(swipeRight)
         NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
-    override func didMove(toParentViewController parent: UIViewController?) {
-        super.didMove(toParentViewController: parent)
-        self.navigationItem.titleView = nil
-        if parent != nil && self.navigationItem.titleView == nil {
-            let xview = self.view.setWeeks(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!, controller: self)
-            self.navigationItem.titleView = xview
-            self.navigationItem.titleView?.isUserInteractionEnabled = true
-            xview.isUserInteractionEnabled = true
-        }
-    }
     
-    func showScrollOptions(sender: UISwipeGestureRecognizer) {
-        if sender.direction == .right {
-            section -= section > 0 ? 1 : 0
-        }else{
-            section += section < enterprises.count-1 ? 1 : 0
-        }
-        goTo()
-    }
-    
-    func tapRigth() {
-        section += section < enterprises.count-1 ? 1 : 0
-        goTo()
-    }
-    func tapLeft() {
-        section -= section > 0 ? 1 : 0
-        goTo()
-    }
-    
-    func goTo() -> Void {
-        let indexpath = IndexPath(row: 0, section: section)
-        self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
-    }
-    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -87,29 +55,14 @@ class AllReportsTableViewController: UITableViewController {
         return UIView().titleOfEnterprise(section: section, controller: self)
     }
     
-    func selectBusiness() -> Void {
-        let alert = UIAlertController(title: "Selecciona la empresa", message: nil, preferredStyle: .actionSheet)
-        self.enterprises.enumerated().forEach({
-            i,b in
-            let actionAlert = UIAlertAction(title: b.name, style: .default, handler: { _ in
-                self.section = i
-                self.goTo()
-            })
-            alert.addAction(actionAlert)
-        })
-        let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
-        alert.addAction(cancel)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         return 44
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if section != Bsection {
-            Bsection = section
+        if enterpriseSelected != Bsection {
+            Bsection = enterpriseSelected
             store.dispatch(ReportsAction.Get(eid: self.enterprises[indexPath.section].id, wid: self.weeks[weekSelected].id))
         }
     }
@@ -134,12 +87,16 @@ extension AllReportsTableViewController : StoreSubscriber {
             store.state.userState.type = type
         }
         self.weeks = store.state.reportState.weeks
+        didMove(toParentViewController: self)
         
         store.subscribe(self){
             $0.select({
                 s in s.businessState
             })
         }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        changeEnterprise(direction: .down)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -149,8 +106,6 @@ extension AllReportsTableViewController : StoreSubscriber {
     func newState(state: BusinessState) {
         self.user = store.state.userState.user
         enterprises.removeAll()
-        
-        
         
         self.enterprises = user.rol == .Superior ? state.business.filter({$0.type == type}) : state.business.filter({b in
             return user.bussiness.contains(where: {ub in
@@ -186,23 +141,50 @@ extension AllReportsTableViewController : weekProtocol {
     func tapLeftWeek() {
         changeWeek(direction: .left)
     }
+    
     func tapRightWeek() {
         changeWeek(direction: .right)
     }
+    
     func selectWeek() {
-        let alert = UIAlertController(title: "Selecciona la semana", message: nil, preferredStyle: .actionSheet)
-        self.weeks.enumerated().forEach({
-            i,b in
-            let actionAlert = UIAlertAction(title: (Date(string:self.weeks[i].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[i].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!, style: .default, handler: { _ in
-                self.weekSelected = i
-                self.tableView.reloadData()
-                self.didMove(toParentViewController: self)
-            })
-            alert.addAction(actionAlert)
-        })
-        let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
-        alert.addAction(cancel)
-        self.present(alert, animated: true, completion: nil)
+        self.pushToView(view: .weeksView)
+    }
+    
+    override func didMove(toParentViewController parent: UIViewController?) {
+        super.didMove(toParentViewController: parent)
+        self.navigationItem.titleView = nil
+        if parent != nil && self.navigationItem.titleView == nil {
+            let xview = self.view.setWeeks(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!, controller: self)
+            self.navigationItem.titleView = xview
+            self.navigationItem.titleView?.isUserInteractionEnabled = true
+            xview.isUserInteractionEnabled = true
+        }
+    }
+}
 
+extension AllReportsTableViewController : EnterpriseProtocol {
+    func showScrollOptions(sender: UISwipeGestureRecognizer) {
+        changeEnterprise(direction: sender.direction == .right ? .left : .right)
+    }
+    
+    func tapRight() {
+        changeEnterprise(direction: .right)
+    }
+    func tapLeft() {
+        changeEnterprise(direction: .left)
+    }
+    
+    func changeEnterprise(direction: UISwipeGestureRecognizerDirection) {
+        if direction == .left {
+            self.enterpriseSelected  -= enterpriseSelected > 0 ?  1 : 0
+        }else if direction == .right{
+            self.enterpriseSelected += enterpriseSelected < enterprises.count-1 ? 1 : 0
+        }
+        let indexpath = IndexPath(row: 0, section: enterpriseSelected)
+        self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
+       
+    }
+    func selectEnterprise() {
+        self.pushToView(view: .enterprises)
     }
 }

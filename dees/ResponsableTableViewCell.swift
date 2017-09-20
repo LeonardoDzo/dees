@@ -8,10 +8,11 @@
 
 import UIKit
 import ReSwift
+import KDLoadingView
 class ResponsableTableViewCell: UITableViewCell {
     var enterprise: Business!
     @IBOutlet weak var tableView: UITableView!
-    
+    var report : Report!
     var indexPath : IndexPath!
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,11 +43,11 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RerportTableViewCell
         if let report = store.state.reportState.reports.first(where: {$0.uid == enterprise.users[indexPath.section].id && $0.eid == self.enterprise.id && $0.wid == self.tag }) {
-            cell.bind(by: report)
-        }else{
-            cell.report = Report(uid: enterprise.users[indexPath.section].id!, eid: self.enterprise.id, wid: self.tag)
-            cell.bind()
+            self.report = report
+        }else {
+            self.report = Report(uid: enterprise.users[indexPath.section].id!, eid: self.enterprise.id, wid: self.tag)
         }
+        cell.bind(by: report)
         return cell
     }
     
@@ -78,5 +79,30 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isSelected = false
+        if self.report.operative != "true" {
+            self.report.operative = "true"
+            store.dispatch(ReportsAction.Post(report: self.report))
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+          isLoading(indexPath: indexPath)
+    }
+    func isLoading(indexPath: IndexPath) -> Void {
+        if let cell = self.tableView.cellForRow(at: indexPath) as? RerportTableViewCell {
+            cell.loadingView.startAnimating()
+            switch store.state.reportState.status {
+            case .loading:
+                cell.loadingView.startAnimating()
+                break
+            default:
+                break
+            }
+        }
+       
     }
 }

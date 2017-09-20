@@ -19,6 +19,15 @@ protocol weekProtocol : class {
     func selectWeek() -> Void
 }
 
+@objc
+protocol EnterpriseProtocol : class {
+    func tapRight() -> Void
+    func tapLeft() -> Void
+    var  enterpriseSelected : Int { get set}
+    func changeEnterprise(direction: UISwipeGestureRecognizerDirection) -> Void
+    func selectEnterprise() -> Void
+}
+
 
 extension UIView {
     func formatView() -> Void {
@@ -74,7 +83,7 @@ extension UIView {
         let next = UIImageView()
         next.frame = CGRect(x: Int(controller.view.frame.width-30), y: 12, width: 25, height: 15)
         next.image = #imageLiteral(resourceName: "foward").maskWithColor(color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1))
-        let tapRight = UITapGestureRecognizer(target: controller, action: #selector(controller.tapRigth))
+        let tapRight = UITapGestureRecognizer(target: controller, action: #selector(controller.tapRight))
         next.isUserInteractionEnabled = true
         next.addGestureRecognizer(tapRight)
         
@@ -91,7 +100,7 @@ extension UIView {
         border.frame = CGRect(x: 0, y: 39, width: Int(controller.view.frame.width), height: 5)
         border.backgroundColor = UIColor(hexString: "#\(controller.enterprises[section].color! )ff")
         
-        let tap = UITapGestureRecognizer(target: controller, action: #selector(controller.selectBusiness))
+        let tap = UITapGestureRecognizer(target: controller, action: #selector(controller.selectEnterprise))
         
         let numberUser = controller.enterprises[section].users.count > 1 ? " (\(String(controller.enterprises[section].users.count)))" : ""
         lbl.text = controller.enterprises[section].name! + numberUser

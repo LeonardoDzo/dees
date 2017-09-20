@@ -7,13 +7,14 @@
 //
 
 import UIKit
-
+import KDLoadingView
 class RerportTableViewCell: UITableViewCell, ReportBindible {
     
     var report: Report!
     @IBOutlet weak var operativeTxv: UITextView!
     @IBOutlet weak var financialTxv: UITextView!
     @IBOutlet weak var observationsTxv: UITextView!
+    @IBOutlet weak var loadingView: KDLoadingView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
