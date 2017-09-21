@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022CF0581F460129007EEF1C /* UsersTableViewController.swift */; };
+		0238D2CE1F745D180009B1F0 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0238D2CC1F745D180009B1F0 /* UIImageView.swift */; };
+		0238D2CF1F745D180009B1F0 /* loadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0238D2CD1F745D180009B1F0 /* loadingView.swift */; };
+		0238D2D31F745D550009B1F0 /* firefly2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0238D2D21F745D550009B1F0 /* firefly2.gif */; };
 		025EB9861F34F43F0075611F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9851F34F43F0075611F /* AppDelegate.swift */; };
 		025EB9881F34F43F0075611F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9871F34F43F0075611F /* ViewController.swift */; };
 		025EB98B1F34F43F0075611F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 025EB9891F34F43F0075611F /* Main.storyboard */; };
@@ -68,6 +71,9 @@
 
 /* Begin PBXFileReference section */
 		022CF0581F460129007EEF1C /* UsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
+		0238D2CC1F745D180009B1F0 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		0238D2CD1F745D180009B1F0 /* loadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loadingView.swift; sourceTree = "<group>"; };
+		0238D2D21F745D550009B1F0 /* firefly2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = firefly2.gif; sourceTree = "<group>"; };
 		025EB9821F34F43F0075611F /* dees.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dees.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		025EB9851F34F43F0075611F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		025EB9871F34F43F0075611F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -142,6 +148,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0238D2D01F745D1D0009B1F0 /* extra */ = {
+			isa = PBXGroup;
+			children = (
+				0238D2CD1F745D180009B1F0 /* loadingView.swift */,
+			);
+			name = extra;
+			sourceTree = "<group>";
+		};
+		0238D2D11F745D3F0009B1F0 /* gifts */ = {
+			isa = PBXGroup;
+			children = (
+				0238D2D21F745D550009B1F0 /* firefly2.gif */,
+			);
+			name = gifts;
+			sourceTree = "<group>";
+		};
 		025EB9791F34F43F0075611F = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +185,8 @@
 		025EB9841F34F43F0075611F /* dees */ = {
 			isa = PBXGroup;
 			children = (
+				0238D2D11F745D3F0009B1F0 /* gifts */,
+				0238D2D01F745D1D0009B1F0 /* extra */,
 				02A3A4811F3A8F420048750E /* cells */,
 				02A3A4741F3A2CFF0048750E /* Fonts */,
 				02A3A46F1F3A1CF40048750E /* Extensions */,
@@ -242,6 +266,7 @@
 		02A3A46F1F3A1CF40048750E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				0238D2CC1F745D180009B1F0 /* UIImageView.swift */,
 				02A3A4701F3A1D6F0048750E /* UIVIew.swift */,
 				02A3A4721F3A22450048750E /* UIViewcontroller.swift */,
 				02F4CC9D1F3B7310008312A6 /* UIColor.swift */,
@@ -386,6 +411,7 @@
 			files = (
 				025EB9901F34F43F0075611F /* LaunchScreen.storyboard in Resources */,
 				025EB98D1F34F43F0075611F /* Assets.xcassets in Resources */,
+				0238D2D31F745D550009B1F0 /* firefly2.gif in Resources */,
 				025EB98B1F34F43F0075611F /* Main.storyboard in Resources */,
 				02A3A4761F3A354D0048750E /* pirulen rg.ttf in Resources */,
 			);
@@ -421,7 +447,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		D4AD8F978E0DFBA5B9B51D9B /* [CP] Embed Pods Frameworks */ = {
@@ -479,12 +505,14 @@
 				0279A4BE1F4F84700085030D /* ChildTableViewCell.swift in Sources */,
 				0279A4B81F4F65F30085030D /* ReportTableViewController.swift in Sources */,
 				02B974D41F4660F900884A82 /* FileViewViewController.swift in Sources */,
+				0238D2CF1F745D180009B1F0 /* loadingView.swift in Sources */,
 				0272A3751F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift in Sources */,
 				025EB9861F34F43F0075611F /* AppDelegate.swift in Sources */,
 				02AB81BB1F7066300081FE5E /* RerportTableViewCell.swift in Sources */,
 				025EB9AC1F350A730075611F /* Business.swift in Sources */,
 				025EB9A21F34FC4D0075611F /* UserActions.swift in Sources */,
 				025EB9B01F354B740075611F /* UserService.swift in Sources */,
+				0238D2CE1F745D180009B1F0 /* UIImageView.swift in Sources */,
 				02E7AB211F3D3BBD0037B7D1 /* DateFormatter.swift in Sources */,
 				025EB9A01F34FBF10075611F /* AppReducer.swift in Sources */,
 				027FE2261F3CF151005C6FF8 /* Report.swift in Sources */,

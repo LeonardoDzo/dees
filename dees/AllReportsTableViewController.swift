@@ -56,7 +56,6 @@ class AllReportsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
         return 44
     }
     
@@ -75,9 +74,13 @@ class AllReportsTableViewController: UITableViewController {
         return 575
     }
     
+    override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        
+    }
+    
 }
 extension AllReportsTableViewController : StoreSubscriber {
-    typealias StoreSubscriberStateType = BusinessState
+    typealias StoreSubscriberStateType = ReportState
     
     override func viewWillAppear(_ animated: Bool) {
        
@@ -86,12 +89,10 @@ extension AllReportsTableViewController : StoreSubscriber {
         }else{
             store.state.userState.type = type
         }
-        self.weeks = store.state.reportState.weeks
-        didMove(toParentViewController: self)
-        
+        setVars()
         store.subscribe(self){
             $0.select({
-                s in s.businessState
+                s in s.reportState
             })
         }
     }
@@ -103,11 +104,23 @@ extension AllReportsTableViewController : StoreSubscriber {
         store.unsubscribe(self)
     }
     
-    func newState(state: BusinessState) {
+    func newState(state: ReportState) {
+        switch state.status {
+        case .loading:
+            
+            break
+        case .finished:
+            
+            break
+        default:
+            break
+        }
+    }
+    func setVars() -> Void {
         self.user = store.state.userState.user
         enterprises.removeAll()
         
-        self.enterprises = user.rol == .Superior ? state.business.filter({$0.type == type}) : state.business.filter({b in
+        self.enterprises = user.rol == .Superior ? store.state.businessState.business.filter({$0.type == type}) : store.state.businessState.business.filter({b in
             return user.bussiness.contains(where: {ub in
                 return b.id == ub.id || b.business.contains(where: {$0.id == ub.id})
             })
@@ -122,7 +135,8 @@ extension AllReportsTableViewController : StoreSubscriber {
                 self.enterprises.insert(b1, at: count)
             })
         })
-        
+        self.weeks = store.state.reportState.weeks
+        didMove(toParentViewController: self)
         tableView.reloadData()
     }
     

@@ -77,23 +77,25 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         return enterprise.users.count > 1 ? 575 : 860
     }
     
+    func seen(_ indexPath: IndexPath) -> Void {
+        guard let cell = tableView.cellForRow(at: indexPath) as? RerportTableViewCell else{
+            return
+        }
+    }
+    
+    
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
+        seen(indexPath)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.isSelected = false
-        if self.report.operative != "true" {
-            self.report.operative = "true"
-            store.dispatch(ReportsAction.Post(report: self.report))
-        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
           isLoading(indexPath: indexPath)
     }
     func isLoading(indexPath: IndexPath) -> Void {
-        if let cell = self.tableView.cellForRow(at: indexPath) as? RerportTableViewCell {
+        if let cell = tableView.cellForRow(at: indexPath) as? RerportTableViewCell {
             cell.loadingView.startAnimating()
             switch store.state.reportState.status {
             case .loading:
