@@ -66,6 +66,7 @@ struct ReportReducer  {
                             store.state.reportState.reports[index] = report
                         }
                     })
+                    store.state.reportState.status = .finished
                     store.state.reportState.status = .none
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
@@ -114,12 +115,21 @@ struct ReportReducer  {
                 switch result {
                 case .success(let response):
                     do {
-                        let repos : NSDictionary = try response.mapJSON() as! NSDictionary
                         
-                        if let report = Report.from(repos.value(forKey: "format") as! NSDictionary) {
+                        guard let repos : NSDictionary = try response.mapJSON() as? NSDictionary else {
+                            return
+                        }
+                        guard let dic = repos.value(forKey: "format") as? NSDictionary else {
+                            return
+                        }
+                        guard let report = Report.from(dic) else {
+                            store.state.reportState.status = .failed
+                            store.state.reportState.status = .none
+                            return
+                        }
                             store.state.reportState.reports.append(report)
                             store.state.reportState.status = .finished
-                        }
+                        
                         store.state.reportState.status = .none
                     } catch MoyaError.jsonMapping(let error) {
                         print(error )

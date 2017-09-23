@@ -58,12 +58,12 @@ class AllReportsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 44
     }
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
+    }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if enterpriseSelected != Bsection {
-            Bsection = enterpriseSelected
-            store.dispatch(ReportsAction.Get(eid: self.enterprises[indexPath.section].id, wid: self.weeks[weekSelected].id))
-        }
+    
     }
     
     func rotated() -> Void {
@@ -75,10 +75,11 @@ class AllReportsTableViewController: UITableViewController {
     }
     
     override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        
+        update(isFinished: false)
     }
     
 }
+
 extension AllReportsTableViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = ReportState
     
@@ -107,24 +108,36 @@ extension AllReportsTableViewController : StoreSubscriber {
     func newState(state: ReportState) {
         switch state.status {
         case .loading:
-            
             break
         case .finished:
-            
+            update(isFinished: true)
+            break
+        case .failed:
+            update(isFinished: false)
             break
         default:
             break
         }
     }
+    
+    func update(isFinished: Bool) -> Void {
+        if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
+            cell.avaible = isFinished
+            cell.reports = store.state.reportState.reports.filter({$0.eid == self.enterprises[enterpriseSelected].id && $0.wid! == self.weeks[self.weekSelected].id})
+            cell.tableView.reloadData()
+        }
+    }
     func setVars() -> Void {
         self.user = store.state.userState.user
-        enterprises.removeAll()
         
-        self.enterprises = user.rol == .Superior ? store.state.businessState.business.filter({$0.type == type}) : store.state.businessState.business.filter({b in
-            return user.bussiness.contains(where: {ub in
-                return b.id == ub.id || b.business.contains(where: {$0.id == ub.id})
+        if enterprises.count == 0 {
+            enterprises.removeAll()
+            self.enterprises = user.rol == .Superior ? store.state.businessState.business.filter({$0.type == type}) : store.state.businessState.business.filter({b in
+                return user.bussiness.contains(where: {ub in
+                    return b.id == ub.id || b.business.contains(where: {$0.id == ub.id})
+                })
             })
-        })
+        }
         var count = -1
         self.enterprises.enumerated().forEach({
             index, b in
@@ -138,19 +151,24 @@ extension AllReportsTableViewController : StoreSubscriber {
         self.weeks = store.state.reportState.weeks
         didMove(toParentViewController: self)
         tableView.reloadData()
+        update(isFinished: false)
+        
     }
     
 }
 
 extension AllReportsTableViewController : weekProtocol {
     func changeWeek(direction : UISwipeGestureRecognizerDirection){
+        let animation: UITableViewRowAnimation
         if direction == .right {
+            animation = .left
             self.weekSelected  -= weekSelected > 0 ?  1 : 0
         }else{
+            animation = .right
             self.weekSelected += weekSelected < weeks.count-1 ? 1 : 0
         }
         didMove(toParentViewController: self)
-        self.tableView.reloadData()
+        self.tableView.reloadSections(IndexSet(integer: self.enterpriseSelected), with: weekSelected == 0 ? .none : weeks.count-1 == weekSelected ? .none :  animation)
     }
     func tapLeftWeek() {
         changeWeek(direction: .left)
@@ -168,10 +186,12 @@ extension AllReportsTableViewController : weekProtocol {
         super.didMove(toParentViewController: parent)
         self.navigationItem.titleView = nil
         if parent != nil && self.navigationItem.titleView == nil {
-            let xview = self.view.setWeeks(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!, controller: self)
-            self.navigationItem.titleView = xview
+           
+            self.navigationItem.titleView = {
+               let view =  weeksView(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!, controller: self)
+                return view
+            }()
             self.navigationItem.titleView?.isUserInteractionEnabled = true
-            xview.isUserInteractionEnabled = true
         }
     }
 }

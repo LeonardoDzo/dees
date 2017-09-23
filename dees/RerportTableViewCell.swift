@@ -8,13 +8,18 @@
 
 import UIKit
 import KDLoadingView
-class RerportTableViewCell: UITableViewCell, ReportBindible {
+class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate {
     
     var report: Report!
     @IBOutlet weak var operativeTxv: UITextView!
     @IBOutlet weak var financialTxv: UITextView!
     @IBOutlet weak var observationsTxv: UITextView!
     @IBOutlet weak var loadingView: KDLoadingView!
+    @IBOutlet weak var filesF: UIButton!
+    @IBOutlet weak var filesOp: UIButton!
+    @IBOutlet weak var replyF: UIButton!
+    @IBOutlet weak var replyOp: UIButton!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,8 +28,27 @@ class RerportTableViewCell: UITableViewCell, ReportBindible {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
-
+    func textViewDidEndEditing(_ textView: UITextView) {
+        switch textView {
+        case operativeTxv:
+            report.operative = textView.text
+            break
+        case financialTxv:
+            report.financial = textView.text
+            break
+        case observationsTxv:
+            report.observations = textView.text
+            break
+        default:
+            break
+        }
+        
+    }
+    
+    func update() -> Void {
+        report.reply = true
+        store.dispatch(ReportsAction.Post(report: report))
+    }
 }

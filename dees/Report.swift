@@ -44,6 +44,7 @@ struct Report : Mappable {
         self.wid = wid
         self.uid = uid
         replyTxt = ""
+        reply = true
     }
     
     init(map: Mapper) throws {
@@ -79,6 +80,10 @@ protocol ReportBindible: AnyObject {
     var financialTxv: UITextView! {get}
     var replySwt: UISwitch! {get}
     var anexosLbl: UILabel! {get}
+    var replyF: UIButton! {get}
+    var replyOp: UIButton! {get}
+    var filesF: UIButton! {get}
+    var filesOp: UIButton! {get}
 }
 
 extension ReportBindible {
@@ -87,6 +92,10 @@ extension ReportBindible {
     var financialTxv: UITextView! {return nil}
     var replySwt: UISwitch! {return nil}
     var anexosLbl: UILabel! {return nil}
+    var replyF: UIButton! {return nil}
+    var replyOp: UIButton! {return nil}
+    var filesF: UIButton! {return nil}
+    var filesOp: UIButton! {return nil}
     
     func bind(by report: Report) -> Void {
         self.report = report
@@ -104,7 +113,7 @@ extension ReportBindible {
         let endDate = Date(string: week.endDate, formatter: .yearMonthAndDay)?.toMillis()
         if let operativeTxv = self.operativeTxv {
             operativeTxv.text = report.operative ?? ""
-            if store.state.userState.user.id != report.uid || (endDate! < date!) {
+            if store.state.userState.user.id != report.uid {
                 operativeTxv.isEditable = false
             }else{
                 operativeTxv.isEditable = true
@@ -133,6 +142,19 @@ extension ReportBindible {
             }else{
                 replySwt.isEnabled = false
             }
+        }
+        if let replyOp = self.replyOp {
+            replyOp.isHidden = store.state.userState.user.rol == .Superior ? false : true
+        }
+        if let replyF = self.replyF {
+            replyF.isHidden = store.state.userState.user.rol == .Superior ? false : true
+        }
+        
+        if let filesOp = self.filesOp {
+            filesOp.setTitle("No hay anexos",for: .disabled)
+        }
+        if let filesF = self.filesF {
+             filesF.setTitle("No hay anexos",for: .disabled)
         }
         if let anexosLbl = anexosLbl {
             anexosLbl.text = report.files.count > 0 ? "Existen \(report.files.count)" : "No hay Reportes"

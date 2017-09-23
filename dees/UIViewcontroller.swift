@@ -68,7 +68,9 @@ extension UIViewController {
         
         switch viewcontroller {
         case let vc as AllReportsTableViewController:
-            vc.weekSelected = sender as! Int
+            if sender is Int {
+               vc.weekSelected = sender as! Int
+            }
             break
         default:
             return
@@ -84,6 +86,11 @@ extension UIViewController {
         
         switch viewcontroller {
         case _ as WeeksTableViewController:
+            break
+        case let vc as AllReportsTableViewController:
+            if sender is Business {
+                vc.enterprises = [sender as! Business]
+            }
             break
         default:
            break

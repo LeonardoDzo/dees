@@ -8,7 +8,6 @@
 
 import UIKit
 import ReSwift
-
 let defaults = UserDefaults.standard
 
 let store = Store<AppState>(

@@ -27,8 +27,8 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         lpgr.delegate = self
         self.collectionView?.addGestureRecognizer(lpgr)
         self.hideKeyboardWhenTappedAround()
+        
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -132,7 +132,7 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
             setupNavBar()
             AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "left")
         }else{
-            self.performSegue(withIdentifier: "responsableSegue", sender: e)
+            self.pushToView(view: .allReports, sender: e)
         }
     }
 
@@ -188,7 +188,10 @@ extension EnterpriseCollectionViewController : StoreSubscriber {
             week = store.state.reportState.weeks.first
         }else{
             
-            self.navigationItem.titleView = UIView().setTitle(title: "Semana:", subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
+            self.navigationItem.titleView = {
+                let titleView = titleNavBarView(title: "Semana:", subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
+                return titleView
+            }()
         }
         
     }

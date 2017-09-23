@@ -10,13 +10,24 @@ import UIKit
 import ReSwift
 import KDLoadingView
 class ResponsableTableViewCell: UITableViewCell {
-    var enterprise: Business!
+    
     @IBOutlet weak var tableView: UITableView!
-    var report : Report!
-    var indexPath : IndexPath!
+    var reports = [Report]()
+    var enterprise: Business!
+    
+    /// Variable como tag que me ayuda a identificar si se ha hecho o no el request por el reporte
+    var avaible = false
+    lazy var loadingView : LoadingView = {
+        let loading = LoadingView()
+        loading.center = self.tableView.center
+        loading.frame.origin.x -= loading.loading.frame.width/2
+        loading.frame.origin.y -= loading.loading.frame.width
+        return loading
+    }()
     override func awakeFromNib() {
         super.awakeFromNib()
         setTableViewDataSourceDelegate()
+        self.tableView.addSubview(loadingView)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -25,6 +36,7 @@ class ResponsableTableViewCell: UITableViewCell {
     
     
     func setTableViewDataSourceDelegate() {
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tag = self.tag
@@ -33,8 +45,6 @@ class ResponsableTableViewCell: UITableViewCell {
 }
 extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        
-        
         return enterprise != nil ? enterprise.users.count : 0
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,12 +52,11 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RerportTableViewCell
-        if let report = store.state.reportState.reports.first(where: {$0.uid == enterprise.users[indexPath.section].id && $0.eid == self.enterprise.id && $0.wid == self.tag }) {
-            self.report = report
-        }else {
-            self.report = Report(uid: enterprise.users[indexPath.section].id!, eid: self.enterprise.id, wid: self.tag)
-        }
-        cell.bind(by: report)
+        let uid = enterprise.users[indexPath.section].id
+        cell.report = reports.first(where: { $0.uid == uid})
+        cell.bind()
+        print(self.tag)
+        cell.tag = uid!
         return cell
     }
     
@@ -63,7 +72,6 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         lbl.textAlignment = .center
         view.addSubview(lbl)
         return view
-        
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -78,33 +86,41 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     }
     
     func seen(_ indexPath: IndexPath) -> Void {
+        self.loadingView.stop()
+        if enterprise.users.count == 0 {
+            return
+        }
         guard let cell = tableView.cellForRow(at: indexPath) as? RerportTableViewCell else{
             return
         }
+        
+        if avaible {
+            if cell.report == nil || !cell.report.reply!  {
+                let uid = enterprise.users[indexPath.section].id
+                cell.report = reports.first(where: { $0.uid == uid}) ?? Report(uid: uid!, eid: enterprise.id, wid: self.tag)
+                cell.bind()
+                cell.update()
+            }
+        }else {
+            self.loadingView.start()
+            store.dispatch(ReportsAction.Get(eid: enterprise.id, wid: self.tag))
+        }
     }
-    
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        seen(indexPath)
+        if tableView.visibleCells.contains(cell){
+            seen(indexPath)
+        }
     }
     
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print("X: ", scrollView.contentOffset.x, "Y: ",  scrollView.contentOffset.y)
+        if let indexPath = tableView.indexPathForRow(at: scrollView.contentOffset) {
+            seen(indexPath)
+        }
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-          isLoading(indexPath: indexPath)
-    }
-    func isLoading(indexPath: IndexPath) -> Void {
-        if let cell = tableView.cellForRow(at: indexPath) as? RerportTableViewCell {
-            cell.loadingView.startAnimating()
-            switch store.state.reportState.status {
-            case .loading:
-                cell.loadingView.startAnimating()
-                break
-            default:
-                break
-            }
-        }
-       
-    }
 }
