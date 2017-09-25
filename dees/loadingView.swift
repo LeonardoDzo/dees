@@ -35,11 +35,11 @@ class LoadingView: UIView {
         
         widthAnchor.constraint(equalToConstant: CGFloat(100)).isActive = true
         heightAnchor.constraint(equalToConstant: CGFloat(100)).isActive = true
-        formatView()
+        loading.formatView()
     }
     
     override func draw(_ rect: CGRect) {
-        loading.frame = bounds
+        frame = bounds
     }
     
     //MARK: - Animation
@@ -50,7 +50,7 @@ class LoadingView: UIView {
         }
     }
     fileprivate func show() {
-        UIView.animate(withDuration: 0.7) {[unowned self] in
+        UIView.animate(withDuration: 0.1) {[unowned self] in
             self.alpha = 1.0
         }
     }

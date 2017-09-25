@@ -38,19 +38,11 @@ class weeksView: UIView {
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    init(title: String, subtitle: String, controller: weekProtocol) {
-        super.init(frame: .zero)
-        
-        titleView = {
-            let titleView = titleNavBarView(title: title, subtitle: subtitle)
-            return titleView
-        }()
-        configureView(controller)
-    }
     func configureView(_ ctrl: weekProtocol) {
+        
         tapRight.addTarget(ctrl, action: #selector(ctrl.tapRightWeek))
         tapLeft.addTarget(ctrl, action: #selector(ctrl.tapLeftWeek))
-        
+        backgroundColor = UIColor.clear
         nextView.addGestureRecognizer(tapRight)
         leftView.addGestureRecognizer(tapLeft)
         
@@ -58,20 +50,31 @@ class weeksView: UIView {
         
         titleView.addGestureRecognizer(tap)
         titleView.isUserInteractionEnabled = true
-        frame = CGRect(x:-20, y:0, width: titleView.frame.width+30, height:30)
+        frame = CGRect(x:-30, y:0, width: titleView.frame.width+30, height:30)
 
-        nextView.frame.origin.x = titleView.frame.width + 15
-        leftView.frame.origin.x =  titleView.frame.origin.x - 15
+        nextView.frame.origin.x = titleView.frame.width
+        leftView.frame.origin.x =  titleView.frame.origin.x - 30
         titleView.frame.origin.x = (frame.width - titleView.frame.width)/2
+        
         addSubview(titleView)
         addSubview(leftView)
         addSubview(nextView)
         titleView.isUserInteractionEnabled = true
-       
-        
+
     }
     
     override func draw(_ rect: CGRect) {
         frame = bounds
+    }
+}
+extension weeksView {
+    public func setTitle(title: String, subtitle: String, controller: weekProtocol) -> Void {
+        
+        titleView = {
+            let titleView = titleNavBarView(title: title, subtitle: subtitle)
+            return titleView
+        }()
+        
+        configureView(controller)
     }
 }

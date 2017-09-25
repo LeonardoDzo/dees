@@ -16,7 +16,7 @@ class AllReportsTableViewController: UITableViewController {
     var Bsection = -1
     var weeks = [Week]()
     var weekSelected: Int = 0
-    
+    var weeksTitleView : UIView = weeksView(frame: .zero)
     override func viewDidLoad() {
         super.viewDidLoad()
         self.styleNavBarAndTab_1()
@@ -29,7 +29,7 @@ class AllReportsTableViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
-   
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -63,7 +63,7 @@ class AllReportsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    
+        
     }
     
     func rotated() -> Void {
@@ -84,7 +84,7 @@ extension AllReportsTableViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = ReportState
     
     override func viewWillAppear(_ animated: Bool) {
-       
+        
         if type == nil {
             type = store.state.userState.type
         }else{
@@ -159,16 +159,23 @@ extension AllReportsTableViewController : StoreSubscriber {
 
 extension AllReportsTableViewController : weekProtocol {
     func changeWeek(direction : UISwipeGestureRecognizerDirection){
-        let animation: UITableViewRowAnimation
+        var animation: UITableViewRowAnimation = .none
         if direction == .right {
-            animation = .left
-            self.weekSelected  -= weekSelected > 0 ?  1 : 0
+            if weekSelected > 0 {
+                animation = .left
+                self.weekSelected -= 1
+            }
         }else{
-            animation = .right
-            self.weekSelected += weekSelected < weeks.count-1 ? 1 : 0
+            if weekSelected < weeks.count-1 {
+                 animation = .right
+                self.weekSelected += 1
+            }
         }
-        didMove(toParentViewController: self)
-        self.tableView.reloadSections(IndexSet(integer: self.enterpriseSelected), with: weekSelected == 0 ? .none : weeks.count-1 == weekSelected ? .none :  animation)
+    
+        if animation != .none {
+            didMove(toParentViewController: self)
+            self.tableView.reloadSections(IndexSet(integer: self.enterpriseSelected), with: animation)
+        }
     }
     func tapLeftWeek() {
         changeWeek(direction: .left)
@@ -186,11 +193,7 @@ extension AllReportsTableViewController : weekProtocol {
         super.didMove(toParentViewController: parent)
         self.navigationItem.titleView = nil
         if parent != nil && self.navigationItem.titleView == nil {
-           
-            self.navigationItem.titleView = {
-               let view =  weeksView(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!, controller: self)
-                return view
-            }()
+            self.navigationItem.titleView = weeksTitleView.setWeeks(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!, controller: self)
             self.navigationItem.titleView?.isUserInteractionEnabled = true
         }
     }
@@ -216,7 +219,7 @@ extension AllReportsTableViewController : EnterpriseProtocol {
         }
         let indexpath = IndexPath(row: 0, section: enterpriseSelected)
         self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
-       
+        
     }
     func selectEnterprise() {
         self.pushToView(view: .enterprises)

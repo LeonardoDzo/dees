@@ -14,7 +14,7 @@ class ResponsableTableViewCell: UITableViewCell {
     @IBOutlet weak var tableView: UITableView!
     var reports = [Report]()
     var enterprise: Business!
-    
+    var users = [User]()
     /// Variable como tag que me ayuda a identificar si se ha hecho o no el request por el reporte
     var avaible = false
     lazy var loadingView : LoadingView = {
@@ -40,12 +40,30 @@ class ResponsableTableViewCell: UITableViewCell {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tag = self.tag
+        
+        self.loadingView.center = tableView.center
+        self.loadingView.frame.origin.x -= self.loadingView.loading.frame.width/2
+        self.loadingView.frame.origin.y -= self.loadingView.loading.frame.width
     }
     
 }
 extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return enterprise != nil ? enterprise.users.count : 0
+        if enterprise == nil {
+            return 0
+        }
+        if store.state.userState.user.rol == .Superior {
+            self.users = enterprise.users
+        }else{
+            self.users = enterprise.users.filter({ u in
+                if u.id ==   store.state.userState.user.id {
+                    return true
+                }
+                return false
+            })
+        }
+        
+        return users.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
