@@ -16,6 +16,12 @@ struct BusinessAction {
             self.id = id
         }
     }
+    struct Got: Action {
+        var enterprises = [Business]()
+        init(ent: [Business] = []) {
+            self.enterprises = ent
+        }
+    }
     struct Delete: Action {
         var id : Int!
         init(id: Int ) {

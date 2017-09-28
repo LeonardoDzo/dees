@@ -54,7 +54,7 @@ class titleNavBarView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        frame = bounds
+       
     }
     
 }

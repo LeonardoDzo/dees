@@ -13,7 +13,7 @@ class weeksView: UIView {
     let tapRight = UITapGestureRecognizer()
     let tapLeft = UITapGestureRecognizer()
     var titleView : titleNavBarView!
-    
+    weak var ctrl : weekProtocol!
     let nextView : UIImageView = {
         let next = UIImageView()
         next.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
@@ -34,47 +34,66 @@ class weeksView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
+    init(ctrl: weekProtocol) {
+        super.init(frame: CGRect(x:-30, y:0, width: 160, height:30))
+        self.ctrl = ctrl
+        
+    }
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    func configureView(_ ctrl: weekProtocol) {
+
+    func configureView() {
         
         tapRight.addTarget(ctrl, action: #selector(ctrl.tapRightWeek))
         tapLeft.addTarget(ctrl, action: #selector(ctrl.tapLeftWeek))
         backgroundColor = UIColor.clear
         nextView.addGestureRecognizer(tapRight)
         leftView.addGestureRecognizer(tapLeft)
-        
+        leftView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: ctrl, action: #selector(ctrl.selectWeek))
         
         titleView.addGestureRecognizer(tap)
         titleView.isUserInteractionEnabled = true
-        frame = CGRect(x:-30, y:0, width: titleView.frame.width+30, height:30)
-
-        nextView.frame.origin.x = titleView.frame.width
-        leftView.frame.origin.x =  titleView.frame.origin.x - 30
-        titleView.frame.origin.x = (frame.width - titleView.frame.width)/2
+        
+        nextView.frame.origin.x = titleView.frame.width + 10
+        leftView.frame.origin.x =  titleView.frame.origin.x - 10
+        titleView.frame.origin.x += 15
+        
+        if (ctrl.weekSelected == ctrl.weeks.count-1) {
+            if ctrl.weeks.count == 1 {
+                 leftView.isHidden = true
+            }
+            nextView.isHidden = true
+        }else if ctrl.weekSelected == 0 {
+            leftView.isHidden = true
+            if ctrl.weeks.count == 1 {
+                nextView.isHidden = true
+            }
+            
+        }
         
         addSubview(titleView)
         addSubview(leftView)
         addSubview(nextView)
         titleView.isUserInteractionEnabled = true
+      
 
     }
     
     override func draw(_ rect: CGRect) {
-        frame = bounds
+       frame = bounds
+     
     }
 }
 extension weeksView {
-    public func setTitle(title: String, subtitle: String, controller: weekProtocol) -> Void {
+    public func setTitle(title: String, subtitle: String) -> Void {
         
         titleView = {
             let titleView = titleNavBarView(title: title, subtitle: subtitle)
             return titleView
         }()
         
-        configureView(controller)
+        configureView()
     }
 }

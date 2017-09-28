@@ -109,8 +109,6 @@ extension ReportBindible {
         guard let week = store.state.reportState.weeks.first(where: {$0.id == report.wid}) else {
             return
         }
-        let date = Date().toMillis()
-        let endDate = Date(string: week.endDate, formatter: .yearMonthAndDay)?.toMillis()
         if let operativeTxv = self.operativeTxv {
             operativeTxv.text = report.operative ?? ""
             if store.state.userState.user.id != report.uid {
@@ -121,15 +119,21 @@ extension ReportBindible {
         }
         if let observationsTxv = self.observationsTxv {
             observationsTxv.text = report.observations ?? ""
-            if store.state.userState.user.rol == .Superior  {
+            if store.state.userState.user.permissions.contains(where: { p in
+                if p.cid == 1 {
+                    return true
+                }
+                return false
+            }) {
                 observationsTxv.isEditable = true
             }else{
+                observationsTxv.isHidden = true
                 observationsTxv.isEditable = false
             }
         }
         if let financialTxv = self.financialTxv {
             financialTxv.text = report.financial ?? ""
-            if store.state.userState.user.id != report.uid || (endDate! < date!) {
+            if store.state.userState.user.permissions.contains(where: {($0.rid == .Operative || $0.rid == .CEO) && $0.cid == report.eid}) {
                 financialTxv.isEditable = false
             }else{
                 financialTxv.isEditable = true
@@ -137,17 +141,17 @@ extension ReportBindible {
         }
         if let replySwt = self.replySwt {
             replySwt.isOn = report.reply ?? false
-            if store.state.userState.user.rol == .Superior {
+            if true {
                 replySwt.isEnabled = true
             }else{
                 replySwt.isEnabled = false
             }
         }
         if let replyOp = self.replyOp {
-            replyOp.isHidden = store.state.userState.user.rol == .Superior ? false : true
+            replyOp.isHidden = true
         }
         if let replyF = self.replyF {
-            replyF.isHidden = store.state.userState.user.rol == .Superior ? false : true
+            replyF.isHidden = true
         }
         
         if let filesOp = self.filesOp {

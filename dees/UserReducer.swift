@@ -67,17 +67,21 @@ struct UserReducer {
                     }
                     token = t
                     authPlugin = AccessTokenPlugin(token: token)
-                    if let userJson = repos.value(forKey: "user") as? NSDictionary {
-                        print("TOKEN:" ,token)
-                        let user  = User.from(userJson)
-                        defaults.set(email, forKey: "email")
-                        defaults.set(password, forKey: "password")
-                        store.state.userState.user = user
-                        store.state.userState.status = .Finished(user!)
-                        store.dispatch(baction.Get())
-                        store.dispatch(wAction.Get())
-                    }
-                   
+                    
+                    print("TOKEN:" ,token)
+                    let user  = User.from(repos)
+                    defaults.set(email, forKey: "email")
+                    defaults.set(password, forKey: "password")
+                    store.state.userState.user = user
+                    store.state.userState.status = .Finished(user!)
+                    store.dispatch(wAction.Get())
+                    
+                    let sEnterprises = user?.bussiness.filter({$0.parentId == nil}) ?? []
+                    
+                    sEnterprises.forEach({e in
+                        store.dispatch(baction.Get(id: e.id))
+                    });
+                    
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
                     store.state.userState.status = .Failed("Email/Contraseña incorrecta!!")
@@ -99,7 +103,7 @@ struct UserReducer {
             switch result {
             case .success(let response):
                 do {
-                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
+                    let repos : NSDictionary = try response.mapJSON() as! NSDictionary
                     print(repos)
                     if response.statusCode == 200 {
                         defaults.set(new, forKey: "password")
@@ -107,11 +111,11 @@ struct UserReducer {
                     }else if response.statusCode == 401{
                         store.state.userState.status = .Failed("Contraseña actual incorrecta")
                     }else if response.statusCode == 403 {
-                         store.state.userState.status = .Failed("Hubo algun error")
+                        store.state.userState.status = .Failed("Hubo algun error")
                     }
                     
                     store.state.userState.status = .none
-
+                    
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
                     store.state.userState.status = .Failed("Hubo algun error")
@@ -131,22 +135,22 @@ struct UserReducer {
     func getUser(by id: Int) -> Void {
         userProvider.request(.showUser(id: id), completion: {result in
             switch result {
-                case .success(let response):
-                    do {
-                        let repos = try response.mapJSON() as! User
-                        print(repos)
-                    } catch MoyaError.jsonMapping(let error) {
-                        print(error )
-                    } catch {
-                        print(":(")
-                    }
+            case .success(let response):
+                do {
+                    let repos = try response.mapJSON() as! User
+                    print(repos)
+                } catch MoyaError.jsonMapping(let error) {
+                    print(error )
+                } catch {
+                    print(":(")
+                }
                 break
             case .failure(let error):
                 print(error)
                 break
             }
         })
-      
+        
     }
     func getUsers() -> Void {
         userProvider.request(.getAll(), completion: {result in

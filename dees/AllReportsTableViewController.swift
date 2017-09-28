@@ -16,9 +16,10 @@ class AllReportsTableViewController: UITableViewController {
     var Bsection = -1
     var weeks = [Week]()
     var weekSelected: Int = 0
-    var weeksTitleView : UIView = weeksView(frame: .zero)
+    var weeksTitleView : weeksView? = weeksView(frame: .zero)
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.styleNavBarAndTab_1()
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.showScrollOptions(sender:)))
         swipeLeft.direction = .left
@@ -52,7 +53,8 @@ class AllReportsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UIView().titleOfEnterprise(section: section, controller: self)
+        let title = enterprises[section].name
+        return enterpiseTitleView(frame: self.view.frame, title: title!, controller: self)
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -99,6 +101,7 @@ extension AllReportsTableViewController : StoreSubscriber {
     }
     override func viewDidAppear(_ animated: Bool) {
         changeEnterprise(direction: .down)
+        tableView.reloadSections(IndexSet(integer: enterpriseSelected), with: .automatic)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -132,11 +135,7 @@ extension AllReportsTableViewController : StoreSubscriber {
         
         if enterprises.count == 0 {
             enterprises.removeAll()
-            self.enterprises = user.rol == .Superior ? store.state.businessState.business.filter({$0.type == type}) : store.state.businessState.business.filter({b in
-                return user.bussiness.contains(where: {ub in
-                    return b.id == ub.id || b.business.contains(where: {$0.id == ub.id})
-                })
-            })
+            self.enterprises = store.state.businessState.business.count > 0 ? store.state.businessState.business.first(where: {$0.id == type})?.business ?? [] : store.state.userState.user.bussiness
         }
         var count = -1
         self.enterprises.enumerated().forEach({
@@ -167,11 +166,11 @@ extension AllReportsTableViewController : weekProtocol {
             }
         }else{
             if weekSelected < weeks.count-1 {
-                 animation = .right
+                animation = .right
                 self.weekSelected += 1
             }
         }
-    
+        
         if animation != .none {
             didMove(toParentViewController: self)
             self.tableView.reloadSections(IndexSet(integer: self.enterpriseSelected), with: animation)
@@ -193,7 +192,12 @@ extension AllReportsTableViewController : weekProtocol {
         super.didMove(toParentViewController: parent)
         self.navigationItem.titleView = nil
         if parent != nil && self.navigationItem.titleView == nil {
-            self.navigationItem.titleView = weeksTitleView.setWeeks(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!, controller: self)
+            weeksTitleView = weeksView(ctrl: self)
+            
+            weeksTitleView?.setTitle(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
+            
+            self.navigationItem.titleView = weeksTitleView
+            
             self.navigationItem.titleView?.isUserInteractionEnabled = true
         }
     }

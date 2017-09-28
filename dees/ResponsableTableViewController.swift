@@ -15,10 +15,9 @@ class ResponsableTableViewController: UITableViewController, UIGestureRecognizer
     var week: Week!
     override func viewDidLoad() {
         super.viewDidLoad()
-        if store.state.userState.user.rol != nil, store.state.userState.user.rol == .Superior {
+        if store.state.userState.user.permissions.contains(where: {$0.rid.rawValue >= 602}) {
             let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addUser))
             self.navigationItem.rightBarButtonItem = addButton
-            
         }
         self.hideKeyboardWhenTappedAround()
         tableView.tableFooterView = UIView(frame: .zero)
@@ -43,7 +42,7 @@ class ResponsableTableViewController: UITableViewController, UIGestureRecognizer
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = business.users[indexPath.item]
-        if store.state.userState.user.rol == .Superior || store.state.userState.user.id == user.id{
+        if store.state.userState.user.permissions.contains(where: {$0.rid.rawValue >= 602}) || store.state.userState.user.id == user.id {
             self.performSegue(withIdentifier: "reportSegue", sender: user)
         }
     }
@@ -71,7 +70,7 @@ class ResponsableTableViewController: UITableViewController, UIGestureRecognizer
         if editingStyle == .delete {
             // Delete the row from the data source
             let u = business.users[indexPath.row]
-            if store.state.userState.user.rol != nil, store.state.userState.user.rol == .Superior {
+            if store.state.userState.user.permissions.contains(where: {$0.rid.rawValue >= 602})  {
                 deleteUser(u,indexPath: indexPath)
             }
         }
@@ -97,10 +96,7 @@ class ResponsableTableViewController: UITableViewController, UIGestureRecognizer
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "reportSegue" {
-            let vc =  segue.destination as! ReportTableViewController
-            vc.user = sender as! User
-            vc.business = business
-            vc.week = week
+           
         }else if segue.identifier == "usersSegue" {
             let vc = segue.destination as! UsersTableViewController
             vc.enterprise = sender as! Business
@@ -112,7 +108,7 @@ extension ResponsableTableViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = AppState
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationItem.titleView = UIView().setTitle(title: business.name!, subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
+        self.navigationItem.titleView = titleNavBarView(title: business.name!, subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
         store.subscribe(self) {
             state in
             state

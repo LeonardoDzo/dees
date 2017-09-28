@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022CF0581F460129007EEF1C /* UsersTableViewController.swift */; };
+		02349B3A1F7999F5008684C7 /* enterpriseTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02349B391F7999F5008684C7 /* enterpriseTitleView.swift */; };
 		0238D2CE1F745D180009B1F0 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0238D2CC1F745D180009B1F0 /* UIImageView.swift */; };
 		0238D2CF1F745D180009B1F0 /* loadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0238D2CD1F745D180009B1F0 /* loadingView.swift */; };
 		0238D2D31F745D550009B1F0 /* firefly2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0238D2D21F745D550009B1F0 /* firefly2.gif */; };
@@ -28,18 +29,17 @@
 		025EB9AC1F350A730075611F /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9AB1F350A730075611F /* Business.swift */; };
 		025EB9AE1F35464F0075611F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9AD1F35464F0075611F /* Constants.swift */; };
 		025EB9B01F354B740075611F /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9AF1F354B740075611F /* UserService.swift */; };
-		0270079D1F547BCA0090616C /* ReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0270079C1F547BCA0090616C /* ReplyViewController.swift */; };
 		0271D4171F69CA4800727F28 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0271D4161F69CA4800727F28 /* UIImage.swift */; };
 		0272A3731F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0272A3721F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift */; };
 		0272A3751F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0272A3741F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift */; };
 		0279A4B61F4F55970085030D /* ResponsableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0279A4B51F4F55970085030D /* ResponsableTableViewController.swift */; };
-		0279A4B81F4F65F30085030D /* ReportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0279A4B71F4F65F30085030D /* ReportTableViewController.swift */; };
 		0279A4BC1F4F83620085030D /* AnexosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0279A4BB1F4F83620085030D /* AnexosTableViewController.swift */; };
 		0279A4BE1F4F84700085030D /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0279A4BD1F4F84700085030D /* ChildTableViewCell.swift */; };
 		027D911A1F3907A8007AB6D2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027D91191F3907A8007AB6D2 /* AuthService.swift */; };
 		027D911E1F393D37007AB6D2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027D911D1F393D37007AB6D2 /* ProfileViewController.swift */; };
 		027FE2261F3CF151005C6FF8 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2251F3CF151005C6FF8 /* Report.swift */; };
 		027FE2281F3CFB54005C6FF8 /* RerpotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2271F3CFB54005C6FF8 /* RerpotService.swift */; };
+		02991C871F7ADD84006148EF /* Persmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02991C861F7ADD84006148EF /* Persmission.swift */; };
 		02A3A4711F3A1D6F0048750E /* UIVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4701F3A1D6F0048750E /* UIVIew.swift */; };
 		02A3A4731F3A22450048750E /* UIViewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4721F3A22450048750E /* UIViewcontroller.swift */; };
 		02A3A4761F3A354D0048750E /* pirulen rg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02A3A4751F3A2D1F0048750E /* pirulen rg.ttf */; };
@@ -73,6 +73,7 @@
 
 /* Begin PBXFileReference section */
 		022CF0581F460129007EEF1C /* UsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
+		02349B391F7999F5008684C7 /* enterpriseTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enterpriseTitleView.swift; sourceTree = "<group>"; };
 		0238D2CC1F745D180009B1F0 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		0238D2CD1F745D180009B1F0 /* loadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loadingView.swift; sourceTree = "<group>"; };
 		0238D2D21F745D550009B1F0 /* firefly2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = firefly2.gif; sourceTree = "<group>"; };
@@ -95,18 +96,17 @@
 		025EB9AB1F350A730075611F /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		025EB9AD1F35464F0075611F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		025EB9AF1F354B740075611F /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		0270079C1F547BCA0090616C /* ReplyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyViewController.swift; sourceTree = "<group>"; };
 		0271D4161F69CA4800727F28 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		0272A3721F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseCollectionViewController.swift; sourceTree = "<group>"; };
 		0272A3741F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseCollectionViewCell.swift; sourceTree = "<group>"; };
 		0279A4B51F4F55970085030D /* ResponsableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponsableTableViewController.swift; sourceTree = "<group>"; };
-		0279A4B71F4F65F30085030D /* ReportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTableViewController.swift; sourceTree = "<group>"; };
 		0279A4BB1F4F83620085030D /* AnexosTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnexosTableViewController.swift; sourceTree = "<group>"; };
 		0279A4BD1F4F84700085030D /* ChildTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
 		027D91191F3907A8007AB6D2 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		027D911D1F393D37007AB6D2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		027FE2251F3CF151005C6FF8 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		027FE2271F3CFB54005C6FF8 /* RerpotService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RerpotService.swift; sourceTree = "<group>"; };
+		02991C861F7ADD84006148EF /* Persmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persmission.swift; sourceTree = "<group>"; };
 		02A3A4701F3A1D6F0048750E /* UIVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIVIew.swift; sourceTree = "<group>"; };
 		02A3A4721F3A22450048750E /* UIViewcontroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewcontroller.swift; sourceTree = "<group>"; };
 		02A3A4751F3A2D1F0048750E /* pirulen rg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pirulen rg.ttf"; sourceTree = "<group>"; };
@@ -155,9 +155,11 @@
 		0238D2D01F745D1D0009B1F0 /* extra */ = {
 			isa = PBXGroup;
 			children = (
+				02D4AE1A1F71F48700623406 /* SearchFooter.swift */,
 				0238D2CD1F745D180009B1F0 /* loadingView.swift */,
 				0243F3611F75D96500F85F8D /* titleNavBarView.swift */,
 				0243F3631F75E73C00F85F8D /* weeksView.swift */,
+				02349B391F7999F5008684C7 /* enterpriseTitleView.swift */,
 			);
 			name = extra;
 			sourceTree = "<group>";
@@ -208,7 +210,6 @@
 				025EB98E1F34F43F0075611F /* LaunchScreen.storyboard */,
 				025EB9911F34F43F0075611F /* Info.plist */,
 				025EB9AD1F35464F0075611F /* Constants.swift */,
-				02D4AE1A1F71F48700623406 /* SearchFooter.swift */,
 			);
 			path = dees;
 			sourceTree = "<group>";
@@ -253,6 +254,7 @@
 				027FE2251F3CF151005C6FF8 /* Report.swift */,
 				02E7AB1E1F3D32400037B7D1 /* Week.swift */,
 				02B974D11F465E2500884A82 /* File.swift */,
+				02991C861F7ADD84006148EF /* Persmission.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -327,9 +329,7 @@
 				02DAC0A11F4D02950063B08F /* EnterpriseViewViewController.swift */,
 				0272A3721F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift */,
 				0279A4B51F4F55970085030D /* ResponsableTableViewController.swift */,
-				0279A4B71F4F65F30085030D /* ReportTableViewController.swift */,
 				0279A4BB1F4F83620085030D /* AnexosTableViewController.swift */,
-				0270079C1F547BCA0090616C /* ReplyViewController.swift */,
 				02D4AE181F71E13300623406 /* EnterprisesTableViewController.swift */,
 			);
 			name = Controllers;
@@ -382,7 +382,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Leonardo Durazo";
 				TargetAttributes = {
 					025EB9811F34F43F0075611F = {
@@ -511,7 +511,8 @@
 				02DAC0A21F4D02950063B08F /* EnterpriseViewViewController.swift in Sources */,
 				02B5A21C1F670E07001CD113 /* preHomeCollectionViewCell.swift in Sources */,
 				0279A4BE1F4F84700085030D /* ChildTableViewCell.swift in Sources */,
-				0279A4B81F4F65F30085030D /* ReportTableViewController.swift in Sources */,
+				02991C871F7ADD84006148EF /* Persmission.swift in Sources */,
+				02349B3A1F7999F5008684C7 /* enterpriseTitleView.swift in Sources */,
 				02B974D41F4660F900884A82 /* FileViewViewController.swift in Sources */,
 				0238D2CF1F745D180009B1F0 /* loadingView.swift in Sources */,
 				0272A3751F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift in Sources */,
@@ -533,7 +534,6 @@
 				0272A3731F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift in Sources */,
 				027D911A1F3907A8007AB6D2 /* AuthService.swift in Sources */,
 				02E7AB191F3D1EE50037B7D1 /* ReportActions.swift in Sources */,
-				0270079D1F547BCA0090616C /* ReplyViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,7 +569,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -577,7 +579,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -619,7 +625,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -627,7 +635,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

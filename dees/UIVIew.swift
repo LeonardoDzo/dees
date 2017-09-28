@@ -9,23 +9,29 @@
 import Foundation
 import UIKit
 
-
 @objc
-protocol weekProtocol : class {
-    func tapRightWeek() -> Void
-    func tapLeftWeek() -> Void
-    var weekSelected : Int { get set}
+protocol weekDelegate {
     func changeWeek(direction: UISwipeGestureRecognizerDirection) -> Void
     func selectWeek() -> Void
+    func tapRightWeek() -> Void
+    func tapLeftWeek() -> Void
+}
+
+protocol weekProtocol : AnyObject, weekDelegate  {
+    var weeks: [Week] {get set}
+    var weekSelected : Int { get set}
 }
 
 @objc
-protocol EnterpriseProtocol : class {
+protocol EnterpriseDelegate {
     func tapRight() -> Void
     func tapLeft() -> Void
-    var  enterpriseSelected : Int { get set}
     func changeEnterprise(direction: UISwipeGestureRecognizerDirection) -> Void
     func selectEnterprise() -> Void
+}
+protocol EnterpriseProtocol : class, EnterpriseDelegate {
+    var  enterpriseSelected : Int { get set}
+    var enterprises: [Business] {get set}
 }
 
 
@@ -42,38 +48,7 @@ extension UIView {
 
         //self.layer.borderColor = #colorLiteral(red: 0.2431372549, green: 0.2705882353, blue: 0.3450980392, alpha: 1).cgColor
     }
-    func setTitle(title:String, subtitle:String) -> UIView {
-        let titleLabel = UILabel(frame:  CGRect(x:0,y:-2,width: 0,height: 0))
-        
-        titleLabel.backgroundColor = UIColor.clear
-        titleLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
-        titleLabel.text = title
-        titleLabel.sizeToFit()
-        
-        let subtitleLabel = UILabel(frame: CGRect(x:0,y:18,width: 0,height: 0))
-        subtitleLabel.backgroundColor = UIColor.clear
-        subtitleLabel.textColor = #colorLiteral(red: 0.5450980392, green: 0.8274509804, blue: 0.9764705882, alpha: 1)
-        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
-        subtitleLabel.text = subtitle
-        subtitleLabel.sizeToFit()
-        
-        let titleView = UIView(frame: CGRect(x:0, y:0, width: max(titleLabel.frame.size.width,subtitleLabel.frame.size.width), height:30))
-        titleView.addSubview(titleLabel)
-        titleView.addSubview(subtitleLabel)
-        
-        let widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
-        
-        if widthDiff < 0 {
-            let newX = widthDiff / 2
-            subtitleLabel.frame.origin.x = abs(newX)
-        } else {
-            let newX = widthDiff / 2
-            titleLabel.frame.origin.x = newX
-        }
-        
-        return titleView
-    }
+ 
     
     func titleOfEnterprise(section: Int, controller: AllReportsTableViewController) -> UIView {
         let view = UIView()
@@ -122,40 +97,5 @@ extension UIView {
         return view
 
     }
-    
-    func setWeeks(title:String, subtitle:String, controller: weekProtocol) -> UIView {
-        let tapRight = UITapGestureRecognizer(target: controller, action: #selector(controller.tapRightWeek))
-        
-        
-        let next = UIImageView()
-        next.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        next.image = #imageLiteral(resourceName: "foward").maskWithColor(color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1))
-        next.addGestureRecognizer(tapRight)
-        next.isUserInteractionEnabled = true
-        
-        
-        let left = UIImageView()
-        left.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        left.image = #imageLiteral(resourceName: "back").maskWithColor(color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1))
-        let tapLeft = UITapGestureRecognizer(target: controller, action: #selector(controller.tapLeftWeek))
-        left.addGestureRecognizer(tapLeft)
-        left.isUserInteractionEnabled = true
-        let view = self.setTitle(title: title, subtitle: subtitle)
-        let tap = UITapGestureRecognizer(target: controller, action: #selector(controller.selectWeek))
-        
-        view.addGestureRecognizer(tap)
-        view.isUserInteractionEnabled = true
-        let titleView = UIView(frame: CGRect(x:-20, y:0, width: view.frame.width+30, height:30))
-        next.frame.origin.x = view.frame.width + 15
-        left.frame.origin.x =  view.frame.origin.x - 15
-        view.frame.origin.x = (titleView.frame.width - view.frame.width)/2
-        titleView.addSubview(view)
-        titleView.addSubview(left)
-        titleView.addSubview(next)
-        titleView.isUserInteractionEnabled = true
-        return titleView
-        
-    }
-
    
 }

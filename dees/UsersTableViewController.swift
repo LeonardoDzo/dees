@@ -15,7 +15,7 @@ class UsersTableViewController: UITableViewController {
     var enterprise : Business!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.titleView = UIView().setTitle(title: "Usuarios", subtitle: "")
+        self.navigationItem.titleView = titleNavBarView(title: "Usuarios", subtitle: "")
         tableView.tableFooterView = UIView(frame: .zero)
         setupBack()
        

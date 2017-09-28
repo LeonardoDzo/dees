@@ -76,7 +76,7 @@ extension ViewController : StoreSubscriber {
 
             break
         case .Finished(let u as User):
-            if u.rol == .Superior {
+            if u.permissions.contains(where: {$0.rid.rawValue >= 602}) {
                 self.performSegue(withIdentifier: "preSegue", sender: u)
             }else{
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)

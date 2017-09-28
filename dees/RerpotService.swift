@@ -26,7 +26,7 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
         case .getByWeeks(let wid):
             return "Formats/Week/\(wid)/"
         case .getWeeks():
-            return "Weeks"
+            return "res/weeks"
         case .postReport:
             return "Formats"
         case .updateReport(let report):

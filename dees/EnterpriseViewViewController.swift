@@ -17,7 +17,7 @@ class EnterpriseViewViewController: UIViewController {
     @IBOutlet weak var editBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.titleView = UIView().setTitle(title: "Perfil", subtitle: "")
+        self.navigationItem.titleView = titleNavBarView(title: "Perfil", subtitle: "")
         setupBack()
         // Do any additional setup after loading the view.
     }
@@ -43,7 +43,7 @@ class EnterpriseViewViewController: UIViewController {
         }
         if enterprise.business.count > 0 {
             self.editBtn.isHidden = true
-        }else if store.state.userState.user.rol != .Superior {
+        }else if store.state.userState.user.permissions.contains(where: {$0.rid.rawValue >= 602})  {
             editBtn.isHidden = true
         }else{
             editBtn.isHidden = false

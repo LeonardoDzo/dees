@@ -20,11 +20,11 @@ enum EnterpriseService {
     
 }
 extension EnterpriseService: TargetType, AccessTokenAuthorizable {
-    var baseURL: URL { return URL(string: "\(Constants.ServerApi.url)Enterprises")! }
+    var baseURL: URL { return URL(string: "\(Constants.ServerApi.url)companies")! }
     var path: String {
         switch self {
         case .get(let id),.delete(let id):
-            return"/\(id)"
+            return"/\(id)/res/companies"
         case .getAll, .create:
             return ""
         case .addUserAt:

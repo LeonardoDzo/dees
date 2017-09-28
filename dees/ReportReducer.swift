@@ -89,9 +89,7 @@ struct ReportReducer  {
             switch result {
             case .success(let response):
                 do {
-                    let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                    let array : NSArray = repos.value(forKey: "weeks") as! NSArray
-                    
+                    let array : NSArray = try response.mapJSON() as! NSArray
                     let weeks = Week.from(array) ?? []
                     store.state.reportState.weeks = weeks
                     store.state.reportState.status = .none

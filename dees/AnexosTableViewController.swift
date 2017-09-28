@@ -12,7 +12,7 @@ class AnexosTableViewController: UITableViewController {
     var report: Report!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.titleView = UIView().setTitle(title: "Reporte", subtitle: "")
+        self.navigationItem.titleView = titleNavBarView(title: "Reporte", subtitle: "")
         tableView.tableFooterView = UIView(frame: .zero)
         setupBack()
     }

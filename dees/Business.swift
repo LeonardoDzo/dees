@@ -17,8 +17,7 @@ struct Business : Mappable {
     static let kChilds = "children"
     static let kUsers = "users"
     static let kId = "id"
-    static let kType = "type"
-    static let kExt = "extend"
+    static let kExt = "parentId"
     
     var id: Int!
     var name: String?
@@ -27,7 +26,7 @@ struct Business : Mappable {
     var business = [Business]()
     var type : Int?
     var users = [User]()
-    var ext: Int?
+    var parentId: Int?
     init() {
         name = ""
         phtoUrl = ""
@@ -36,14 +35,24 @@ struct Business : Mappable {
     }
 
     init(map: Mapper) throws {
+        if let dic : NSDictionary = map.optionalFrom("company") {
+            try self.myInfo(map: Mapper(JSON: dic))
+           
+            self.users = map.optionalFrom(Business.kUsers) ?? []
+
+        }else{
+            try self.myInfo(map:  map)
+        }
+       
+    }
+    
+    mutating func myInfo(map: Mapper) throws -> Void {
         try self.id = map.from(Business.kId)
         try self.name = map.from(Business.kName)
         self.phtoUrl = map.optionalFrom(Business.kPhotoURl)
         self.color = map.optionalFrom(Business.kColor)
-        self.type = map.optionalFrom(Business.kType) ?? 0
-        self.business = map.optionalFrom(Business.kChilds) ?? []
-        self.users = map.optionalFrom(Business.kUsers) ?? []
-        self.ext = map.optionalFrom(Business.kExt) ?? nil
+        
+        self.parentId = map.optionalFrom(Business.kExt) ?? nil
     }
     
     func toDictionary() -> NSDictionary {
@@ -51,10 +60,9 @@ struct Business : Mappable {
             Business.kName : self.name ?? "",
             Business.kPhotoURl : self.phtoUrl ?? "",
             Business.kColor : self.color ?? "",
-            Business.kType : self.type ?? 1,
             Business.kUsers : self.users.map({$0.toDictionary()}),
             Business.kChilds: self.business.map({$0.toDictionary()}),
-            Business.kExt : self.ext ?? nil
+            Business.kExt : self.parentId ?? nil
         ]
     }
     

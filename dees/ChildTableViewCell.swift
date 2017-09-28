@@ -96,7 +96,7 @@ extension ChildTableViewCell: UITableViewDelegate, UITableViewDataSource {
         }
         let delete = UITableViewRowAction(style: .destructive, title: "Eliminar") { action, index in
             let e = self.data.business[(index.row)]
-            if store.state.userState.user.rol == .Superior {
+            if store.state.userState.user.permissions.contains(where: {$0.rid.rawValue >= 602})  {
                 store.dispatch(baction.Delete(id: e.id))
             }
         }

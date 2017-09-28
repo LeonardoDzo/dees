@@ -112,11 +112,8 @@ extension EnterprisesTableViewController : StoreSubscriber {
     }
     func newState(state: BusinessState) {
         self.user = store.state.userState.user
-        self.enterprises = user.rol == .Superior ? state.business.filter({$0.type == store.state.userState.type}) : state.business.filter({b in
-            return user.bussiness.contains(where: {ub in
-                return b.id == ub.id || b.business.contains(where: {$0.id == ub.id})
-            })
-        })
+        self.enterprises = state.business.count > 0 ? state.business.first(where: {$0.id == 1})?.business ?? [] : store.state.userState.user.bussiness
+        
         var count = -1
         self.enterprises.enumerated().forEach({
             index, b in

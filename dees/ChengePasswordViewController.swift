@@ -19,7 +19,7 @@ class ChengePasswordViewController: UIViewController {
     @IBOutlet weak var cardView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.titleView = UIView().setTitle(title: "Cambiar Contraseña", subtitle: "")
+        self.navigationItem.titleView = titleNavBarView(title: "Cambiar Contraseña", subtitle: "")
         setupBack()
     }
 

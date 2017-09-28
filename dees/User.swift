@@ -10,35 +10,42 @@ import Foundation
 import UIKit
 import Mapper
 enum Rol: Int {
-    case Normal, Superior
+    case Operative = 601,
+         Director,
+         CEO
 }
 
 struct User : Mappable {
     static let kName = "name"
     static let kEmail = "email"
     static let kRol = "role"
-    static let kBusiness = "enterprises"
+    static let kBusiness = "companies"
+    static let kPermission = "permissions"
     
     var id: Int?
     var name: String?
     var email: String?
-    var rol: Rol? = .Superior
     var bussiness = [Business]()
-
+    
+    var permissions = [Permission]()
     init(map: Mapper) throws {
+        if let userDic : NSDictionary = map.optionalFrom("user") {
+           try self.userInfo(map: Mapper(JSON: userDic))
+        }
+        self.permissions = map.optionalFrom(User.kPermission) ?? []
+        self.bussiness = map.optionalFrom(User.kBusiness) ?? []
+        
+    }
+    mutating func userInfo(map: Mapper) throws -> Void {
         try self.id = map.from("id")
         try self.email = map.from(User.kEmail)
         try self.name = map.from(User.kName)
-
-        self.rol = Rol(rawValue: map.optionalFrom(User.kRol) ?? 0 )
-        self.bussiness = map.optionalFrom(User.kBusiness) ?? []
     }
     init() {
     }
     func toDictionary() -> NSDictionary {
         return [User.kEmail: self.email ?? "",
-                User.kName: self.name ?? "",
-            User.kRol : self.rol?.rawValue ?? 0]
+                User.kName: self.name ?? ""]
     }
     
 }

@@ -11,8 +11,8 @@ import Mapper
 
 struct Week : Mappable {
     static let kid = "id"
-    static let kstartDate = "start_date"
-    static let kendDate = "end_date"
+    static let kstartDate = "startTime"
+    static let kendDate = "endTime"
     
     var id: Int!
     var startDate: String!
@@ -22,5 +22,8 @@ struct Week : Mappable {
         try id = map.from(Week.kid)
         try startDate = map.from(Week.kstartDate)
         try endDate = map.from(Week.kendDate)
+        
+        startDate = startDate.components(separatedBy: "T").first
+        endDate = endDate.components(separatedBy: "T").first
     }
 }

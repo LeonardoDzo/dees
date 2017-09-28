@@ -52,7 +52,7 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         if enterprise == nil {
             return 0
         }
-        if store.state.userState.user.rol == .Superior {
+        if 1 == 1 {
             self.users = enterprise.users
         }else{
             self.users = enterprise.users.filter({ u in

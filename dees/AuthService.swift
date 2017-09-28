@@ -18,7 +18,7 @@ extension AuthService: TargetType, AccessTokenAuthorizable {
     var path: String {
         switch self {
         case .login(_,_):
-            return "auth/login"
+            return "auth/"
         }
     }
     var method: Moya.Method {

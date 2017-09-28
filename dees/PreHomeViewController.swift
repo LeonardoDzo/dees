@@ -10,13 +10,14 @@ import UIKit
 
 class PreHomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    
+    var enterprises = [Business]()
     override func viewDidLoad() {
         super.viewDidLoad()
        NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
-        if store.state.userState.user.rol != .Superior {
+        enterprises =  store.state.userState.user.bussiness.filter({$0.parentId == nil })
+        if enterprises.count == 0 {
             self.performSegue(withIdentifier: "infoSegue", sender: nil)
         }
     }
@@ -52,11 +53,13 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         return 1
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return enterprises.count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath) as! preHomeCollectionViewCell
-        if indexPath.item == 1 {
+        let e = enterprises[indexPath.row]
+        if e.id == 2 {
             cell.backgroundImg.image = #imageLiteral(resourceName: "background-gde")
             cell.mainLogo.image = #imageLiteral(resourceName: "gde")
         }
@@ -71,11 +74,11 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         var width = 0
         //entra al if si el celular esta de lado o acostado
         if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown  || UIDevice.current.orientation == .faceDown || UIDevice.current.orientation == .faceUp{
-            height = Int((self.collectionView?.frame.height)!/CGFloat(2))
+            height = Int((self.collectionView?.frame.height)!/CGFloat(enterprises.count))
             width = Int((self.collectionView?.frame.width)!)
         }else{
             height = Int((self.collectionView?.frame.height)!)
-            width = Int((self.collectionView?.frame.width)!/CGFloat(2))
+            width = Int((self.collectionView?.frame.width)!/CGFloat(enterprises.count))
         }
         
         return CGSize(width: width, height: height)

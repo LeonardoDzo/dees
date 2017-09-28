@@ -77,7 +77,7 @@ struct BusinessReducer {
                         enterprises.enumerated().forEach({i,b in
                             b.business.enumerated().forEach({ i2,b2 in
                                 enterprises[i].business[i2].color = b.color
-                                })
+                            })
                         })
                         store.state.businessState.business = enterprises
                         store.state.businessState.status = .none
@@ -100,25 +100,33 @@ struct BusinessReducer {
                 case .success(let response):
                     do {
                         let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                        let dic = repos.value(forKey: "enterprise") as! NSDictionary
-                        var enterprise = Business.from(dic)
-                        store.state.businessState.business.enumerated().forEach({
-                            index, b in
-                            if b.id == enterprise?.id {
-                                store.state.businessState.business[index] = enterprise!
+                        let array : NSArray = repos.value(forKey: "companies") as! NSArray
+                        var enterprises = Business.from(array) ?? []
+                        
+                        enterprises.enumerated().forEach({i,b in
+                            if b.id == id {
+                                enterprises[i].business = enterprises.filter({$0.parentId == id})
                                 return
-                            }else{
-                                b.business.enumerated().forEach({
-                                    i2, b2 in
-                                    enterprise?.color = b.color
-                                    if b2.id == enterprise?.id {
-                                        store.state.businessState.business[index].business[i2] = enterprise!
-                                        return
-                                    }
-                                })
                             }
-                            
                         })
+                        enterprises.first(where: {$0.id == id})?.business.forEach({ b in
+                            if let index = enterprises.index(where: {$0.id == b.id}) {
+                                enterprises.remove(at: index)
+                            }
+                        })
+                        enterprises.filter({$0.id != id}).forEach({ b in
+                            if let index = enterprises.first(where: {$0.id == id})?.business.index(where: {$0.id == b.parentId}){
+                               enterprises[0].business[index].business.append(b)
+                            }
+                        })
+                        
+                        enterprises = enterprises.filter({$0.id == id})
+                        if !store.state.businessState.business.contains(where: {$0.id == enterprises.first?.id}){
+                            store.state.businessState.business.append((enterprises.first)!)
+                        }else if let index = store.state.businessState.business.index(where: {$0.id == enterprises.first?.id}) {
+                            store.state.businessState.business[index] = enterprises.first!
+                        }
+                       
                         store.state.businessState.status = .none
                     } catch MoyaError.jsonMapping(let error) {
                         print(error )
@@ -232,7 +240,7 @@ struct BusinessReducer {
                     let enterprise = Business.from(repos)
                     print(repos)
                     if response.statusCode == 201 {
-                        if let index = store.state.businessState.business.index(where: {$0.id == ent.ext!}) {
+                        if let index = store.state.businessState.business.index(where: {$0.id == ent.parentId!}) {
                             store.state.businessState.business[index].business.append(enterprise!)
                         }
                         store.dispatch(baction.AddUser(uid: store.state.userState.user.id!, bid: (enterprise?.id)!))
@@ -245,7 +253,7 @@ struct BusinessReducer {
                 } catch {
                     print(":(")
                 }
-
+                
                 break
             case .failure(let error):
                 print(error)
