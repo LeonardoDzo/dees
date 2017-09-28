@@ -106,9 +106,6 @@ extension ReportBindible {
         guard let report = report else {
             return
         }
-        guard let week = store.state.reportState.weeks.first(where: {$0.id == report.wid}) else {
-            return
-        }
         if let operativeTxv = self.operativeTxv {
             operativeTxv.text = report.operative ?? ""
             if store.state.userState.user.id != report.uid {
@@ -119,12 +116,7 @@ extension ReportBindible {
         }
         if let observationsTxv = self.observationsTxv {
             observationsTxv.text = report.observations ?? ""
-            if store.state.userState.user.permissions.contains(where: { p in
-                if p.cid == 1 {
-                    return true
-                }
-                return false
-            }) {
+            if store.state.userState.user.permissions.contains(where: {$0.rid.rawValue > 601 }) {
                 observationsTxv.isEditable = true
             }else{
                 observationsTxv.isHidden = true
@@ -133,7 +125,7 @@ extension ReportBindible {
         }
         if let financialTxv = self.financialTxv {
             financialTxv.text = report.financial ?? ""
-            if store.state.userState.user.permissions.contains(where: {($0.rid == .Operative || $0.rid == .CEO) && $0.cid == report.eid}) {
+            if report.uid == store.state.userState.user.id {
                 financialTxv.isEditable = false
             }else{
                 financialTxv.isEditable = true
@@ -141,7 +133,7 @@ extension ReportBindible {
         }
         if let replySwt = self.replySwt {
             replySwt.isOn = report.reply ?? false
-            if true {
+            if report.uid == store.state.userState.user.id {
                 replySwt.isEnabled = true
             }else{
                 replySwt.isEnabled = false

@@ -19,7 +19,7 @@ struct ReportReducer  {
         switch action {
         case let action as rAction.Get:
                 state.status = .loading
-                getReports(by: action.wid, eid: action.eid)
+                getReports(by: action.wid, eid: action.eid, uid: action.uid)
             break
         case is wAction.Get:
             if !token.isEmpty {
@@ -39,11 +39,11 @@ struct ReportReducer  {
         return state
     }
     
-    func getReports(by wid: Int?, eid: Int? = nil) -> Void {
+    func getReports(by wid: Int?, eid: Int? = nil, uid: Int? = nil) -> Void {
         var request : ReportService!
         
         if eid != nil {
-            request = ReportService.get(wid: wid!, eid: eid!)
+            request = ReportService.get(wid: wid!, eid: eid!, uid: uid!)
         }else if wid != nil {
             request = ReportService.getByWeeks(wid: wid!)
         }else {
@@ -56,7 +56,11 @@ struct ReportReducer  {
             case .success(let response):
                 do {
                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                    let array : NSArray = repos.value(forKey: "formats") as! NSArray
+                    guard let array : NSArray = repos.value(forKey: "formats") as? NSArray else {
+                        store.state.reportState.status = .failed
+                        store.state.reportState.status = .none
+                        return
+                    }
                     
                     let reports = Report.from(array) ?? []
                     reports.forEach({ report in

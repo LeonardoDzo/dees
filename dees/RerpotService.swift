@@ -9,7 +9,7 @@
 import Foundation
 import Moya
 enum ReportService {
-    case get(wid: Int, eid: Int)
+    case get(wid: Int, eid: Int, uid: Int)
     case getByWeeks(wid: Int)
     case postReport(report: Report)
     case updateReport(report: Report)
@@ -21,8 +21,8 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
     
     var path: String {
         switch self {
-        case .get(let wid, let eid):
-            return "Formats/Week/\(wid)/Enterprise/\(eid)"
+        case .get(let wid, let eid, let uid):
+            return "companies/\(eid)/res/reports/search/\(uid)/\(wid)"
         case .getByWeeks(let wid):
             return "Formats/Week/\(wid)/"
         case .getWeeks():

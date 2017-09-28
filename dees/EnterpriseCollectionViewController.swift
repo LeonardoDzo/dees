@@ -10,9 +10,9 @@ import UIKit
 import AnimatableReload
 import ReSwift
 private let reuseIdentifier = "Cell"
-fileprivate var enterprisesNav = [[Business]]()
+
 class EnterpriseCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
-   
+    var enterprisesNav = [[Business]]()
     var type: Int!
     var week: Week!
     var user: User!
@@ -316,7 +316,6 @@ extension EnterpriseCollectionViewController {
         enterprisesNav.removeLast()
         AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "right")
         setupNavBar()
-        
     }
 
 }

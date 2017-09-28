@@ -1,4 +1,4 @@
-//
+ //
 //  PreHomeViewController.swift
 //  dees
 //
@@ -7,46 +7,55 @@
 //
 
 import UIKit
-
+import ReSwift
+import Whisper
+protocol preHomeProtocol : class {
+    var section : Int {get set}
+    func handleClick(sender: Int) -> Void
+}
+var enterprisesNav = [[Business]]()
 class PreHomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    
+    var section = 0
     var enterprises = [Business]()
     override func viewDidLoad() {
         super.viewDidLoad()
        NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
-        enterprises =  store.state.userState.user.bussiness.filter({$0.parentId == nil })
+        enterprises =  store.state.businessState.business.count > 0 ? store.state.businessState.business.sorted(by: {$0.id < $1.id}) : store.state.userState.user.bussiness.filter({$0.parentId == nil })
         if enterprises.count == 0 {
             self.performSegue(withIdentifier: "infoSegue", sender: nil)
+            return
+        }
+        store.subscribe(self) {
+            $0.select({ subscription in
+                subscription.businessState
+            })
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    @IBAction func handleTouch(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "infoSegue", sender: 1)
-    }
-
-    @IBAction func handleTouchGDE(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "infoSegue", sender: 2)
-    }
-    @IBOutlet weak var handleGDETouch: UIButton!
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "infoSegue" {
             let tb = segue.destination as! UITabBarController
-            if let nb = tb.childViewControllers[0] as? UINavigationController {
+            tb.selectedIndex = section
+            enterprisesNav.removeAll()
+            enterprisesNav.append(enterprises)
+            if let nb  = tb.childViewControllers[0] as? UINavigationController {
                 if let vc = nb.childViewControllers[0] as? EnterpriseCollectionViewController {
-                    vc.type = sender as! Int
+                    vc.type = sender  as! Int + 1
+                }else  if let vc = nb.childViewControllers[0] as? AllReportsTableViewController {
+                    vc.type = sender as! Int + 1
+                    
                 }
             }
+           
         }
     }
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -59,9 +68,14 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath) as! preHomeCollectionViewCell
         let e = enterprises[indexPath.row]
+        cell.tag = indexPath.row
+        cell.prehome = self
         if e.id == 2 {
             cell.backgroundImg.image = #imageLiteral(resourceName: "background-gde")
             cell.mainLogo.image = #imageLiteral(resourceName: "gde")
+        }else{
+            cell.backgroundImg.image = #imageLiteral(resourceName: "background-opessa")
+            cell.mainLogo.image = #imageLiteral(resourceName: "opessa-1")
         }
         
         return cell
@@ -74,7 +88,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         var width = 0
         //entra al if si el celular esta de lado o acostado
         if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown  || UIDevice.current.orientation == .faceDown || UIDevice.current.orientation == .faceUp{
-            height = Int((self.collectionView?.frame.height)!/CGFloat(enterprises.count))
+            height = Int(((self.collectionView?.frame.height)!)/CGFloat(enterprises.count) )
             width = Int((self.collectionView?.frame.width)!)
         }else{
             height = Int((self.collectionView?.frame.height)!)
@@ -94,5 +108,35 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         
     }
 
+ }
+extension PreHomeViewController : preHomeProtocol {
+    func handleClick(sender: Int) {
+        enterprises = enterprises[sender].business
+        self.performSegue(withIdentifier: "infoSegue", sender: sender)
+    }
 
 }
+ extension PreHomeViewController: StoreSubscriber {
+    typealias StoreSubscriberStateType = BusinessState
+    func newState(state: BusinessState) {
+        
+        switch state.status {
+        case .loading, .failed:
+            self.view.isUserInteractionEnabled = false
+            break
+        
+        case .finished:
+            self.enterprises = state.business.sorted(by: {$0.id < $1.id})
+            self.view.isUserInteractionEnabled = true
+            collectionView?.reloadData()
+            break
+        default:
+            break
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        store.unsubscribe(self)
+        //Whisper.hide(whisperFrom: self.navigationController!)
+    }
+ }

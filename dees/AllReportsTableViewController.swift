@@ -101,7 +101,7 @@ extension AllReportsTableViewController : StoreSubscriber {
     }
     override func viewDidAppear(_ animated: Bool) {
         changeEnterprise(direction: .down)
-        tableView.reloadSections(IndexSet(integer: enterpriseSelected), with: .automatic)
+        update(isFinished: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -116,7 +116,7 @@ extension AllReportsTableViewController : StoreSubscriber {
             update(isFinished: true)
             break
         case .failed:
-            update(isFinished: false)
+            update(isFinished: true)
             break
         default:
             break
@@ -136,20 +136,22 @@ extension AllReportsTableViewController : StoreSubscriber {
         if enterprises.count == 0 {
             enterprises.removeAll()
             self.enterprises = store.state.businessState.business.count > 0 ? store.state.businessState.business.first(where: {$0.id == type})?.business ?? [] : store.state.userState.user.bussiness
-        }
-        var count = -1
-        self.enterprises.enumerated().forEach({
-            index, b in
-            count += 1
-            b.business.enumerated().forEach( {
-                i, b1 in
+            var count = -1
+            self.enterprises.enumerated().forEach({
+                index, b in
                 count += 1
-                self.enterprises.insert(b1, at: count)
+                b.business.enumerated().forEach( {
+                    i, b1 in
+                    count += 1
+                    self.enterprises.insert(b1, at: count)
+                })
             })
-        })
+            tableView.reloadData()
+        }
+        
         self.weeks = store.state.reportState.weeks
         didMove(toParentViewController: self)
-        tableView.reloadData()
+        
         update(isFinished: false)
         
     }

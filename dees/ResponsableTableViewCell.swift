@@ -52,15 +52,10 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         if enterprise == nil {
             return 0
         }
-        if 1 == 1 {
-            self.users = enterprise.users
+        if store.state.businessState.business.count == 0 {
+            self.users = [store.state.userState.user]
         }else{
-            self.users = enterprise.users.filter({ u in
-                if u.id ==   store.state.userState.user.id {
-                    return true
-                }
-                return false
-            })
+            self.users = enterprise.users
         }
         
         return users.count
@@ -121,7 +116,7 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
             }
         }else {
             self.loadingView.start()
-            store.dispatch(ReportsAction.Get(eid: enterprise.id, wid: self.tag))
+            store.dispatch(ReportsAction.Get(eid: enterprise.id, wid: self.tag, uid: users[indexPath.section].id))
         }
     }
     

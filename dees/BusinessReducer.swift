@@ -126,7 +126,7 @@ struct BusinessReducer {
                         }else if let index = store.state.businessState.business.index(where: {$0.id == enterprises.first?.id}) {
                             store.state.businessState.business[index] = enterprises.first!
                         }
-                       
+                        store.state.businessState.status = .finished
                         store.state.businessState.status = .none
                     } catch MoyaError.jsonMapping(let error) {
                         print(error )

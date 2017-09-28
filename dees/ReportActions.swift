@@ -16,9 +16,11 @@ struct ReportsAction {
     struct Get : Action {
         var eid: Int!
         var wid: Int!
-        init(eid: Int? = nil, wid: Int) {
+        var uid: Int!
+        init(eid: Int? = nil, wid: Int, uid: Int? = nil) {
             self.eid = eid
             self.wid = wid
+            self.uid = uid
         }
     }
     

@@ -59,7 +59,7 @@ class enterpiseTitleView: UIView {
         leftView.frame.origin.x = 10
         nextView.frame.origin.x = frame.width - 30
        
-        backgroundColor = UIColor.clear
+        backgroundColor = #colorLiteral(red: 0.06047932059, green: 0.07674958557, blue: 0.1134311184, alpha: 1)
         if ctrl.enterprises.count == 1 {
             nextView.isHidden = false
             leftView.isHidden = false
