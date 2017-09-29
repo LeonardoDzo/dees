@@ -8,6 +8,7 @@
 
 import UIKit
 import ReSwift
+import Whisper
 class AllReportsTableViewController: UITableViewController {
     var enterprises = [Business]()
     var type : Int!
@@ -106,6 +107,7 @@ extension AllReportsTableViewController : StoreSubscriber {
     
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
+        Whisper.hide(whisperFrom: self.navigationController!)
     }
     
     func newState(state: ReportState) {
@@ -113,9 +115,11 @@ extension AllReportsTableViewController : StoreSubscriber {
         case .loading:
             break
         case .finished:
+            Whisper.show(whistle: messages.succes_01, action: .show(2.5))
             update(isFinished: true)
             break
         case .failed:
+            
             update(isFinished: true)
             break
         default:
@@ -228,6 +232,9 @@ extension AllReportsTableViewController : EnterpriseProtocol {
         
     }
     func selectEnterprise() {
-        self.pushToView(view: .enterprises)
+        if enterprises.count >  1 {
+             self.pushToView(view: .enterprises, sender: type)
+        }
+       
     }
 }

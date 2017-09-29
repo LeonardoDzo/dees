@@ -19,10 +19,13 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
     @IBOutlet weak var filesOp: UIButton!
     @IBOutlet weak var replyF: UIButton!
     @IBOutlet weak var replyOp: UIButton!
-    
+    @IBOutlet weak var observationTitle: UIStackView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        operativeTxv.delegate = self
+        financialTxv.delegate = self
+        observationsTxv.delegate = self
         // Initialization code
     }
 
@@ -30,6 +33,7 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
+ 
     func textViewDidEndEditing(_ textView: UITextView) {
         switch textView {
         case operativeTxv:
@@ -44,11 +48,10 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         default:
             break
         }
-        
+        update()
     }
     
     func update() -> Void {
-        report.reply = true
         store.dispatch(ReportsAction.Post(report: report))
     }
 }

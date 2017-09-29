@@ -29,7 +29,7 @@ class preHomeCollectionViewCell: UICollectionViewCell {
    
     @IBAction func handleClickReports(_ sender: UIButton) {
         print("click on reports \(self.tag)")
-        prehome.section = 2
+        prehome.section = 1
         prehome.handleClick(sender: self.tag)
     }
     @IBAction func handleClickPendinngs(_ sender: Any) {

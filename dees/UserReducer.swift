@@ -169,7 +169,6 @@ struct UserReducer {
                 }
                 break
             case .failure(let error):
-                print(error)
                 break
             }
         })
@@ -179,6 +178,9 @@ struct UserReducer {
         UserDefaults().removeObject(forKey: "token")
         UserDefaults().removeObject(forKey: "email")
         UserDefaults().removeObject(forKey: "password")
+        store.state.businessState = BusinessState(business: [], status: .none)
+        store.state.reportState = ReportState(reports: [], weeks: [], status: .none)
+        store.state.userState = UserState(user: nil, type: 0, users: [], status: .none)
     }
 }
 

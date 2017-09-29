@@ -87,6 +87,11 @@ extension UIViewController {
         switch viewcontroller {
         case _ as WeeksTableViewController:
             break
+        case let vc as EnterprisesTableViewController:
+            if sender != nil {
+                 vc.type = sender as! Int
+            }
+            break
         case let vc as AllReportsTableViewController:
             if sender is Business {
                 vc.enterprises = [sender as! Business]

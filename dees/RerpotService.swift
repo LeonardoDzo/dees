@@ -30,7 +30,7 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
         case .postReport:
             return "Formats"
         case .updateReport(let report):
-            return "Formats/\(report.id!)"
+            return "companies/\(report.eid)/res/reports/\(report.id!)"
         }
     }
     var method: Moya.Method {

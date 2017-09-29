@@ -65,7 +65,8 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RerportTableViewCell
-        let uid = enterprise.users[indexPath.section].id
+
+        let uid = users[indexPath.section].id
         cell.report = reports.first(where: { $0.uid == uid})
         cell.bind()
         print(self.tag)
@@ -78,7 +79,7 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         view.tintColor = #colorLiteral(red: 0.08339247853, green: 0.1178589687, blue: 0.1773400605, alpha: 1)
         view.backgroundColor = #colorLiteral(red: 0.08339247853, green: 0.1178589687, blue: 0.1773400605, alpha: 1)
         let lbl = UILabel()
-        lbl.text = enterprise.users[section].name
+        lbl.text = users[section].name
         lbl.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         lbl.backgroundColor = #colorLiteral(red: 0, green: 0.3994623721, blue: 0.3697786033, alpha: 1)
         lbl.frame = CGRect(x: 0, y: 12, width: Int(self.tableView.frame.width), height: 44)
@@ -95,12 +96,12 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown  || UIDevice.current.orientation == .faceDown || UIDevice.current.orientation == .faceUp{
             return 575
         }
-        return enterprise.users.count > 1 ? 575 : 860
+        return users.count > 1 ? 575 : 860
     }
     
     func seen(_ indexPath: IndexPath) -> Void {
         self.loadingView.stop()
-        if enterprise.users.count == 0 {
+        if users.count == 0 {
             return
         }
         guard let cell = tableView.cellForRow(at: indexPath) as? RerportTableViewCell else{
@@ -108,8 +109,8 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         }
         
         if avaible {
-            if cell.report == nil || !cell.report.reply!  {
-                let uid = enterprise.users[indexPath.section].id
+            if cell.report == nil || !cell.report.seens.contains(where: {$0.userId == store.state.userState.user.id }) {
+                let uid = users[indexPath.section].id
                 cell.report = reports.first(where: { $0.uid == uid}) ?? Report(uid: uid!, eid: enterprise.id, wid: self.tag)
                 cell.bind()
                 cell.update()

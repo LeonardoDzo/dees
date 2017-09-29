@@ -10,6 +10,7 @@ import UIKit
 import ReSwift
 class EnterprisesTableViewController: UITableViewController {
     var user: User!
+    var type = 1
     var enterprises = [Business]()
     var filtered = [Business]()
     let searchController = UISearchController(searchResultsController: nil)
@@ -112,7 +113,7 @@ extension EnterprisesTableViewController : StoreSubscriber {
     }
     func newState(state: BusinessState) {
         self.user = store.state.userState.user
-        self.enterprises = state.business.count > 0 ? state.business.first(where: {$0.id == 1})?.business ?? [] : store.state.userState.user.bussiness
+        self.enterprises = state.business.count > 0 ? state.business.first(where: {$0.id == type})?.business ?? [] : store.state.userState.user.bussiness
         
         var count = -1
         self.enterprises.enumerated().forEach({

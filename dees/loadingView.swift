@@ -50,7 +50,7 @@ class LoadingView: UIView {
         }
     }
     fileprivate func show() {
-        UIView.animate(withDuration: 0.1) {[unowned self] in
+        UIView.animate(withDuration: 0.7) {[unowned self] in
             self.alpha = 1.0
         }
     }

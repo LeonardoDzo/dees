@@ -10,17 +10,39 @@ import Foundation
 import Mapper
 import UIKit
 
+struct seen : Mappable {
+    static let kid = "id"
+    static let kseenAt = "seenAt"
+    static let kuserId = "userId"
+    
+    var id : Int!
+    var seenAt: String!
+    var userId: Int!
+    
+    init() {
+        self.id = 0
+        self.seenAt = ""
+        self.userId = 0
+    }
+    
+    init(map: Mapper) throws {
+        try self.userId = map.from(seen.kuserId)
+        try self.seenAt = map.from(seen.kseenAt)
+        try self.id = map.from(seen.kid)
+    }
+}
+
 struct Report : Mappable {
     typealias r = Report
     static let kid = "id"
     static let koperative = "operative"
-    static let kfinancial = "finance"
-    static let kweekId = "id_week"
-    static let kobservations = "observations"
-    static let kenterpriseId = "id_enterprise"
-    static let kuserId = "id_user"
+    static let kfinancial = "financial"
+    static let kweekId = "weekId"
+    static let kobservations = "observation"
+    static let kenterpriseId = "companyId"
+    static let kuserId = "userId"
     static let kreply = "reply"
-    static let kreply_txt = "reply_txt"
+    static let kseens = "seen"
     static let kfiles = "files"
     
     var id: Int!
@@ -34,17 +56,15 @@ struct Report : Mappable {
     /// User id
     var uid: Int!
     var files = [File]()
-    var reply: Bool? = false
-    var replyTxt: String?
+    var seens = [seen]()
+    
     init(uid: Int, eid: Int, wid: Int) {
-        operative = "No existe"
-        financial = "No existe"
-        observations = "No contiene Observaciones"
+        operative = ""
+        financial = ""
+        observations = ""
         self.eid = eid
         self.wid = wid
         self.uid = uid
-        replyTxt = ""
-        reply = true
     }
     
     init(map: Mapper) throws {
@@ -55,8 +75,7 @@ struct Report : Mappable {
         observations = map.optionalFrom(r.kobservations)
         try eid = map.from(r.kenterpriseId)
         try uid = map.from(r.kuserId)
-        reply = map.optionalFrom(r.kreply)
-        replyTxt = map.optionalFrom(r.kreply_txt)
+        seens = map.optionalFrom(r.kseens) ?? []
         files = map.optionalFrom(r.kfiles) ?? []
     }
     func toDictionary() -> NSDictionary {
@@ -65,10 +84,8 @@ struct Report : Mappable {
             r.kfinancial : self.financial ?? "No existe financiero",
             r.kobservations : self.observations ?? "No existe observaciones",
             r.koperative : self.operative ?? "No existe operativo",
-            r.kreply : self.reply ?? false,
             r.kuserId: self.uid,
-            r.kweekId: self.wid,
-            r.kreply_txt: self.replyTxt ?? ""
+            r.kweekId: self.wid
         ]
     }
 }
@@ -78,24 +95,24 @@ protocol ReportBindible: AnyObject {
     var operativeTxv: UITextView! {get}
     var observationsTxv: UITextView! {get}
     var financialTxv: UITextView! {get}
-    var replySwt: UISwitch! {get}
     var anexosLbl: UILabel! {get}
     var replyF: UIButton! {get}
     var replyOp: UIButton! {get}
     var filesF: UIButton! {get}
     var filesOp: UIButton! {get}
+    var observationTitle : UIStackView! {get}
 }
 
 extension ReportBindible {
     var operativeTxv: UITextView! {return nil}
     var observationsTxv: UITextView! {return nil}
     var financialTxv: UITextView! {return nil}
-    var replySwt: UISwitch! {return nil}
     var anexosLbl: UILabel! {return nil}
     var replyF: UIButton! {return nil}
     var replyOp: UIButton! {return nil}
     var filesF: UIButton! {return nil}
     var filesOp: UIButton! {return nil}
+    var observationTitle : UIStackView! {return nil}
     
     func bind(by report: Report) -> Void {
         self.report = report
@@ -123,22 +140,20 @@ extension ReportBindible {
                 observationsTxv.isEditable = false
             }
         }
+        if let observationTitle = self.observationTitle {
+            if !store.state.userState.user.permissions.contains(where: {$0.rid.rawValue > 601 }) {
+                observationTitle.isHidden = true
+            }
+        }
         if let financialTxv = self.financialTxv {
             financialTxv.text = report.financial ?? ""
-            if report.uid == store.state.userState.user.id {
+            if report.uid != store.state.userState.user.id {
                 financialTxv.isEditable = false
             }else{
                 financialTxv.isEditable = true
             }
         }
-        if let replySwt = self.replySwt {
-            replySwt.isOn = report.reply ?? false
-            if report.uid == store.state.userState.user.id {
-                replySwt.isEnabled = true
-            }else{
-                replySwt.isEnabled = false
-            }
-        }
+
         if let replyOp = self.replyOp {
             replyOp.isHidden = true
         }

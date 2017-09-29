@@ -47,7 +47,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
             tb.selectedIndex = section
             enterprisesNav.removeAll()
             enterprisesNav.append(enterprises)
-            if let nb  = tb.childViewControllers[0] as? UINavigationController {
+            if let nb  = tb.childViewControllers[section] as? UINavigationController {
                 if let vc = nb.childViewControllers[0] as? EnterpriseCollectionViewController {
                     vc.type = sender  as! Int + 1
                 }else  if let vc = nb.childViewControllers[0] as? AllReportsTableViewController {
@@ -81,7 +81,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         return cell
     }
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "infoSegue", sender: indexPath.item+1)
+        self.performSegue(withIdentifier: "infoSegue", sender: indexPath.item)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height = 0

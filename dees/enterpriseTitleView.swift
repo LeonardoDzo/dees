@@ -18,6 +18,7 @@ class enterpiseTitleView: UIView {
         next.frame = CGRect(x: 0, y: 12, width: 20, height: 20)
         next.image = #imageLiteral(resourceName: "foward").maskWithColor(color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1))
         next.isUserInteractionEnabled = true
+        next.isHidden = true
         return next
     }()
     
@@ -26,6 +27,7 @@ class enterpiseTitleView: UIView {
         left.frame = CGRect(x: 0, y: 12, width: 20, height: 20)
         left.image = #imageLiteral(resourceName: "back").maskWithColor(color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1))
         left.isUserInteractionEnabled = true
+        left.isHidden = true
         return left
     }()
     
@@ -60,16 +62,16 @@ class enterpiseTitleView: UIView {
         nextView.frame.origin.x = frame.width - 30
        
         backgroundColor = #colorLiteral(red: 0.06047932059, green: 0.07674958557, blue: 0.1134311184, alpha: 1)
-        if ctrl.enterprises.count == 1 {
+
+        if ctrl.enterprises.count > 1 {
             nextView.isHidden = false
             leftView.isHidden = false
         }
-        
+        if ctrl.enterpriseSelected == 0 {
+            leftView.isHidden = true
+        }
         if ctrl.enterpriseSelected == ctrl.enterprises.count-1 {
             nextView.isHidden = true
-        }
-        if ctrl.enterpriseSelected == 0{
-            leftView.isHidden = true
         }
         
         

@@ -56,20 +56,15 @@ struct ReportReducer  {
             case .success(let response):
                 do {
                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                    guard let array : NSArray = repos.value(forKey: "formats") as? NSArray else {
-                        store.state.reportState.status = .failed
-                        store.state.reportState.status = .none
-                        return
-                    }
-                    
-                    let reports = Report.from(array) ?? []
-                    reports.forEach({ report in
-                        if !store.state.reportState.reports.contains(where: {$0.id == report.id}) {
-                            store.state.reportState.reports.append(report)
-                        }else if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
-                            store.state.reportState.reports[index] = report
+             
+                    let report = Report.from(repos)
+           
+                    if !store.state.reportState.reports.contains(where: {$0.id == report?.id}) {
+                            store.state.reportState.reports.append(report!)
+                    }else if let index = store.state.reportState.reports.index(where: {$0.id == report?.id}){
+                        store.state.reportState.reports[index] = report!
                         }
-                    })
+          
                     store.state.reportState.status = .finished
                     store.state.reportState.status = .none
                 } catch MoyaError.jsonMapping(let error) {
@@ -112,53 +107,20 @@ struct ReportReducer  {
     }
     func postUpdateReport(report: Report) -> Void {
         if report.id == nil {
-            reportsProvider.request(.postReport(report: report), completion: {
-                result in
-                switch result {
-                case .success(let response):
-                    do {
-                        
-                        guard let repos : NSDictionary = try response.mapJSON() as? NSDictionary else {
-                            return
-                        }
-                        guard let dic = repos.value(forKey: "format") as? NSDictionary else {
-                            return
-                        }
-                        guard let report = Report.from(dic) else {
-                            store.state.reportState.status = .failed
-                            store.state.reportState.status = .none
-                            return
-                        }
-                            store.state.reportState.reports.append(report)
-                            store.state.reportState.status = .finished
-                        
-                        store.state.reportState.status = .none
-                    } catch MoyaError.jsonMapping(let error) {
-                        print(error )
-                    } catch {
-                        print(":(")
-                    }
-                    
-                    break
-                case .failure(let error):
-                    print(error)
-                    break
-                }
-            })
+            return
         }else {
             reportsProvider.request(.updateReport(report: report), completion: {
                 result in
                 switch result {
                 case .success(let response):
                     do {
-                        if response.statusCode == 404 {
+                        if response.statusCode == 404 || response.statusCode == 401 {
                             store.state.reportState.status = .failed
                             return
                         }
                         let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                        let r : NSDictionary = repos.value(forKey: "format") as! NSDictionary
-                        if let report = Report.from(r) {
-                            print(store.state.reportState.reports)
+                        
+                        if let report = Report.from(repos) {
                             if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
                                 store.state.reportState.reports[index] = report
                                 store.state.reportState.status = .finished
