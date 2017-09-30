@@ -9,7 +9,7 @@
 import UIKit
 import ReSwift
 import Whisper
-class AllReportsTableViewController: UITableViewController {
+class AllReportsTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var enterprises = [Business]()
     var type : Int!
     var user: User!
@@ -17,6 +17,7 @@ class AllReportsTableViewController: UITableViewController {
     var Bsection = -1
     var weeks = [Week]()
     var weekSelected: Int = 0
+    var viewsEnterprises = [enterpiseTitleView]()
     var weeksTitleView : weeksView? = weeksView(frame: .zero)
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,11 +30,13 @@ class AllReportsTableViewController: UITableViewController {
         self.tableView.addGestureRecognizer(swipeLeft)
         self.tableView.addGestureRecognizer(swipeRight)
         NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        self.hideKeyboardWhenTappedAround()
     }
     
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+       print("SUPERWARNING!!!")
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -54,8 +57,14 @@ class AllReportsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let title = enterprises[section].name
-        return enterpiseTitleView(frame: self.view.frame, title: title!, controller: self)
+        let e = enterprises[section]
+        guard let view = viewsEnterprises.first(where: {$0.id == e.id }) else {
+            let v = enterpiseTitleView(frame: self.view.frame, title: e.name!, controller: self)
+            viewsEnterprises.append(v)
+            return v
+        }
+        
+        return view
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -64,8 +73,7 @@ class AllReportsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
     }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
     }
     
@@ -78,8 +86,9 @@ class AllReportsTableViewController: UITableViewController {
     }
     
     override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        update(isFinished: false)
+        update()
     }
+    
     
 }
 
@@ -102,7 +111,7 @@ extension AllReportsTableViewController : StoreSubscriber {
     }
     override func viewDidAppear(_ animated: Bool) {
         changeEnterprise(direction: .down)
-        update(isFinished: false)
+        update()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -115,23 +124,28 @@ extension AllReportsTableViewController : StoreSubscriber {
         case .loading:
             break
         case .finished:
-            Whisper.show(whistle: messages.succes_01, action: .show(2.5))
-            update(isFinished: true)
+            Whisper.show(whistle: messages.success._01, action: .show(2.5))
+            update()
+            break
+        case .Finished(let m as Murmur):
+            Whisper.show(whistle: m, action: .show(2.5))
+            update()
+            break
+        case .Failed(let m as Murmur):
+            Whisper.show(whistle: m, action: .show(2.5))
             break
         case .failed:
-            
-            update(isFinished: true)
+            Whisper.show(whistle: messages.error._00, action: .show(2.5))
             break
         default:
             break
         }
     }
     
-    func update(isFinished: Bool) -> Void {
+    func update() -> Void {
         if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
-            cell.avaible = isFinished
-            cell.reports = store.state.reportState.reports.filter({$0.eid == self.enterprises[enterpriseSelected].id && $0.wid! == self.weeks[self.weekSelected].id})
-            cell.tableView.reloadData()
+            cell.tag = self.weeks[self.weekSelected].id
+            cell.getMyReports()
         }
     }
     func setVars() -> Void {
@@ -155,8 +169,7 @@ extension AllReportsTableViewController : StoreSubscriber {
         
         self.weeks = store.state.reportState.weeks
         didMove(toParentViewController: self)
-        
-        update(isFinished: false)
+        //update()
         
     }
     
@@ -229,12 +242,11 @@ extension AllReportsTableViewController : EnterpriseProtocol {
         }
         let indexpath = IndexPath(row: 0, section: enterpriseSelected)
         self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
-        
     }
     func selectEnterprise() {
         if enterprises.count >  1 {
-             self.pushToView(view: .enterprises, sender: type)
+            self.pushToView(view: .enterprises, sender: type)
         }
-       
+        
     }
 }

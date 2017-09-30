@@ -35,6 +35,9 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
     }
  
     func textViewDidEndEditing(_ textView: UITextView) {
+        if report == nil {
+            return
+        }
         switch textView {
         case operativeTxv:
             report.operative = textView.text

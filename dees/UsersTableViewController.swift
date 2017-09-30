@@ -71,10 +71,10 @@ extension UsersTableViewController : StoreSubscriber {
         case .loading:
             break
         case .finished:
-            Whisper.show(whisper: messages.succesG, to: navigationController!, action: .present)
+            Whisper.show(whistle: messages.success._00, action: .show(2.5))
             break
         case .failed:
-            Whisper.show(whisper: messages.errorG, to: navigationController!, action: .present)
+            Whisper.show(whistle: messages.error._00, action: .show(2.5))
             break
         default:
             state.businessState.business.enumerated().forEach({

@@ -13,14 +13,12 @@ class ResponsableTableViewCell: UITableViewCell {
     
     @IBOutlet weak var tableView: UITableView!
     var reports = [Report]()
-    var enterprise: Business!
     var users = [User]()
-    /// Variable como tag que me ayuda a identificar si se ha hecho o no el request por el reporte
-    var avaible = false
+    var enterprise : Business!
     lazy var loadingView : LoadingView = {
         let loading = LoadingView()
         loading.center = self.tableView.center
-        loading.frame.origin.x -= loading.loading.frame.width/2
+        loading.frame.origin.x -= (loading.loading.frame.width )
         loading.frame.origin.y -= loading.loading.frame.width
         return loading
     }()
@@ -32,6 +30,11 @@ class ResponsableTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    func getMyReports() -> Void {
+        self.reports = store.state.reportState.reports.filter({$0.eid == self.enterprise.id && $0.wid == self.tag})
+        self.tableView.reloadData()
     }
     
     
@@ -65,9 +68,9 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RerportTableViewCell
-
+        
         let uid = users[indexPath.section].id
-        cell.report = reports.first(where: { $0.uid == uid})
+        cell.report =  store.state.reportState.reports.first(where: {$0.eid == self.enterprise.id && $0.uid == uid && self.tag == $0.wid})
         cell.bind()
         print(self.tag)
         cell.tag = uid!
@@ -104,36 +107,31 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         if users.count == 0 {
             return
         }
-        guard let cell = tableView.cellForRow(at: indexPath) as? RerportTableViewCell else{
+        guard let cell = tableView.cellForRow(at: indexPath) as? RerportTableViewCell else {
             return
         }
-        
-        if avaible {
-            if cell.report == nil || !cell.report.seens.contains(where: {$0.userId == store.state.userState.user.id }) {
-                let uid = users[indexPath.section].id
-                cell.report = reports.first(where: { $0.uid == uid}) ?? Report(uid: uid!, eid: enterprise.id, wid: self.tag)
-                cell.bind()
-                cell.update()
-            }
+        let uid = users[indexPath.section].id
+        cell.report = store.state.reportState.reports.first(where: {$0.eid == self.enterprise.id && $0.uid == uid && self.tag == $0.wid})
+        if cell.report != nil {
+            cell.bind()
         }else {
             self.loadingView.start()
             store.dispatch(ReportsAction.Get(eid: enterprise.id, wid: self.tag, uid: users[indexPath.section].id))
         }
     }
     
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_  tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if tableView.visibleCells.contains(cell){
             seen(indexPath)
         }
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        print("X: ", scrollView.contentOffset.x, "Y: ",  scrollView.contentOffset.y)
         if let indexPath = tableView.indexPathForRow(at: scrollView.contentOffset) {
             seen(indexPath)
         }
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     

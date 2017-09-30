@@ -115,7 +115,7 @@ struct ReportReducer  {
                 case .success(let response):
                     do {
                         if response.statusCode == 404 || response.statusCode == 401 {
-                            store.state.reportState.status = .failed
+                            store.state.reportState.status = .Failed(messages.error._04)
                             return
                         }
                         let repos : NSDictionary = try response.mapJSON() as! NSDictionary
@@ -123,7 +123,7 @@ struct ReportReducer  {
                         if let report = Report.from(repos) {
                             if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
                                 store.state.reportState.reports[index] = report
-                                store.state.reportState.status = .finished
+                                store.state.reportState.status = .Finished(messages.success._02)
                             }
                         }
                         store.state.reportState.status = .none

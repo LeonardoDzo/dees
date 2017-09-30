@@ -76,8 +76,6 @@ class EnterprisesTableViewController: UITableViewController {
                 
                 self.navigationController?.popViewController(animated: true)
             }
-            
-            
         }
     }
     

@@ -91,7 +91,7 @@ struct UserReducer {
                 break
             case .failure(let error):
                 print(error)
-                store.state.userState.status = .Failed(messages.errorG_Murmur)
+                store.state.userState.status = .Failed(messages.error._03)
                 break
             }
             
@@ -181,6 +181,7 @@ struct UserReducer {
         store.state.businessState = BusinessState(business: [], status: .none)
         store.state.reportState = ReportState(reports: [], weeks: [], status: .none)
         store.state.userState = UserState(user: nil, type: 0, users: [], status: .none)
+        singleton.enterpriseNav.removeAll()
     }
 }
 

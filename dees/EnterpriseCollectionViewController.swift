@@ -12,7 +12,7 @@ import ReSwift
 private let reuseIdentifier = "Cell"
 
 class EnterpriseCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
-    var enterprisesNav = [[Business]]()
+    var enterprisesNav = singleton.enterpriseNav
     var type: Int!
     var week: Week!
     var user: User!
@@ -55,16 +55,16 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return enterprisesNav.last?.count ?? 0
+        return enterprisesNav.items.last?.count ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let id = "CELL2"
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id, for: indexPath) as! EnterpriseCollectionViewCell
-        let e = enterprisesNav.last?[indexPath.item]
+        let e = enterprisesNav.items.last?[indexPath.item]
         cell.nameLbl.text = e?.name!
-        switch (enterprisesNav.last?.count)! {
+        switch (enterprisesNav.items.last?.count)! {
         case 1:
              cell.background.image = #imageLiteral(resourceName: "background_company1")
             break
@@ -108,7 +108,7 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-         let e = enterprisesNav.last!
+         let e = enterprisesNav.items.last!
         
         if e.count == 1 {
 
@@ -124,10 +124,9 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
     }
    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let e = enterprisesNav.last?[indexPath.item]
+        let e = enterprisesNav.items.last?[indexPath.item]
         if (e?.business.count)! > 0 {
-           
-            enterprisesNav.append((enterprisesNav.last?[indexPath.item].business)!)
+            enterprisesNav.push((e?.business)!)
             setupNavBar()
             AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "left")
         }else{
@@ -165,16 +164,10 @@ extension EnterpriseCollectionViewController : StoreSubscriber {
     
     func newState(state: BusinessState) {
         self.user = store.state.userState.user
-        
-        state.business.count > 0 ? enterprisesNav.append((state.business.first(where: {$0.id == type})?.business)!) : enterprisesNav.append(store.state.userState.user.bussiness)
         setupNavBar()
         setTitle()
         collectionView?.reloadData()
-        if entFather != nil {
-            if let index = enterprisesNav.last?.index(where: {entFather.id == $0.id}),  entFather.business.count > 0 {
-                self.collectionView(self.collectionView!, didSelectItemAt: IndexPath(item: index, section: 0))
-            }
-        }
+
     }
     
     func setTitle(){
@@ -197,7 +190,7 @@ extension EnterpriseCollectionViewController {
         let indexPath = self.collectionView?.indexPathForItem(at: p)
         
         if let index = indexPath {
-            if let e = enterprisesNav.last?[index.item]{
+            if let e = enterprisesNav.items.last?[index.item]{
                 actionsEnterprise(e)
             }
         }
@@ -229,7 +222,7 @@ extension EnterpriseCollectionViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(alertController.keyboardWillShow), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(alertController.keyboardWillHide), name: Notification.Name.UIKeyboardWillHide, object: nil)
         alertController.addAction(reportAction)
-        if e.business.count > 0  || enterprisesNav.count == 1{
+        if e.business.count > 0  || enterprisesNav.items.count == 1{
             alertController.addAction(addAction)
         }else{
             alertController.addAction(deleteAction)
@@ -277,11 +270,6 @@ extension EnterpriseCollectionViewController {
     }
     func delete(_ e: Business) -> Void {
         if store.state.userState.user.permissions.contains(where: { $0.rid.rawValue >= 602 }){
-            
-            if let ent = enterprisesNav[enterprisesNav.count - 2].first(where: {$0.id == e.parentId}){
-                entFather = ent
-            }
-            
             store.dispatch(baction.Delete(id: e.id))
         }
     }
@@ -291,7 +279,7 @@ extension EnterpriseCollectionViewController {
         //let actions = UIBarButtonItem(barButtonSystemItem: #imageLiteral(resourceName: "more_icon_vertical") as UIBarButtonSystemItem, target: self, action: #selector(self.preSelect(sender:)))
         let actions = UIBarButtonItem(image: #imageLiteral(resourceName: "more_icon_vertical"), style: .plain, target: self, action: #selector(self.preSelect(sender:)))
         self.navigationItem.rightBarButtonItems = []
-        if enterprisesNav.count == 1 {
+        if enterprisesNav.items.count == 1 {
             let back = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back))
             self.navigationItem.leftBarButtonItem = nil
             
@@ -306,14 +294,14 @@ extension EnterpriseCollectionViewController {
     }
     
     func preSelect(sender: UIBarButtonItem) -> Void {
-        guard let ext = enterprisesNav.last?[0].parentId else {return}
-        if let e = enterprisesNav[enterprisesNav.count-2].first(where: {$0.id == ext}){
+        guard let ext = enterprisesNav.items.last?[0].parentId else {return}
+        if let e = enterprisesNav.items[enterprisesNav.items.count-2].first(where: {$0.id == ext}){
             actionsEnterprise(e)
         }
     }
     
     func back2() -> Void {
-        enterprisesNav.removeLast()
+        enterprisesNav.pop()
         AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "right")
         setupNavBar()
     }

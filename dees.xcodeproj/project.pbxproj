@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022CF0581F460129007EEF1C /* UsersTableViewController.swift */; };
 		02349B3A1F7999F5008684C7 /* enterpriseTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02349B391F7999F5008684C7 /* enterpriseTitleView.swift */; };
+		023611021F7EC24C009D2294 /* EnterpriseNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */; };
 		0238D2CE1F745D180009B1F0 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0238D2CC1F745D180009B1F0 /* UIImageView.swift */; };
 		0238D2CF1F745D180009B1F0 /* loadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0238D2CD1F745D180009B1F0 /* loadingView.swift */; };
 		0238D2D31F745D550009B1F0 /* firefly2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0238D2D21F745D550009B1F0 /* firefly2.gif */; };
@@ -74,6 +75,7 @@
 /* Begin PBXFileReference section */
 		022CF0581F460129007EEF1C /* UsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		02349B391F7999F5008684C7 /* enterpriseTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enterpriseTitleView.swift; sourceTree = "<group>"; };
+		023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseNavBar.swift; sourceTree = "<group>"; };
 		0238D2CC1F745D180009B1F0 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		0238D2CD1F745D180009B1F0 /* loadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loadingView.swift; sourceTree = "<group>"; };
 		0238D2D21F745D550009B1F0 /* firefly2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = firefly2.gif; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				0243F3611F75D96500F85F8D /* titleNavBarView.swift */,
 				0243F3631F75E73C00F85F8D /* weeksView.swift */,
 				02349B391F7999F5008684C7 /* enterpriseTitleView.swift */,
+				023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */,
 			);
 			name = extra;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 			files = (
 				0243F3621F75D96500F85F8D /* titleNavBarView.swift in Sources */,
 				02A3A4711F3A1D6F0048750E /* UIVIew.swift in Sources */,
+				023611021F7EC24C009D2294 /* EnterpriseNavBar.swift in Sources */,
 				02A3A4801F3A56B00048750E /* EnterprisesService.swift in Sources */,
 				025EB99E1F34FB100075611F /* User.swift in Sources */,
 				025EB9A41F34FC660075611F /* UserReducer.swift in Sources */,

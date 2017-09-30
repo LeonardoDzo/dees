@@ -106,14 +106,10 @@ extension EnterpriseViewViewController: StoreSubscriber {
         case .loading:
             break
         case .finished:
-            if navigationController != nil {
-                Whisper.show(whisper: messages.succesG, to: navigationController!, action: .show)
-            }
+            Whisper.show(whistle: messages.success._00, action: .show(2.5))
             break
         case .failed:
-            if navigationController != nil {
-                Whisper.show(whisper: messages.errorG, to: navigationController!, action: .show)
-            }
+            Whisper.show(whistle: messages.error._00, action: .show(2.5))
             break
         default:
             state.business.enumerated().forEach({

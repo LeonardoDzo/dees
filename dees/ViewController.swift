@@ -80,6 +80,7 @@ extension ViewController : StoreSubscriber {
                 self.performSegue(withIdentifier: "preSegue", sender: u)
             }else{
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                singleton.enterpriseNav.push(u.bussiness)
                 let vc = storyboard.instantiateViewController(withIdentifier: "tabBarController") as UIViewController
                 present(vc, animated: true, completion: nil)
             }

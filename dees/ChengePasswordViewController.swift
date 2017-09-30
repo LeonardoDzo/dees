@@ -81,7 +81,7 @@ extension ChengePasswordViewController : StoreSubscriber {
             loading.startAnimating()
             break
         case .finished:
-            Whisper.show(whisper: messages.succesG, to: navigationController!, action: .present)
+            Whisper.show(whistle: messages.success._00, action: .show(2.5))
             break
         case .Failed(let m as String):
             Whisper.show(whisper: Message(title: m, backgroundColor: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)), to: navigationController!, action: .present)

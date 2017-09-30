@@ -22,11 +22,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
        NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
-        enterprises =  store.state.businessState.business.count > 0 ? store.state.businessState.business.sorted(by: {$0.id < $1.id}) : store.state.userState.user.bussiness.filter({$0.parentId == nil })
-        if enterprises.count == 0 {
-            self.performSegue(withIdentifier: "infoSegue", sender: nil)
-            return
-        }
+        verifyEnterprises()
         store.subscribe(self) {
             $0.select({ subscription in
                 subscription.businessState
@@ -45,8 +41,8 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         if segue.identifier == "infoSegue" {
             let tb = segue.destination as! UITabBarController
             tb.selectedIndex = section
-            enterprisesNav.removeAll()
-            enterprisesNav.append(enterprises)
+            singleton.enterpriseNav.removeAll()
+            singleton.enterpriseNav.push(enterprises)
             if let nb  = tb.childViewControllers[section] as? UINavigationController {
                 if let vc = nb.childViewControllers[0] as? EnterpriseCollectionViewController {
                     vc.type = sender  as! Int + 1
@@ -111,32 +107,43 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
  }
 extension PreHomeViewController : preHomeProtocol {
     func handleClick(sender: Int) {
-        enterprises = enterprises[sender].business
-        self.performSegue(withIdentifier: "infoSegue", sender: sender)
+        if enterprises.count > 0 {
+            enterprises = enterprises[sender].business
+            self.performSegue(withIdentifier: "infoSegue", sender: sender)
+        }
     }
 
 }
  extension PreHomeViewController: StoreSubscriber {
     typealias StoreSubscriberStateType = BusinessState
     func newState(state: BusinessState) {
-        
+
         switch state.status {
         case .loading, .failed:
             self.view.isUserInteractionEnabled = false
             break
-        
         case .finished:
-            self.enterprises = state.business.sorted(by: {$0.id < $1.id})
             self.view.isUserInteractionEnabled = true
             collectionView?.reloadData()
+            verifyEnterprises()
             break
         default:
             break
         }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
         //Whisper.hide(whisperFrom: self.navigationController!)
+    }
+    
+    func verifyEnterprises() -> Void {
+        enterprises = store.state.businessState.business.count > 0 ? store.state.businessState.business.sorted(by: {$0.id < $1.id}) : store.state.userState.user.bussiness.filter({$0.parentId == nil })
+        if enterprises.count == 0 {
+            self.enterprises = store.state.userState.user.bussiness
+            self.performSegue(withIdentifier: "infoSegue", sender: 0)
+            return
+        }
     }
  }

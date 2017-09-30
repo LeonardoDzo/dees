@@ -42,7 +42,7 @@ class weeksView: UIView {
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
+    
     func configureView() {
         
         tapRight.addTarget(ctrl, action: #selector(ctrl.tapRightWeek))
@@ -60,30 +60,31 @@ class weeksView: UIView {
         leftView.frame.origin.x =  titleView.frame.origin.x - 10
         titleView.frame.origin.x += 15
         
-        if (ctrl.weekSelected == ctrl.weeks.count-1) {
-            if ctrl.weeks.count == 1 {
-                 leftView.isHidden = true
-            }
+        
+        if ctrl.weeks.count <= 1 {
             nextView.isHidden = true
-        }else if ctrl.weekSelected == 0 {
             leftView.isHidden = true
-            if ctrl.weeks.count == 1 {
-                nextView.isHidden = true
-            }
-            
+        }else if (ctrl.weekSelected == ctrl.weeks.count-1) {
+            nextView.isHidden = false
+            leftView.isHidden = true
+        }else if ctrl.weekSelected == 0 {
+            nextView.isHidden = true
+            leftView.isHidden = false
         }
+        
+        
         
         addSubview(titleView)
         addSubview(leftView)
         addSubview(nextView)
         titleView.isUserInteractionEnabled = true
-      
-
+        
+        
     }
     
     override func draw(_ rect: CGRect) {
-       frame = bounds
-     
+        frame = bounds
+        
     }
 }
 extension weeksView {

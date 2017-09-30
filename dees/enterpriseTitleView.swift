@@ -12,7 +12,7 @@ import UIKit
 class enterpiseTitleView: UIView {
     let tapRight = UITapGestureRecognizer()
     let tapLeft = UITapGestureRecognizer()
-    
+    var id = 0
     let nextView : UIImageView = {
         let next = UIImageView()
         next.frame = CGRect(x: 0, y: 12, width: 20, height: 20)
@@ -36,7 +36,9 @@ class enterpiseTitleView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
+    func reloadData() {
+        self.setNeedsDisplay()
+    }
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -50,6 +52,7 @@ class enterpiseTitleView: UIView {
         tapRight.addTarget(ctrl, action: #selector(ctrl.tapRight))
         let border = UIView()
         border.frame = CGRect(x: 0, y: 39, width: frame.width, height: 5)
+        id = ctrl.enterprises[ctrl.enterpriseSelected].id
         border.backgroundColor = UIColor(hexString: "#\(ctrl.enterprises[ctrl.enterpriseSelected].color! )ff")
         titleLabel.isUserInteractionEnabled = true
         titleLabel.addGestureRecognizer(tap)
@@ -81,7 +84,9 @@ class enterpiseTitleView: UIView {
         addSubview(leftView)
         isUserInteractionEnabled = true
     }
-    
+    deinit {
+        print("deinit") // never gets called
+    }
     override func draw(_ rect: CGRect) {
         frame = bounds
         
