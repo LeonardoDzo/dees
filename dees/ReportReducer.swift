@@ -97,7 +97,6 @@ struct ReportReducer  {
                 } catch {
                     print(":(")
                 }
-                
                 break
             case .failure(let error):
                 print(error)
@@ -135,6 +134,7 @@ struct ReportReducer  {
                     
                     break
                 case .failure(let error):
+                    store.state.reportState.status = .Failed(messages.error._05)
                     print(error)
                     break
                 }

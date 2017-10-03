@@ -17,10 +17,11 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     var Bsection = -1
     var weeks = [Week]()
     var weekSelected: Int = 0
-    var viewsEnterprises = [enterpiseTitleView]()
     var weeksTitleView : weeksView? = weeksView(frame: .zero)
+    let notificationCenter = NotificationCenter.default
     override func viewDidLoad() {
         super.viewDidLoad()
+        let nib = UINib(nibName: "EnterpriseHeader", bundle: nil)
         
         self.styleNavBarAndTab_1()
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.showScrollOptions(sender:)))
@@ -30,6 +31,8 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         self.tableView.addGestureRecognizer(swipeLeft)
         self.tableView.addGestureRecognizer(swipeRight)
         NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+
+        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "EnterpriseHeaderCell")
         self.hideKeyboardWhenTappedAround()
     }
     
@@ -52,19 +55,16 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ResponsableTableViewCell
         cell.enterprise = enterprises[indexPath.section]
         cell.tag = self.weeks[self.weekSelected].id
-        cell.tableView.reloadData()
         return cell
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let e = enterprises[section]
-        guard let view = viewsEnterprises.first(where: {$0.id == e.id }) else {
-            let v = enterpiseTitleView(frame: self.view.frame, title: e.name!, controller: self)
-            viewsEnterprises.append(v)
-            return v
-        }
-        
-        return view
+        let cell = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: "EnterpriseHeaderCell")  as! EnterpriseHeader
+        cell.ctrl = self
+        cell.configureView()
+        cell.setTitle(e.name!)
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -72,9 +72,6 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     }
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
-    }
-    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
     }
     
     func rotated() -> Void {
@@ -84,11 +81,44 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 575
     }
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
     
     override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         update()
+        scrollTo(scrollView)
+    }
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if decelerate {
+            scrollTo(scrollView)
+        }
+    }
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        scrollTo(scrollView)
+        
+    }
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrollTo(scrollView)
     }
     
+    func scrollTo(_ scrollView: UIScrollView) -> Void {
+        if let indexPath = tableView.indexPathForRow(at: scrollView.contentOffset) {
+            var animation : UISwipeGestureRecognizerDirection = .down
+            var section = indexPath.section
+            if scrollView.contentOffset.y >= self.tableView.rowHeight/2 {
+                section += section == self.enterprises.count-1 ? 0 : 1
+            }else{
+                 section -= section == 0 ? 0 : 1
+            }
+            if enterpriseSelected < section {
+                animation = .right
+            }else if enterpriseSelected >= section{
+                animation = .left
+            }
+            changeEnterprise(direction: animation)
+        }
+    }
     
 }
 
@@ -96,7 +126,8 @@ extension AllReportsTableViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = ReportState
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        notificationCenter.addObserver(self, selector: #selector(AllReportsTableViewController.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(AllReportsTableViewController.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         if type == nil {
             type = store.state.userState.type
         }else{
@@ -122,7 +153,10 @@ extension AllReportsTableViewController : StoreSubscriber {
     func newState(state: ReportState) {
         switch state.status {
         case .loading:
-            break
+            if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
+                cell.loadingView.start()
+            }
+            return
         case .finished:
             Whisper.show(whistle: messages.success._01, action: .show(2.5))
             update()
@@ -139,6 +173,9 @@ extension AllReportsTableViewController : StoreSubscriber {
             break
         default:
             break
+        }
+        if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
+            cell.loadingView.stop()
         }
     }
     
@@ -193,6 +230,7 @@ extension AllReportsTableViewController : weekProtocol {
         if animation != .none {
             didMove(toParentViewController: self)
             self.tableView.reloadSections(IndexSet(integer: self.enterpriseSelected), with: animation)
+            update()
         }
     }
     func tapLeftWeek() {
@@ -242,6 +280,7 @@ extension AllReportsTableViewController : EnterpriseProtocol {
         }
         let indexpath = IndexPath(row: 0, section: enterpriseSelected)
         self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
+        
     }
     func selectEnterprise() {
         if enterprises.count >  1 {

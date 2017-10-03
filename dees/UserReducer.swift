@@ -58,7 +58,7 @@ struct UserReducer {
             case .success(let response):
                 do {
                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                    if response.statusCode == 418  {
+                    if response.statusCode != 200  {
                         store.state.userState.status = .Failed(Murmur(title: "Email/Contraseña incorrecta!!",backgroundColor: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), titleColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  ) )
                         return
                     }
@@ -84,7 +84,7 @@ struct UserReducer {
                     
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
-                    store.state.userState.status = .Failed("Email/Contraseña incorrecta!!")
+                    store.state.userState.status = .Failed(messages.error._03)
                 } catch {
                     print(":(")
                 }

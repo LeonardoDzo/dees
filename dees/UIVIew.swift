@@ -48,7 +48,22 @@ extension UIView {
 
         //self.layer.borderColor = #colorLiteral(red: 0.2431372549, green: 0.2705882353, blue: 0.3450980392, alpha: 1).cgColor
     }
- 
+    func keyboardWillShow(notification: Notification){
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.frame.origin.y == 0 {
+                self.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    
+    func keyboardWillHide(notification: Notification){
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.frame.origin.y != 0 {
+                self.frame.origin.y += keyboardSize.height
+            }
+        }
+    }
     
     func titleOfEnterprise(section: Int, controller: AllReportsTableViewController) -> UIView {
         let view = UIView()

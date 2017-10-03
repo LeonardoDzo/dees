@@ -205,7 +205,7 @@ extension EnterpriseCollectionViewController {
         })
         let addAction = UIAlertAction(title: "Ver Reporte", style: .default, handler: {
             (action : UIAlertAction!) -> Void in
-            self.performSegue(withIdentifier: "responsableSegue", sender: e)
+            self.pushToView(view: .allReports, sender: e)
         })
         let reportAction = UIAlertAction(title: "Agregar Empresa", style: .default, handler: {
             (action : UIAlertAction!) -> Void in
@@ -301,10 +301,11 @@ extension EnterpriseCollectionViewController {
     }
     
     func back2() -> Void {
-        enterprisesNav.pop()
+        _ = enterprisesNav.pop()
         AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "right")
         setupNavBar()
     }
 
 }
+
 

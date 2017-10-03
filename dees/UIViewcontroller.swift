@@ -36,13 +36,15 @@ extension UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     func keyboardWillShow(notification: Notification){
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        print(self.view.frame.origin.y)
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height
             }
+            
         }
     }
-    
+
     func styleNavBarAndTab_1() {
         self.navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.07843137255, green: 0.1019607843, blue: 0.1647058824, alpha: 1)
         self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.1215686275, green: 0.6901960784, blue: 0.9882352941, alpha: 1)
@@ -51,6 +53,7 @@ extension UIViewController {
     }
     
     func keyboardWillHide(notification: Notification){
+        self.view.setNeedsDisplay()
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0 {
                 self.view.frame.origin.y += keyboardSize.height

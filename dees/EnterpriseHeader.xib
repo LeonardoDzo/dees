@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="pirulen rg.ttf">
+            <string>PirulenRg-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="EnterpriseHeader" customModule="dees" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="356" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="foward" translatesAutoresizingMaskIntoConstraints="NO" id="hdR-ng-BzM">
+                    <rect key="frame" x="320" y="12" width="20" height="20"/>
+                </imageView>
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="back" translatesAutoresizingMaskIntoConstraints="NO" id="KjU-Ws-2BR">
+                    <rect key="frame" x="16" y="12" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="20" id="5bz-nr-Tl7"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gu2-qb-WH5">
+                    <rect key="frame" x="0.0" y="36" width="356" height="8"/>
+                    <color key="backgroundColor" red="0.2588235438" green="0.75686275960000005" blue="0.96862745289999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.96573561429999999" green="0.96984010929999998" blue="0.97604435680000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TITULO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="StW-0Z-Xcf">
+                    <rect key="frame" x="54" y="12" width="248" height="20"/>
+                    <fontDescription key="fontDescription" name="PirulenRg-Regular" family="Pirulen" pointSize="13"/>
+                    <color key="textColor" red="0.96573561429999999" green="0.96984010929999998" blue="0.97604435680000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.2392156869" green="0.67450982329999998" blue="0.96862745289999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="KjU-Ws-2BR" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="0Ni-6Q-zQn"/>
+                <constraint firstItem="StW-0Z-Xcf" firstAttribute="centerX" secondItem="Gu2-qb-WH5" secondAttribute="centerX" id="Ldz-Pb-LcA"/>
+                <constraint firstItem="StW-0Z-Xcf" firstAttribute="bottom" secondItem="KjU-Ws-2BR" secondAttribute="bottom" id="Nfe-Wq-TJP"/>
+                <constraint firstItem="StW-0Z-Xcf" firstAttribute="leading" secondItem="KjU-Ws-2BR" secondAttribute="trailing" constant="18" id="Nif-ix-pNK"/>
+                <constraint firstItem="KjU-Ws-2BR" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12" id="P9L-Xc-kRL"/>
+                <constraint firstItem="KjU-Ws-2BR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="QVR-MV-DC6"/>
+                <constraint firstItem="Gu2-qb-WH5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vi3-Ug-owe"/>
+                <constraint firstItem="Gu2-qb-WH5" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="Wko-mt-WA8"/>
+                <constraint firstItem="StW-0Z-Xcf" firstAttribute="top" secondItem="KjU-Ws-2BR" secondAttribute="top" id="bnb-u2-OjP"/>
+                <constraint firstItem="KjU-Ws-2BR" firstAttribute="bottom" secondItem="hdR-ng-BzM" secondAttribute="bottom" id="gGx-b4-2tE"/>
+                <constraint firstItem="Gu2-qb-WH5" firstAttribute="top" secondItem="KjU-Ws-2BR" secondAttribute="bottom" constant="4" id="hM8-nW-P8k"/>
+                <constraint firstAttribute="trailing" secondItem="Gu2-qb-WH5" secondAttribute="trailing" id="hjl-MM-tBT"/>
+                <constraint firstItem="hdR-ng-BzM" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailingMargin" id="kU3-QH-LIe"/>
+                <constraint firstItem="hdR-ng-BzM" firstAttribute="leading" secondItem="StW-0Z-Xcf" secondAttribute="trailing" constant="18" id="l0z-81-rs0"/>
+                <constraint firstItem="KjU-Ws-2BR" firstAttribute="top" secondItem="hdR-ng-BzM" secondAttribute="top" id="xul-A7-D8T"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="backView" destination="KjU-Ws-2BR" id="pT6-Qo-Kcn"/>
+                <outlet property="borderColor" destination="Gu2-qb-WH5" id="89M-Tg-S6x"/>
+                <outlet property="fowardView" destination="hdR-ng-BzM" id="zdO-9W-PJz"/>
+                <outlet property="titleLbl" destination="StW-0Z-Xcf" id="Cho-eN-ZvN"/>
+            </connections>
+            <point key="canvasLocation" x="-239" y="-290"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="back" width="29" height="29"/>
+        <image name="foward" width="40" height="40"/>
+    </resources>
+</document>

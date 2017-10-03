@@ -10,7 +10,7 @@ import UIKit
 import ReSwift
 import KDLoadingView
 class ResponsableTableViewCell: UITableViewCell {
-    
+     let notificationCenter = NotificationCenter.default
     @IBOutlet weak var tableView: UITableView!
     var reports = [Report]()
     var users = [User]()
@@ -33,8 +33,12 @@ class ResponsableTableViewCell: UITableViewCell {
     }
     
     func getMyReports() -> Void {
-        self.reports = store.state.reportState.reports.filter({$0.eid == self.enterprise.id && $0.wid == self.tag})
-        self.tableView.reloadData()
+        guard let cell = tableView.visibleCells[0] as? RerportTableViewCell else {
+            return
+        }
+        if let indexPath = self.tableView.indexPath(for: cell) {
+            seen(indexPath)
+        }
     }
     
     
@@ -43,6 +47,8 @@ class ResponsableTableViewCell: UITableViewCell {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tag = self.tag
+        let xib = UINib(nibName: "TitleView", bundle: nil)
+        tableView.register(xib, forHeaderFooterViewReuseIdentifier: "TitleHeaderCell")
         
         self.loadingView.center = tableView.center
         self.loadingView.frame.origin.x -= self.loadingView.loading.frame.width/2
@@ -78,17 +84,12 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.tintColor = #colorLiteral(red: 0.08339247853, green: 0.1178589687, blue: 0.1773400605, alpha: 1)
-        view.backgroundColor = #colorLiteral(red: 0.08339247853, green: 0.1178589687, blue: 0.1773400605, alpha: 1)
-        let lbl = UILabel()
-        lbl.text = users[section].name
-        lbl.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        lbl.backgroundColor = #colorLiteral(red: 0, green: 0.3994623721, blue: 0.3697786033, alpha: 1)
-        lbl.frame = CGRect(x: 0, y: 12, width: Int(self.tableView.frame.width), height: 44)
-        lbl.textAlignment = .center
-        view.addSubview(lbl)
-        return view
+        let headerFooterView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "TitleHeaderCell") as! TitleHeader
+       let user = users[section]
+        headerFooterView.titleLbl.text = user.name ?? "Sin nombre"
+        headerFooterView.titleLbl.sizeToFit()
+        headerFooterView.contentView.backgroundColor = #colorLiteral(red: 0, green: 0.3994623721, blue: 0.3697786033, alpha: 1)
+        return headerFooterView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -125,9 +126,26 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
             seen(indexPath)
         }
     }
-    
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        //scrollTo(scrollView)
+    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if decelerate {
+            scrollTo(scrollView)
+        }
+    }
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if let indexPath = tableView.indexPathForRow(at: scrollView.contentOffset) {
+        scrollTo(scrollView)
+    }
+    
+    func scrollTo(_ scrollView: UIScrollView) -> Void {
+        if var indexPath = tableView.indexPathForRow(at: scrollView.contentOffset) {
+            
+            if scrollView.contentOffset.y >= self.tableView.rowHeight/2 {
+                indexPath.section +=  users.count-1 == indexPath.section ? 0 : 1
+            }
+            self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
             seen(indexPath)
         }
     }
