@@ -14,6 +14,7 @@ enum ReportService {
     case postReport(report: Report)
     case updateReport(report: Report)
     case getWeeks()
+    case postFile(report: Report, type: Int, data: Data)
 
 }
 extension ReportService: TargetType, AccessTokenAuthorizable {
@@ -32,6 +33,8 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
         case .updateReport(let report):
             let path = "companies/\(report.eid!)/res/reports/\(report.id!)"
             return path
+        case .postFile(let report, let type, _):
+            return "companies/\(report.eid!)/res/reports/\(report.id!)/\(type)/files"
         }
     }
     var method: Moya.Method {
@@ -42,18 +45,20 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
             return .post
         case .updateReport:
             return .put
+        case .postFile:
+            return .post
         }
     }
     
     var shouldAuthorize: Bool {
         switch self {
-        case .get,.getWeeks, .postReport, .updateReport, .getByWeeks:
+        case .get,.getWeeks, .postReport, .updateReport, .getByWeeks, .postFile:
             return true
         }
     }
     var parameters: [String: Any]? {
         switch self {
-        case .get,.getWeeks, .getByWeeks:
+        case .get,.getWeeks, .getByWeeks, .postFile:
             return nil
         case .postReport(let report):
             let r = report.toDictionary()
@@ -69,17 +74,21 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
              return URLEncoding.default
         case .postReport,.updateReport:
              return JSONEncoding.default
+        case .postFile:
+            return URLEncoding.default
         }
     }
     var sampleData: Data {
         return "".utf8Encoded
     }
+
     
     var task: Task {
         switch self {
         case .get, .getWeeks, .postReport,.updateReport, .getByWeeks:
             return .request
-
+        case .postFile(_,_, let data):
+            return .upload(.multipart([MultipartFormData(provider: .data(data), name: "archivo")]))
         }
     }
     var headers: [String: String]? {

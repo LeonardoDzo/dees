@@ -15,13 +15,14 @@ enum StoryBoard: String {
 enum RoutingDestination: String {
     case weeksView = "WeeksTableViewController",
          enterprises = "EnterprisesTableViewController",
-         allReports = "AllReportsTableViewController"
+         allReports = "AllReportsTableViewController",
+         filesView = "FilesTableViewController"
     case none = ""
 }
 extension RoutingDestination {
     func getStoryBoard() -> String {
         switch self {
-        case .weeksView, .allReports,.enterprises, .none:
+        case .weeksView, .allReports,.enterprises, .filesView, .none:
             return StoryBoard.main.rawValue
         }
     }

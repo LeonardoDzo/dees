@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		021B230F1F85585F00285E4A /* FilesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021B230E1F85585F00285E4A /* FilesTableViewController.swift */; };
 		022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022CF0581F460129007EEF1C /* UsersTableViewController.swift */; };
 		023611021F7EC24C009D2294 /* EnterpriseNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */; };
 		0238D2CE1F745D180009B1F0 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0238D2CC1F745D180009B1F0 /* UIImageView.swift */; };
@@ -39,6 +40,8 @@
 		027D911E1F393D37007AB6D2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027D911D1F393D37007AB6D2 /* ProfileViewController.swift */; };
 		027FE2261F3CF151005C6FF8 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2251F3CF151005C6FF8 /* Report.swift */; };
 		027FE2281F3CFB54005C6FF8 /* RerpotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2271F3CFB54005C6FF8 /* RerpotService.swift */; };
+		0280EF2C1F86B932003247F5 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280EF2B1F86B932003247F5 /* DesignableView.swift */; };
+		0280EF2E1F86BB2C003247F5 /* DetailsContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */; };
 		02991C871F7ADD84006148EF /* Persmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02991C861F7ADD84006148EF /* Persmission.swift */; };
 		02A3A4711F3A1D6F0048750E /* UIVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4701F3A1D6F0048750E /* UIVIew.swift */; };
 		02A3A4731F3A22450048750E /* UIViewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4721F3A22450048750E /* UIViewcontroller.swift */; };
@@ -76,6 +79,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		021B230E1F85585F00285E4A /* FilesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesTableViewController.swift; sourceTree = "<group>"; };
 		022CF0581F460129007EEF1C /* UsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseNavBar.swift; sourceTree = "<group>"; };
 		0238D2CC1F745D180009B1F0 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 		027D911D1F393D37007AB6D2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		027FE2251F3CF151005C6FF8 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		027FE2271F3CFB54005C6FF8 /* RerpotService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RerpotService.swift; sourceTree = "<group>"; };
+		0280EF2B1F86B932003247F5 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
+		0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsContentViewController.swift; sourceTree = "<group>"; };
 		02991C861F7ADD84006148EF /* Persmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persmission.swift; sourceTree = "<group>"; };
 		02A3A4701F3A1D6F0048750E /* UIVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIVIew.swift; sourceTree = "<group>"; };
 		02A3A4721F3A22450048750E /* UIViewcontroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewcontroller.swift; sourceTree = "<group>"; };
@@ -160,6 +166,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		021B230D1F85584700285E4A /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				021B230E1F85585F00285E4A /* FilesTableViewController.swift */,
+			);
+			name = Files;
+			sourceTree = "<group>";
+		};
 		0238D2D01F745D1D0009B1F0 /* extra */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +186,7 @@
 				02C058311F82B0E10022186A /* EnterpriseHeader.xib */,
 				02C058331F82CD050022186A /* TitleView.xib */,
 				02C058351F82CD770022186A /* TitleHeader.swift */,
+				0280EF2B1F86B932003247F5 /* DesignableView.swift */,
 			);
 			name = extra;
 			sourceTree = "<group>";
@@ -323,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				02B5A2201F672599001CD113 /* AllReportsTableViewController.swift */,
+				0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */,
 			);
 			name = Reports;
 			sourceTree = "<group>";
@@ -330,6 +346,7 @@
 		02DD8D321F3E235B00896850 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				021B230D1F85584700285E4A /* Files */,
 				02B5A21D1F671E4B001CD113 /* Reports */,
 				025EB9871F34F43F0075611F /* ViewController.swift */,
 				025EB9A91F3507590075611F /* WeeksTableViewController.swift */,
@@ -500,8 +517,10 @@
 				025EB9A41F34FC660075611F /* UserReducer.swift in Sources */,
 				022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */,
 				02B5A2231F672D86001CD113 /* ResponsableTableViewCell.swift in Sources */,
+				0280EF2C1F86B932003247F5 /* DesignableView.swift in Sources */,
 				02DD8D311F3E1CBE00896850 /* UINavigationBar.swift in Sources */,
 				02E7AB1F1F3D32400037B7D1 /* Week.swift in Sources */,
+				0280EF2E1F86BB2C003247F5 /* DetailsContentViewController.swift in Sources */,
 				0279A4B61F4F55970085030D /* ResponsableTableViewController.swift in Sources */,
 				0271D4171F69CA4800727F28 /* UIImage.swift in Sources */,
 				02A3A47E1F3A55C60048750E /* BusinessReducer.swift in Sources */,
@@ -547,6 +566,7 @@
 				025EB9AE1F35464F0075611F /* Constants.swift in Sources */,
 				02D4AE191F71E13300623406 /* EnterprisesTableViewController.swift in Sources */,
 				027FE2281F3CFB54005C6FF8 /* RerpotService.swift in Sources */,
+				021B230F1F85585F00285E4A /* FilesTableViewController.swift in Sources */,
 				0272A3731F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift in Sources */,
 				027D911A1F3907A8007AB6D2 /* AuthService.swift in Sources */,
 				02E7AB191F3D1EE50037B7D1 /* ReportActions.swift in Sources */,

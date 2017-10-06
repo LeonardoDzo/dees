@@ -77,7 +77,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         return cell
     }
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "infoSegue", sender: indexPath.item)
+        handleClick(sender: indexPath.item)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height = 0

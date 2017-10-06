@@ -63,7 +63,7 @@ struct ReportReducer  {
                             store.state.reportState.reports.append(report!)
                     }else if let index = store.state.reportState.reports.index(where: {$0.id == report?.id}){
                         store.state.reportState.reports[index] = report!
-                        }
+                    }
           
                     store.state.reportState.status = .finished
                     store.state.reportState.status = .none

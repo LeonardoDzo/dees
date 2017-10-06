@@ -100,6 +100,22 @@ extension UIViewController {
                 vc.enterprises = [sender as! Business]
             }
             break
+        case let vc as FilesTableViewController:
+            if let dic = sender as? [String: Any] {
+                if let report = dic["report"] as? Report {
+                    vc.report = report
+                }
+                if let ent = dic["enterprise"] as? Business {
+                    vc.enterprise = ent
+                }
+                if let ent = dic["user"] as? User {
+                    vc.user = ent
+                }
+                if let type = dic["type"] as? Int {
+                    vc.type = type
+                }
+                
+            }
         default:
            break
         }

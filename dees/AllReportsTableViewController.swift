@@ -9,6 +9,11 @@
 import UIKit
 import ReSwift
 import Whisper
+protocol GoToProtocol :  class {
+    func goTo(_ route: RoutingDestination, sender: Any?)
+    func viewInfo(_ report: Report,_ type: String) -> Void
+}
+
 class AllReportsTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var enterprises = [Business]()
     var type : Int!
@@ -19,27 +24,16 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     var weekSelected: Int = 0
     var weeksTitleView : weeksView? = weeksView(frame: .zero)
     let notificationCenter = NotificationCenter.default
+    var lastContentOffset: CGFloat = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nib = UINib(nibName: "EnterpriseHeader", bundle: nil)
-        
-        self.styleNavBarAndTab_1()
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.showScrollOptions(sender:)))
-        swipeLeft.direction = .left
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.showScrollOptions(sender:)))
-        swipeRight.direction = .right
-        self.tableView.addGestureRecognizer(swipeLeft)
-        self.tableView.addGestureRecognizer(swipeRight)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-
-        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "EnterpriseHeaderCell")
-        self.hideKeyboardWhenTappedAround()
+        setupConf()
+        setupNavBar()
     }
     
-    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-       print("SUPERWARNING!!!")
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -55,6 +49,9 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ResponsableTableViewCell
         cell.enterprise = enterprises[indexPath.section]
         cell.tag = self.weeks[self.weekSelected].id
+        cell.gotoProtocol = self
+        cell.changeEnterpriseProtocol = self
+        cell.tableView.reloadData()
         return cell
     }
     
@@ -63,12 +60,17 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         let cell = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: "EnterpriseHeaderCell")  as! EnterpriseHeader
         cell.ctrl = self
         cell.configureView()
-        cell.setTitle(e.name!)
+        var name = e.name
+        if store.state.businessState.business.count > 0 {
+            name?.append(e.users.count > 1 ?" (\(e.users.count))" : "")
+        }
+        cell.borderColor.layer.backgroundColor = UIColor(hexString: "#\(e.color!)##")?.cgColor
+        cell.setTitle(name!)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
+        return 60
     }
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
@@ -84,38 +86,52 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-    
-    override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        update()
-        scrollTo(scrollView)
-    }
-    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if decelerate {
-            scrollTo(scrollView)
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? ResponsableTableViewCell {
+            if cell.users.count > 0 {
+                cell.lastsection = 0
+                cell.tableView.scrollToRow(at: IndexPath(row: 0, section: cell.lastsection), at: .top, animated: false)
+            }
         }
     }
-    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        scrollTo(scrollView)
+    
+    override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         
+    }
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+      scrollTo(scrollView)
     }
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollTo(scrollView)
     }
-    
     func scrollTo(_ scrollView: UIScrollView) -> Void {
         if let indexPath = tableView.indexPathForRow(at: scrollView.contentOffset) {
             var animation : UISwipeGestureRecognizerDirection = .down
             var section = indexPath.section
-            if scrollView.contentOffset.y >= self.tableView.rowHeight/2 {
+            let middle = Int(self.tableView.rowHeight/2)
+            var y = Int(scrollView.contentOffset.y)
+            if (self.lastContentOffset > scrollView.contentOffset.y) {
+                // move up
+               y = Int(self.lastContentOffset) - y
+            }
+            else if (self.lastContentOffset < scrollView.contentOffset.y) {
+                // move down
+                y -= Int(self.lastContentOffset)
+            }
+           
+        
+            if  y >= middle {
                 section += section == self.enterprises.count-1 ? 0 : 1
+
             }else{
-                 section -= section == 0 ? 0 : 1
+                section -= section == 0 ? 0 : 1
             }
             if enterpriseSelected < section {
                 animation = .right
-            }else if enterpriseSelected >= section{
+            }else if enterpriseSelected > section{
                 animation = .left
             }
+            self.lastContentOffset = CGFloat(middle*2*section)
             changeEnterprise(direction: animation)
         }
     }
@@ -142,7 +158,7 @@ extension AllReportsTableViewController : StoreSubscriber {
     }
     override func viewDidAppear(_ animated: Bool) {
         changeEnterprise(direction: .down)
-        update()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -151,19 +167,23 @@ extension AllReportsTableViewController : StoreSubscriber {
     }
     
     func newState(state: ReportState) {
+        self.view.isUserInteractionEnabled = true
+        
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell else {
+           return
+        }
+        cell.loadingView.stop()
         switch state.status {
         case .loading:
-            if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
-                cell.loadingView.start()
-            }
+            self.view.isUserInteractionEnabled = false
+            cell.loadingView.start()
             return
         case .finished:
-            Whisper.show(whistle: messages.success._01, action: .show(2.5))
-            update()
+            
             break
         case .Finished(let m as Murmur):
             Whisper.show(whistle: m, action: .show(2.5))
-            update()
+            
             break
         case .Failed(let m as Murmur):
             Whisper.show(whistle: m, action: .show(2.5))
@@ -173,18 +193,39 @@ extension AllReportsTableViewController : StoreSubscriber {
             break
         default:
             break
+           
         }
-        if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
-            cell.loadingView.stop()
-        }
+        cell.updated()
     }
     
+}
+extension AllReportsTableViewController {
+    func setupConf() -> Void {
+        let nib = UINib(nibName: "EnterpriseHeader", bundle: nil)
+        
+        self.styleNavBarAndTab_1()
+     
+        NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "EnterpriseHeaderCell")
+        self.hideKeyboardWhenTappedAround()
+    }
+    func setupNavBar() -> Void {
+        let add = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.updateReport))
+        self.navigationItem.rightBarButtonItem = add
+    }
     func update() -> Void {
         if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
             cell.tag = self.weeks[self.weekSelected].id
             cell.getMyReports()
         }
     }
+    
+    func updateReport() -> Void {
+        if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
+            cell.update()
+        }
+    }
+    
     func setVars() -> Void {
         self.user = store.state.userState.user
         
@@ -209,7 +250,6 @@ extension AllReportsTableViewController : StoreSubscriber {
         //update()
         
     }
-    
 }
 
 extension AllReportsTableViewController : weekProtocol {
@@ -279,13 +319,58 @@ extension AllReportsTableViewController : EnterpriseProtocol {
             self.enterpriseSelected += enterpriseSelected < enterprises.count-1 ? 1 : 0
         }
         let indexpath = IndexPath(row: 0, section: enterpriseSelected)
-        self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
+        self.lastContentOffset = CGFloat( self.enterpriseSelected * Int(self.tableView.rowHeight))
+         self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
+      
         
+        update()
     }
     func selectEnterprise() {
         if enterprises.count >  1 {
             self.pushToView(view: .enterprises, sender: type)
         }
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "viewInfo" {
+            if let data = sender as? [String:Any] {
+                guard let report = data["report"] as? Report else {
+                    return
+                }
+                guard let type = data["type"] as? String else {
+                    return
+                }
+                
+                if let vc = segue.destination as? DetailsContentViewController {
+                    vc.report = report
+                    vc.type = type
+                    if let e = enterprises.first(where: {$0.id == report.eid}) {
+                        vc.enterprise = e
+                        vc.user = e.users.first(where: {$0.id == report.uid})
+                    }
+                }
+            }
+        }
+    }
+}
+extension AllReportsTableViewController : GoToProtocol {
+    func goTo(_ route: RoutingDestination, sender: Any?) {
+        guard var dic = sender as? [String : Any] else {
+            return
+        }
+        dic["enterprise"] = self.enterprises[self.enterpriseSelected]
+        if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected)) as? ResponsableTableViewCell {
+            dic["user"] = cell.getUser()
+        }
+        
+        self.pushToView(view: route, sender: dic)
+    }
+    func viewInfo(_ report: Report,_ type: String) {
+        let data = [
+            "report": report,
+            "type": type
+            ] as [String : Any]
+        self.performSegue(withIdentifier: "viewInfo", sender: data)
     }
 }

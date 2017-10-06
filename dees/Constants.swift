@@ -74,6 +74,13 @@ struct Constants {
                 s.title = "Reporte actualizado"
                 return s
             }()
+            ///Información actualizada
+            static let _03 : Murmur! = {
+                var s = messages.success._00
+                s.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+                s.title = "Información actualizada"
+                return s
+            }()
  
         }
     }

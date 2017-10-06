@@ -91,7 +91,7 @@ struct UserReducer {
                 break
             case .failure(let error):
                 print(error)
-                store.state.userState.status = .Failed(messages.error._03)
+                store.state.userState.status = .Failed(messages.error._05)
                 break
             }
             
@@ -169,6 +169,7 @@ struct UserReducer {
                 }
                 break
             case .failure(let error):
+                store.state.userState.status = .Failed(messages.error._05)
                 break
             }
         })
