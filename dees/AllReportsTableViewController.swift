@@ -31,7 +31,7 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         setupNavBar()
     }
     
-   
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -95,47 +95,27 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         }
     }
     
-    override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        
-    }
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-      scrollTo(scrollView)
+        if !decelerate {
+            scrollTo(scrollView)
+        }
     }
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollTo(scrollView)
     }
     func scrollTo(_ scrollView: UIScrollView) -> Void {
-        if let indexPath = tableView.indexPathForRow(at: scrollView.contentOffset) {
-            var animation : UISwipeGestureRecognizerDirection = .down
-            var section = indexPath.section
-            let middle = Int(self.tableView.rowHeight/2)
-            var y = Int(scrollView.contentOffset.y)
-            if (self.lastContentOffset > scrollView.contentOffset.y) {
-                // move up
-               y = Int(self.lastContentOffset) - y
-            }
-            else if (self.lastContentOffset < scrollView.contentOffset.y) {
-                // move down
-                y -= Int(self.lastContentOffset)
-            }
-           
-        
-            if  y >= middle {
-                section += section == self.enterprises.count-1 ? 0 : 1
-
-            }else{
-                section -= section == 0 ? 0 : 1
-            }
-            if enterpriseSelected < section {
+        var animation : UISwipeGestureRecognizerDirection = .down
+        let visibleRect = CGRect(origin: tableView.contentOffset, size: tableView.bounds.size)
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+        if let indexPath = tableView.indexPathForRow(at: visiblePoint){
+            if enterpriseSelected < indexPath.section {
                 animation = .right
-            }else if enterpriseSelected > section{
+            }else if enterpriseSelected > indexPath.section{
                 animation = .left
             }
-            self.lastContentOffset = CGFloat(middle*2*section)
             changeEnterprise(direction: animation)
         }
     }
-    
 }
 
 extension AllReportsTableViewController : StoreSubscriber {
@@ -170,7 +150,7 @@ extension AllReportsTableViewController : StoreSubscriber {
         self.view.isUserInteractionEnabled = true
         
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell else {
-           return
+            return
         }
         cell.loadingView.stop()
         switch state.status {
@@ -179,11 +159,11 @@ extension AllReportsTableViewController : StoreSubscriber {
             cell.loadingView.start()
             return
         case .finished:
-            
+            cell.updated()
             break
         case .Finished(let m as Murmur):
             Whisper.show(whistle: m, action: .show(2.5))
-            
+            cell.updated()
             break
         case .Failed(let m as Murmur):
             Whisper.show(whistle: m, action: .show(2.5))
@@ -193,9 +173,9 @@ extension AllReportsTableViewController : StoreSubscriber {
             break
         default:
             break
-           
+            
         }
-        cell.updated()
+        
     }
     
 }
@@ -204,7 +184,7 @@ extension AllReportsTableViewController {
         let nib = UINib(nibName: "EnterpriseHeader", bundle: nil)
         
         self.styleNavBarAndTab_1()
-     
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "EnterpriseHeaderCell")
         self.hideKeyboardWhenTappedAround()
@@ -216,9 +196,12 @@ extension AllReportsTableViewController {
     func update() -> Void {
         if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
             cell.tag = self.weeks[self.weekSelected].id
-            cell.getMyReports()
+            cell.enterprise = self.enterprises[self.enterpriseSelected]
+            cell.tableView.reloadData()
+             cell.getMyReports() 
         }
     }
+
     
     func updateReport() -> Void {
         if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
@@ -242,12 +225,11 @@ extension AllReportsTableViewController {
                     self.enterprises.insert(b1, at: count)
                 })
             })
-            tableView.reloadData()
         }
         
         self.weeks = store.state.reportState.weeks
         didMove(toParentViewController: self)
-        //update()
+       
         
     }
 }
@@ -269,6 +251,7 @@ extension AllReportsTableViewController : weekProtocol {
         
         if animation != .none {
             didMove(toParentViewController: self)
+            
             self.tableView.reloadSections(IndexSet(integer: self.enterpriseSelected), with: animation)
             update()
         }
@@ -320,8 +303,8 @@ extension AllReportsTableViewController : EnterpriseProtocol {
         }
         let indexpath = IndexPath(row: 0, section: enterpriseSelected)
         self.lastContentOffset = CGFloat( self.enterpriseSelected * Int(self.tableView.rowHeight))
-         self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
-      
+        self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
+        
         
         update()
     }
@@ -347,7 +330,7 @@ extension AllReportsTableViewController : EnterpriseProtocol {
                     vc.type = type
                     if let e = enterprises.first(where: {$0.id == report.eid}) {
                         vc.enterprise = e
-                        vc.user = e.users.first(where: {$0.id == report.uid})
+                        vc.user = e.users.count > 0 ? e.users.first(where: {$0.id == report.uid}) : store.state.userState.user
                     }
                 }
             }

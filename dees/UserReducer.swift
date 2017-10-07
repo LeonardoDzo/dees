@@ -168,7 +168,7 @@ struct UserReducer {
                     print(":(")
                 }
                 break
-            case .failure(let error):
+            case .failure(_):
                 store.state.userState.status = .Failed(messages.error._05)
                 break
             }

@@ -73,6 +73,7 @@ class DetailsContentViewController: UIViewController, UITextViewDelegate {
     }
     @IBAction func handleSave(_ sender: UIButton) {
         store.dispatch(ReportsAction.Post(report: report))
+        self.dismiss(animated: true, completion: nil)
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -107,15 +108,5 @@ class DetailsContentViewController: UIViewController, UITextViewDelegate {
         
         
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

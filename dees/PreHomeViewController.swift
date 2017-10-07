@@ -117,15 +117,18 @@ extension PreHomeViewController : preHomeProtocol {
  extension PreHomeViewController: StoreSubscriber {
     typealias StoreSubscriberStateType = BusinessState
     func newState(state: BusinessState) {
-
+        self.view.isUserInteractionEnabled = true
         switch state.status {
-        case .loading, .failed:
+        case .loading:
             self.view.isUserInteractionEnabled = false
             break
         case .finished:
-            self.view.isUserInteractionEnabled = true
+          
             collectionView?.reloadData()
             verifyEnterprises()
+            break
+        case .Failed(let m as Murmur):
+            Whisper.show(whistle: m, action: .show(3.0))
             break
         default:
             break

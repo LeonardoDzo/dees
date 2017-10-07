@@ -42,6 +42,7 @@
 		027FE2281F3CFB54005C6FF8 /* RerpotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2271F3CFB54005C6FF8 /* RerpotService.swift */; };
 		0280EF2C1F86B932003247F5 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280EF2B1F86B932003247F5 /* DesignableView.swift */; };
 		0280EF2E1F86BB2C003247F5 /* DetailsContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */; };
+		028E9FF01F880DF900ABE342 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028E9FEF1F880DF900ABE342 /* CloudKit.framework */; };
 		02991C871F7ADD84006148EF /* Persmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02991C861F7ADD84006148EF /* Persmission.swift */; };
 		02A3A4711F3A1D6F0048750E /* UIVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4701F3A1D6F0048750E /* UIVIew.swift */; };
 		02A3A4731F3A22450048750E /* UIViewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A4721F3A22450048750E /* UIViewcontroller.swift */; };
@@ -104,6 +105,7 @@
 		025EB9AB1F350A730075611F /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		025EB9AD1F35464F0075611F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		025EB9AF1F354B740075611F /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		02647F2D1F87FD3700E5AAC9 /* dees.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dees.entitlements; sourceTree = "<group>"; };
 		0271D4161F69CA4800727F28 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		0272A3721F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseCollectionViewController.swift; sourceTree = "<group>"; };
 		0272A3741F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 		027FE2271F3CFB54005C6FF8 /* RerpotService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RerpotService.swift; sourceTree = "<group>"; };
 		0280EF2B1F86B932003247F5 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsContentViewController.swift; sourceTree = "<group>"; };
+		028E9FEF1F880DF900ABE342 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		02991C861F7ADD84006148EF /* Persmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persmission.swift; sourceTree = "<group>"; };
 		02A3A4701F3A1D6F0048750E /* UIVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIVIew.swift; sourceTree = "<group>"; };
 		02A3A4721F3A22450048750E /* UIViewcontroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewcontroller.swift; sourceTree = "<group>"; };
@@ -160,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				24714CF14BFF1A51E3C35A6F /* Pods_dees.framework in Frameworks */,
+				028E9FF01F880DF900ABE342 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +224,7 @@
 		025EB9841F34F43F0075611F /* dees */ = {
 			isa = PBXGroup;
 			children = (
+				02647F2D1F87FD3700E5AAC9 /* dees.entitlements */,
 				0238D2D11F745D3F0009B1F0 /* gifts */,
 				0238D2D01F745D1D0009B1F0 /* extra */,
 				02A3A4811F3A8F420048750E /* cells */,
@@ -376,6 +381,7 @@
 		785462EAF3E59381B6128BF6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				028E9FEF1F880DF900ABE342 /* CloudKit.framework */,
 				DCB879BEDBA3E3D8A2B1BA03 /* Pods_dees.framework */,
 			);
 			name = Frameworks;
@@ -418,6 +424,14 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = XSFS8X2N87;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -705,11 +719,16 @@
 			baseConfigurationReference = CA39A3E619D51EC5D71E43CA /* Pods-dees.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = dees/dees.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XSFS8X2N87;
 				INFOPLIST_FILE = dees/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = res.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -719,11 +738,15 @@
 			baseConfigurationReference = 577EF8040DFD0CDF2752B261 /* Pods-dees.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = dees/dees.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XSFS8X2N87;
 				INFOPLIST_FILE = dees/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = res.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

@@ -103,6 +103,7 @@ class ResponsableTableViewCell: UITableViewCell {
         self.loadingView.center = tableView.center
         self.loadingView.frame.origin.x -= self.loadingView.loading.frame.width/2
         self.loadingView.frame.origin.y -= self.loadingView.loading.frame.width
+        
     }
     
 }
@@ -111,12 +112,11 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         if enterprise == nil {
             return 0
         }
-        if store.state.businessState.business.count == 0 {
+        if enterprise.users.count == 0 {
             self.users = [store.state.userState.user]
         }else{
             self.users = enterprise.users
         }
-        
         return users.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -188,4 +188,25 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         }
     }
 
+}
+extension ResponsableTableViewCell {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            cellMostVisible()
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        cellMostVisible()
+    }
+    
+    func cellMostVisible() {
+        let visibleRect = CGRect(origin: tableView.contentOffset, size: tableView.bounds.size)
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+        let indexPath = tableView.indexPathForRow(at: visiblePoint)
+        let count = tableView.indexPathsForVisibleRows?.count ?? 1
+        if count > 1 {
+             tableView.scrollToRow(at: indexPath!, at: .top, animated: true)
+        }
+    }
 }

@@ -136,6 +136,7 @@ struct BusinessReducer {
                     
                     break
                 case .failure(let error):
+                    store.state.businessState.status = .Failed(messages.error._01)
                     print(error)
                     break
                 }

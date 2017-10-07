@@ -322,54 +322,6 @@
             </objects>
             <point key="canvasLocation" x="4988" y="391"/>
         </scene>
-        <!--Anexos Table View Controller-->
-        <scene sceneID="hIq-Bp-bmK">
-            <objects>
-                <tableViewController id="VfK-Cf-g4k" customClass="AnexosTableViewController" customModule="dees" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Int-ZY-Oyt">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.1137254902" green="0.13725490200000001" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" textLabel="goC-k4-fmW" detailTextLabel="g1a-T8-t7R" style="IBUITableViewCellStyleSubtitle" id="4sI-15-IdE">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4sI-15-IdE" id="Aeu-Df-Aa7">
-                                    <rect key="frame" x="0.0" y="0.0" width="381" height="43.666666666666664"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="goC-k4-fmW">
-                                            <rect key="frame" x="20.000000000000004" y="5" width="33.333333333333336" height="20.333333333333332"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="g1a-T8-t7R">
-                                            <rect key="frame" x="19.999999999999996" y="25.333333333333332" width="43.666666666666664" height="14.333333333333334"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" red="0.5450980392" green="0.82745098039999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.086274509799999996" green="0.1019607843" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="VfK-Cf-g4k" id="f6r-UT-o9e"/>
-                            <outlet property="delegate" destination="VfK-Cf-g4k" id="yej-jQ-u3x"/>
-                        </connections>
-                    </tableView>
-                    <connections>
-                        <segue destination="hzK-Hx-5uY" kind="show" identifier="detailsSegue" id="84D-y7-a3g"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dFn-zt-51s" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6991" y="457"/>
-        </scene>
         <!--Files Table View Controller-->
         <scene sceneID="xnx-PZ-YuW">
             <objects>
@@ -410,6 +362,9 @@
                             <outlet property="delegate" destination="3xo-p0-s5h" id="IMd-wu-aL4"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="hzK-Hx-5uY" kind="show" identifier="detailsSegue" id="t2R-IT-gl8"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F28-SU-ZyN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -626,7 +581,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77Z-98-QFH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8623.188405797102" y="1179.6195652173915"/>
+            <point key="canvasLocation" x="4530" y="2918"/>
         </scene>
         <!--Weeks Table View Controller-->
         <scene sceneID="rIQ-fo-Pgx">
@@ -1247,12 +1202,12 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Persona" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGT-nO-GFP">
-                                                            <rect key="frame" x="0.0" y="20.333333333333343" width="324" height="19.666666666666657"/>
+                                                            <rect key="frame" x="0.0" y="20.333333333333343" width="324" height="20.333333333333314"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Operativo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HaD-kY-rdQ">
-                                                            <rect key="frame" x="0.0" y="40" width="324" height="17"/>
+                                                            <rect key="frame" x="0.0" y="40.666666666666657" width="324" height="16.333333333333343"/>
                                                             <fontDescription key="fontDescription" name="PirulenRg-Regular" family="Pirulen" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
