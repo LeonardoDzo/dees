@@ -19,8 +19,7 @@ class EnterprisesTableViewController: UITableViewController {
         super.viewDidLoad()
         searchFooter = SearchFooter(frame: CGRect(x: 0, y: self.view.frame.height - 44, width: self.view.frame.width, height: 44))
         self.styleNavBarAndTab_1()
-        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
-        self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : Any]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         self.navigationItem.title = "Empresas"
         tableView.tableFooterView = UIView(frame: .zero)
         searchController.searchResultsUpdater = self

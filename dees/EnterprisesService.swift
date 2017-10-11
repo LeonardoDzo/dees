@@ -20,6 +20,8 @@ enum EnterpriseService {
     
 }
 extension EnterpriseService: TargetType, AccessTokenAuthorizable {
+    
+    
     var baseURL: URL { return URL(string: "\(Constants.ServerApi.url)companies")! }
     var path: String {
         switch self {
@@ -47,6 +49,9 @@ extension EnterpriseService: TargetType, AccessTokenAuthorizable {
         case .putEnterprise:
             return .put
         }
+    }
+    var authorizationType: AuthorizationType {
+        return .bearer
     }
     var shouldAuthorize: Bool {
         switch self {
@@ -81,8 +86,10 @@ extension EnterpriseService: TargetType, AccessTokenAuthorizable {
     }
     var task: Task {
         switch self {
-        case .getAll, .addUserAt, .deleteUser, .get, .putEnterprise, .create, .delete:
-            return .request
+        case .getAll,.deleteUser, .get, .delete:
+            return .requestPlain
+        case .addUserAt, .putEnterprise, .create:
+            return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
         }
     }
     var headers: [String: String]? {

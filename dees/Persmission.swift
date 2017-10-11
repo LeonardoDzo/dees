@@ -21,6 +21,4 @@ struct Permission : Mappable {
         try cid = map.from(p.kcompanyId)
         try self.rid =  Rol(rawValue: map.from(p.kroleId))
     }
-    
-    
 }

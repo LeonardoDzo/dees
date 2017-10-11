@@ -90,7 +90,7 @@ class ResponsableTableViewController: UITableViewController, UIGestureRecognizer
         self.present(alertView, animated: true, completion: nil)
     }
     
-    func addUser() -> Void {
+    @objc func addUser() -> Void {
         self.performSegue(withIdentifier: "usersSegue", sender: business)
     }
     
@@ -98,8 +98,8 @@ class ResponsableTableViewController: UITableViewController, UIGestureRecognizer
         if segue.identifier == "reportSegue" {
            
         }else if segue.identifier == "usersSegue" {
-            let vc = segue.destination as! UsersTableViewController
-            vc.enterprise = sender as! Business
+//            let vc = segue.destination as! UsersTableViewController
+//            vc.enterprise = sender as! Business
         }
     }
     

@@ -13,8 +13,7 @@ class WeeksTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.styleNavBarAndTab_1()
-        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
-        self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : Any]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         self.navigationItem.title = "Semanas"
         tableView.tableFooterView = UIView(frame: .zero)
         
@@ -61,25 +60,29 @@ class WeeksTableViewController: UITableViewController {
 
 }
 extension WeeksTableViewController : StoreSubscriber {
-    typealias StoreSubscriberStateType = ReportState
+    typealias StoreSubscriberStateType = WeekState
     override func viewWillAppear(_ animated: Bool) {
         store.subscribe(self) {
-            $0.select({s in s.reportState})
+            $0.select({s in s.weekState})
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
     }
-    func newState(state: ReportState) {
-        weeks = state.weeks
-        switch state.status {
+    func newState(state: WeekState) {
+        switch state.weeks {
         case .loading:
+            print("Cargando")
+            break
+        case .Finished(let w as [Week]):
+            weeks = w
+             self.tableView.reloadData()
             break
         default:
             break
         }
-        self.tableView.reloadData()
+       
     }
     
 }

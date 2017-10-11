@@ -93,7 +93,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         
         return CGSize(width: width, height: height)
     }
-    func rotated() {
+    @objc func rotated() {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
             collectionView?.reloadData()
         }
@@ -117,10 +117,10 @@ extension PreHomeViewController : preHomeProtocol {
  extension PreHomeViewController: StoreSubscriber {
     typealias StoreSubscriberStateType = BusinessState
     func newState(state: BusinessState) {
-        self.view.isUserInteractionEnabled = true
+ 
         switch state.status {
         case .loading:
-            self.view.isUserInteractionEnabled = false
+            
             break
         case .finished:
           

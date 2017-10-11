@@ -10,7 +10,5 @@ import Foundation
 import ReSwift
 
 struct ReportState: StateType {
-    var reports: [Report]
-    var weeks: [Week]
-    var status : Result<Any>
+    var reports: Result<Any> = .loading
 }

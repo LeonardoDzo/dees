@@ -68,13 +68,13 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
             break
         }
     }
-    func tapOp() -> Void {
+    @objc func tapOp() -> Void {
         self.viewDetail(to: "Operativo")
     }
-    func tapFi() -> Void {
+    @objc func tapFi() -> Void {
         self.viewDetail(to:  "Financiero")
     }
-    func tap() -> Void {
+    @objc func tap() -> Void {
         self.viewDetail(to: "Observaciones")
     }
     

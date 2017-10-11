@@ -22,7 +22,7 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     var Bsection = -1
     var weeks = [Week]()
     var weekSelected: Int = 0
-    var weeksTitleView : weeksView? = weeksView(frame: .zero)
+    lazy var weeksTitleView : weeksView? = weeksView(frame: .zero)
     let notificationCenter = NotificationCenter.default
     var lastContentOffset: CGFloat = 0
     override func viewDidLoad() {
@@ -31,7 +31,19 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         setupNavBar()
     }
     
-    
+    override func viewDidDisappear(_ animated: Bool) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        var vc = sb.instantiateViewController(withIdentifier: "AllReportsTableViewController") as? AllReportsTableViewController
+        if vc != nil {
+            vc = nil
+          
+           URLCache.shared.removeAllCachedResponses()
+        }
+    }
+
+    deinit {
+        print("deinit")
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -42,7 +54,7 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        // #warning Incomplete implementation, return the number @objc of rows
         return 1
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,20 +81,11 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60
-    }
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0
+    @objc func rotated() -> Void {
+       // self.tableView.reloadData()
     }
     
-    func rotated() -> Void {
-        self.tableView.reloadData()
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 575
-    }
+ 
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
@@ -116,6 +119,18 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
             changeEnterprise(direction: animation)
         }
     }
+    override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        let visibleRect = CGRect(origin: tableView.contentOffset, size: tableView.bounds.size)
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+        if let indexPath = tableView.indexPathForRow(at: visiblePoint){
+            if let cell = tableView.cellForRow(at: indexPath) as? ResponsableTableViewCell {
+                cell.tag = self.weeks[self.weekSelected].id
+                cell.enterprise = self.enterprises[self.enterpriseSelected]
+                cell.tableView.reloadData()
+                cell.getMyReports()
+            }
+        }
+    }
 }
 
 extension AllReportsTableViewController : StoreSubscriber {
@@ -137,10 +152,14 @@ extension AllReportsTableViewController : StoreSubscriber {
         }
     }
     override func viewDidAppear(_ animated: Bool) {
+        if let cell = tableView.cellForRow(at: IndexPath(row: 0,section: self.enterpriseSelected)) as? ResponsableTableViewCell {
+            cell.getMyReports()
+        }
         changeEnterprise(direction: .down)
-        
+       
     }
-    
+   
+
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
         Whisper.hide(whisperFrom: self.navigationController!)
@@ -152,18 +171,16 @@ extension AllReportsTableViewController : StoreSubscriber {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell else {
             return
         }
-        cell.loadingView.stop()
-        switch state.status {
+        switch state.reports {
         case .loading:
             self.view.isUserInteractionEnabled = false
             cell.loadingView.start()
             return
-        case .finished:
+
+        case .Finished(let tupla as (Report,Murmur)):
+            Whisper.show(whistle: tupla.1, action: .show(2.5))
             cell.updated()
-            break
-        case .Finished(let m as Murmur):
-            Whisper.show(whistle: m, action: .show(2.5))
-            cell.updated()
+            
             break
         case .Failed(let m as Murmur):
             Whisper.show(whistle: m, action: .show(2.5))
@@ -173,9 +190,8 @@ extension AllReportsTableViewController : StoreSubscriber {
             break
         default:
             break
-            
-        }
         
+        }
     }
     
 }
@@ -193,17 +209,10 @@ extension AllReportsTableViewController {
         let add = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.updateReport))
         self.navigationItem.rightBarButtonItem = add
     }
-    func update() -> Void {
-        if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
-            cell.tag = self.weeks[self.weekSelected].id
-            cell.enterprise = self.enterprises[self.enterpriseSelected]
-            cell.tableView.reloadData()
-             cell.getMyReports() 
-        }
-    }
+
 
     
-    func updateReport() -> Void {
+    @objc func updateReport() -> Void {
         if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
             cell.update()
         }
@@ -227,15 +236,13 @@ extension AllReportsTableViewController {
             })
         }
         
-        self.weeks = store.state.reportState.weeks
+        self.weeks = store.state.weekState.getWeeks()
         didMove(toParentViewController: self)
-       
-        
     }
 }
 
 extension AllReportsTableViewController : weekProtocol {
-    func changeWeek(direction : UISwipeGestureRecognizerDirection){
+   func changeWeek(direction : UISwipeGestureRecognizerDirection){
         var animation: UITableViewRowAnimation = .none
         if direction == .right {
             if weekSelected > 0 {
@@ -251,20 +258,20 @@ extension AllReportsTableViewController : weekProtocol {
         
         if animation != .none {
             didMove(toParentViewController: self)
-            
+            tableView.beginUpdates()
             self.tableView.reloadSections(IndexSet(integer: self.enterpriseSelected), with: animation)
-            update()
+            tableView.endUpdates()
         }
     }
-    func tapLeftWeek() {
+    @objc func tapLeftWeek() {
         changeWeek(direction: .left)
     }
     
-    func tapRightWeek() {
+    @objc func tapRightWeek() {
         changeWeek(direction: .right)
     }
     
-    func selectWeek() {
+    @objc func selectWeek() {
         self.pushToView(view: .weeksView)
     }
     
@@ -288,10 +295,10 @@ extension AllReportsTableViewController : EnterpriseProtocol {
         changeEnterprise(direction: sender.direction == .right ? .left : .right)
     }
     
-    func tapRight() {
+    @objc func tapRight() {
         changeEnterprise(direction: .right)
     }
-    func tapLeft() {
+    @objc func tapLeft() {
         changeEnterprise(direction: .left)
     }
     
@@ -304,15 +311,12 @@ extension AllReportsTableViewController : EnterpriseProtocol {
         let indexpath = IndexPath(row: 0, section: enterpriseSelected)
         self.lastContentOffset = CGFloat( self.enterpriseSelected * Int(self.tableView.rowHeight))
         self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
-        
-        
-        update()
+
     }
-    func selectEnterprise() {
+    @objc func selectEnterprise() {
         if enterprises.count >  1 {
             self.pushToView(view: .enterprises, sender: type)
         }
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

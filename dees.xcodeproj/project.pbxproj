@@ -15,6 +15,8 @@
 		0238D2D31F745D550009B1F0 /* firefly2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0238D2D21F745D550009B1F0 /* firefly2.gif */; };
 		0243F3621F75D96500F85F8D /* titleNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0243F3611F75D96500F85F8D /* titleNavBarView.swift */; };
 		0243F3641F75E73C00F85F8D /* weeksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0243F3631F75E73C00F85F8D /* weeksView.swift */; };
+		024CAFF01F8D3A63008D2922 /* weekState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024CAFEF1F8D3A63008D2922 /* weekState.swift */; };
+		024CAFF41F8D4200008D2922 /* WeekReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024CAFF31F8D4200008D2922 /* WeekReducer.swift */; };
 		025EB9861F34F43F0075611F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9851F34F43F0075611F /* AppDelegate.swift */; };
 		025EB9881F34F43F0075611F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9871F34F43F0075611F /* ViewController.swift */; };
 		025EB98B1F34F43F0075611F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 025EB9891F34F43F0075611F /* Main.storyboard */; };
@@ -88,6 +90,8 @@
 		0238D2D21F745D550009B1F0 /* firefly2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = firefly2.gif; sourceTree = "<group>"; };
 		0243F3611F75D96500F85F8D /* titleNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = titleNavBarView.swift; sourceTree = "<group>"; };
 		0243F3631F75E73C00F85F8D /* weeksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weeksView.swift; sourceTree = "<group>"; };
+		024CAFEF1F8D3A63008D2922 /* weekState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weekState.swift; sourceTree = "<group>"; };
+		024CAFF31F8D4200008D2922 /* WeekReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekReducer.swift; sourceTree = "<group>"; };
 		025EB9821F34F43F0075611F /* dees.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dees.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		025EB9851F34F43F0075611F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		025EB9871F34F43F0075611F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -263,6 +267,7 @@
 				025EB9A31F34FC660075611F /* UserReducer.swift */,
 				02A3A47D1F3A55C60048750E /* BusinessReducer.swift */,
 				02E7AB1A1F3D238A0037B7D1 /* ReportReducer.swift */,
+				024CAFF31F8D4200008D2922 /* WeekReducer.swift */,
 			);
 			name = Reducers;
 			sourceTree = "<group>";
@@ -274,6 +279,7 @@
 				025EB9A51F34FCC60075611F /* UserSatate.swift */,
 				02A3A4791F3A53C20048750E /* BusinessState.swift */,
 				02E7AB1C1F3D24A80037B7D1 /* ReportState.swift */,
+				024CAFEF1F8D3A63008D2922 /* weekState.swift */,
 			);
 			name = States;
 			sourceTree = "<group>";
@@ -423,6 +429,7 @@
 					025EB9811F34F43F0075611F = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = XSFS8X2N87;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -498,7 +505,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		D4AD8F978E0DFBA5B9B51D9B /* [CP] Embed Pods Frameworks */ = {
@@ -532,6 +539,7 @@
 				022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */,
 				02B5A2231F672D86001CD113 /* ResponsableTableViewCell.swift in Sources */,
 				0280EF2C1F86B932003247F5 /* DesignableView.swift in Sources */,
+				024CAFF41F8D4200008D2922 /* WeekReducer.swift in Sources */,
 				02DD8D311F3E1CBE00896850 /* UINavigationBar.swift in Sources */,
 				02E7AB1F1F3D32400037B7D1 /* Week.swift in Sources */,
 				0280EF2E1F86BB2C003247F5 /* DetailsContentViewController.swift in Sources */,
@@ -572,6 +580,7 @@
 				0238D2CE1F745D180009B1F0 /* UIImageView.swift in Sources */,
 				02E7AB211F3D3BBD0037B7D1 /* DateFormatter.swift in Sources */,
 				025EB9A01F34FBF10075611F /* AppReducer.swift in Sources */,
+				024CAFF01F8D3A63008D2922 /* weekState.swift in Sources */,
 				027FE2261F3CF151005C6FF8 /* Report.swift in Sources */,
 				02D4AE1B1F71F48700623406 /* SearchFooter.swift in Sources */,
 				02F4CC9A1F3B6F16008312A6 /* BusinessTableViewCell.swift in Sources */,
@@ -724,12 +733,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XSFS8X2N87;
 				INFOPLIST_FILE = dees/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = res.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -743,11 +754,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XSFS8X2N87;
 				INFOPLIST_FILE = dees/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = res.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

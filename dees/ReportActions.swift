@@ -30,6 +30,16 @@ struct ReportsAction {
             self.report = report
         }
     }
+    struct UploadFile: Action {
+        var report: Report!
+        var type: Int!
+        var data: Data!
+        init(report: Report, type: Int, data: Data) {
+            self.report = report
+            self.data = data
+            self.type = type
+        }
+    }
 }
 
 struct WeeksAction {

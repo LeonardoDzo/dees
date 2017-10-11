@@ -13,7 +13,7 @@ import Moya
 import Mapper
 import Whisper
 var token = ""
-var authPlugin = AccessTokenPlugin(token: token)
+var authPlugin = AccessTokenPlugin(tokenClosure: token)
 let userProvider = MoyaProvider<UserService>(plugins: [authPlugin])
 let authProvider = MoyaProvider<AuthService>(plugins: [])
 struct UserReducer {
@@ -66,7 +66,7 @@ struct UserReducer {
                         return
                     }
                     token = t
-                    authPlugin = AccessTokenPlugin(token: token)
+                    authPlugin = AccessTokenPlugin(tokenClosure: token)
                     
                     print("TOKEN:" ,token)
                     let user  = User.from(repos)
@@ -180,7 +180,7 @@ struct UserReducer {
         UserDefaults().removeObject(forKey: "email")
         UserDefaults().removeObject(forKey: "password")
         store.state.businessState = BusinessState(business: [], status: .none)
-        store.state.reportState = ReportState(reports: [], weeks: [], status: .none)
+        store.state.reportState.reports = .none
         store.state.userState = UserState(user: nil, type: 0, users: [], status: .none)
         singleton.enterpriseNav.removeAll()
     }

@@ -173,7 +173,7 @@ extension EnterpriseCollectionViewController : StoreSubscriber {
     func setTitle(){
         
         if week == nil {
-            week = store.state.reportState.weeks.first
+            week = store.state.weekState.getWeeks().first
         }else{
             self.navigationItem.titleView = titleNavBarView(title: "Semana:", subtitle:  (Date(string:week.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:week.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
         }
@@ -181,7 +181,7 @@ extension EnterpriseCollectionViewController : StoreSubscriber {
     }
 }
 extension EnterpriseCollectionViewController {
-    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+    @objc func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
         if gestureReconizer.state != UIGestureRecognizerState.ended {
             return
         }
@@ -293,14 +293,14 @@ extension EnterpriseCollectionViewController {
         }
     }
     
-    func preSelect(sender: UIBarButtonItem) -> Void {
+    @objc func preSelect(sender: UIBarButtonItem) -> Void {
         guard let ext = enterprisesNav.items.last?[0].parentId else {return}
         if let e = enterprisesNav.items[enterprisesNav.items.count-2].first(where: {$0.id == ext}){
             actionsEnterprise(e)
         }
     }
     
-    func back2() -> Void {
+    @objc func back2() -> Void {
         _ = enterprisesNav.pop()
         AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "right")
         setupNavBar()

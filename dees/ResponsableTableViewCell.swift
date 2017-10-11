@@ -8,6 +8,7 @@
 
 import UIKit
 import ReSwift
+import Whisper
 import KDLoadingView
 class ResponsableTableViewCell: UITableViewCell {
     let notificationCenter = NotificationCenter.default
@@ -18,7 +19,7 @@ class ResponsableTableViewCell: UITableViewCell {
     var reports = [Report]()
     var users = [User]()
     /// Bandera que sirve para moverme entre usaurios
-     var lastsection = 0
+    var lastsection = 0
     var enterprise : Business!
     lazy var loadingView : LoadingView = {
         let loading = LoadingView()
@@ -43,7 +44,7 @@ class ResponsableTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func swipe(sender: UISwipeGestureRecognizer) {
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
         changeUser(direction: sender.direction == .right ? .left : .right)
     }
     
@@ -53,7 +54,7 @@ class ResponsableTableViewCell: UITableViewCell {
         }else if direction == .right{
             self.lastsection += 1
         }
-
+        
         if lastsection > users.count-1 {
             changeEnterpriseProtocol.changeEnterprise(direction: direction)
             return
@@ -61,10 +62,9 @@ class ResponsableTableViewCell: UITableViewCell {
             changeEnterpriseProtocol.changeEnterprise(direction: direction)
             return
         }
-    
+        
         let indexpath = IndexPath(row: 0, section: lastsection)
         self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
-        get(indexpath)
     }
     
     func getMyReports() -> Void {
@@ -85,16 +85,20 @@ class ResponsableTableViewCell: UITableViewCell {
         return nil
     }
     func updated() {
+        self.loadingView.stop()
         guard tableView.visibleCells.count > 0 , let cell = tableView.visibleCells[0] as? RerportTableViewCell else {
             return
         }
         if let indexPath = self.tableView.indexPath(for: cell) {
-            self.tableView.reloadRows(at: [indexPath], with: .none)
+            let uid = users[indexPath.section].id
+            getReports()
+            cell.report =  reports.first(where: {$0.eid == self.enterprise.id && $0.wid == self.tag && $0.uid == uid})
+            cell.bind()
         }
     }
     
     func setTableViewDataSourceDelegate() {
-       
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tag = self.tag
@@ -124,13 +128,33 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RerportTableViewCell
-        
         let uid = users[indexPath.section].id
-        cell.report = store.state.reportState.reports.first(where: {$0.eid == self.enterprise.id && $0.wid == self.tag && $0.uid == uid})
+        getReports()
+        cell.report =  reports.first(where: {$0.eid == self.enterprise.id && $0.wid == self.tag && $0.uid == uid})
         cell.bind()
+        
+        
         cell.gotoProtocol = gotoProtocol
         cell.tag = uid!
         return cell
+    }
+    
+    func getReports() -> Void {
+        switch store.state.reportState.reports {
+        case .failed:
+            let m = messages.error._00
+            Whisper.show(whistle: m, action: .show(3.0))
+            break
+        case .Finished(let tupla as (Report, Murmur)):
+            if !reports.contains(where: {tupla.0.id == $0.id}){
+                reports.append(tupla.0)
+            }else if let index = reports.index(where: {$0.id == tupla.0.id}) {
+                reports[index] = tupla.0
+            }
+            break
+        default:
+            break
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -148,17 +172,7 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         return headerFooterView
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        return 25
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown  || UIDevice.current.orientation == .faceDown || UIDevice.current.orientation == .faceUp{
-            return 575
-        }
-        return users.count > 1 ? 575 : 860
-    }
-    
+
     func get(_ indexPath: IndexPath) -> Void {
         self.loadingView.stop()
         if users.count == 0 {
@@ -166,28 +180,27 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
         }
         
         if let uid = users[indexPath.section].id {
-             store.dispatch(ReportsAction.Get(eid: enterprise.id, wid: self.tag, uid: uid))
+                store.dispatch(ReportsAction.Get(eid: self.enterprise.id, wid: self.tag, uid: uid))
         }
     }
-    
-    
-    
-    func tableView(_  tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if tableView.visibleCells.contains(cell){
-            get(indexPath)
-        }
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        let visibleRect = CGRect(origin: tableView.contentOffset, size: tableView.bounds.size)
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+        let indexPath = tableView.indexPathForRow(at: visiblePoint)
+        get(indexPath!)
     }
+    
     
     func update() -> Void {
         if  tableView.visibleCells.count > 0 {
             tableView.visibleCells.forEach({ cell  in
                 if let xcell = cell as? RerportTableViewCell {
-                     xcell.update()
+                    xcell.update()
                 }
             })
         }
     }
-
+    
 }
 extension ResponsableTableViewCell {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -206,7 +219,7 @@ extension ResponsableTableViewCell {
         let indexPath = tableView.indexPathForRow(at: visiblePoint)
         let count = tableView.indexPathsForVisibleRows?.count ?? 1
         if count > 1 {
-             tableView.scrollToRow(at: indexPath!, at: .top, animated: true)
+            tableView.scrollToRow(at: indexPath!, at: .top, animated: true)
         }
     }
 }

@@ -13,6 +13,7 @@ struct AppState: StateType{
     var userState : UserState
     var businessState: BusinessState
     var reportState: ReportState
+    var weekState : WeekState
 }
 enum Result<T> {
     case loading

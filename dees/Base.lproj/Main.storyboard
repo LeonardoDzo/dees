@@ -368,7 +368,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F28-SU-ZyN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3622" y="2918"/>
+            <point key="canvasLocation" x="3441" y="2918"/>
         </scene>
         <!--Enterprise View View Controller-->
         <scene sceneID="5gp-Tu-FvK">
@@ -492,7 +492,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xW1-si-Rin" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4886.9565217391309" y="1944.2934782608697"/>
+            <point key="canvasLocation" x="4032" y="1379"/>
         </scene>
         <!--Users Table View Controller-->
         <scene sceneID="SPn-BY-kpZ">
@@ -543,7 +543,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IAj-X8-Kac" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5681" y="1944"/>
+            <point key="canvasLocation" x="4987" y="1379"/>
         </scene>
         <!--File View View Controller-->
         <scene sceneID="qwl-R7-QJk">
@@ -581,7 +581,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77Z-98-QFH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4530" y="2918"/>
+            <point key="canvasLocation" x="4226" y="2918"/>
         </scene>
         <!--Weeks Table View Controller-->
         <scene sceneID="rIQ-fo-Pgx">
@@ -913,13 +913,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IhU-yi-FdW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="890" y="1910"/>
+            <point key="canvasLocation" x="464" y="1996"/>
         </scene>
         <!--All Reports Table View Controller-->
         <scene sceneID="qyG-Fw-X7a">
             <objects>
                 <tableViewController storyboardIdentifier="AllReportsTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Goa-kD-cnn" customClass="AllReportsTableViewController" customModule="dees" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="565" sectionHeaderHeight="28" sectionFooterHeight="28" id="Pzr-vd-xWn">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="565" sectionHeaderHeight="60" sectionFooterHeight="1" id="Pzr-vd-xWn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.098835580049999996" green="0.27687090640000001" blue="0.39957091210000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -927,19 +927,19 @@
                         <color key="sectionIndexTrackingBackgroundColor" red="0.090500384569999995" green="0.11697511369999999" blue="0.1726686805" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" rowHeight="565" id="BDD-aU-ihr" customClass="ResponsableTableViewCell" customModule="dees" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="565"/>
+                                <rect key="frame" x="0.0" y="60" width="414" height="565"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BDD-aU-ihr" id="Pcg-f6-qfB">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="564.66666666666663"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="573" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aRa-6q-Ol2">
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="573" sectionHeaderHeight="25" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="aRa-6q-Ol2">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="564"/>
                                             <color key="backgroundColor" red="0.098835580049999996" green="0.27687090640000001" blue="0.39957091210000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="sectionIndexBackgroundColor" red="0.090500384569168091" green="0.11697511374950409" blue="0.17266868054866791" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <prototypes>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" rowHeight="800" id="bII-YP-AtA" customClass="RerportTableViewCell" customModule="dees" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="28" width="414" height="800"/>
+                                                    <rect key="frame" x="0.0" y="25" width="414" height="800"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bII-YP-AtA" id="LLy-O2-tpN">
                                                         <rect key="frame" x="0.0" y="0.0" width="414" height="799.66666666666663"/>
@@ -1174,7 +1174,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cuX-gH-wtL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2936" y="1379"/>
+            <point key="canvasLocation" x="3074" y="1379"/>
         </scene>
         <!--Details Content View Controller-->
         <scene sceneID="JWS-fW-rKO">
@@ -1202,12 +1202,12 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Persona" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGT-nO-GFP">
-                                                            <rect key="frame" x="0.0" y="20.333333333333343" width="324" height="20.333333333333314"/>
+                                                            <rect key="frame" x="0.0" y="20.333333333333343" width="324" height="19.666666666666657"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Operativo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HaD-kY-rdQ">
-                                                            <rect key="frame" x="0.0" y="40.666666666666657" width="324" height="16.333333333333343"/>
+                                                            <rect key="frame" x="0.0" y="40" width="324" height="17"/>
                                                             <fontDescription key="fontDescription" name="PirulenRg-Regular" family="Pirulen" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1292,7 +1292,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qaG-pI-bcL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2934.7826086956525" y="2113.858695652174"/>
+            <point key="canvasLocation" x="3074" y="2125"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="6gd-Vw-Igg">
@@ -1408,10 +1408,10 @@
             </objects>
             <point key="canvasLocation" x="319" y="298"/>
         </scene>
-        <!--Responsable Table View Controller-->
+        <!--Table View Controller-->
         <scene sceneID="r1g-sj-rGt">
             <objects>
-                <tableViewController id="hIf-ew-bkC" customClass="ResponsableTableViewController" customModule="dees" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="hIf-ew-bkC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="bdV-Ib-cd2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

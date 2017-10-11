@@ -16,6 +16,8 @@ enum UserService {
     case changePass(old: String, new: String)
 }
 extension UserService: TargetType, AccessTokenAuthorizable {
+    
+    
     var baseURL: URL { return URL(string: Constants.ServerApi.url)! }
     var path: String {
         switch self {
@@ -37,6 +39,11 @@ extension UserService: TargetType, AccessTokenAuthorizable {
             return .post
         }
     }
+    
+    var authorizationType: AuthorizationType {
+        return .bearer
+    }
+    
     var shouldAuthorize: Bool {
         switch self {
         case .showUser, .updateUser, .changePass, .getAll:
@@ -74,8 +81,10 @@ extension UserService: TargetType, AccessTokenAuthorizable {
     }
     var task: Task {
         switch self {
-        case .showUser, .updateUser, .changePass, .getAll:
-            return .request
+        case .showUser,.getAll:
+            return .requestPlain
+        case  .updateUser, .changePass:
+            return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
         }
     }
     var headers: [String: String]? {

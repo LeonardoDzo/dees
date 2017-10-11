@@ -14,23 +14,22 @@ let reportsProvider = MoyaProvider<ReportService>(plugins: [authPlugin])
 struct ReportReducer  {
     func handleAction(action: Action, state: ReportState?) -> ReportState {
         
-        var state = state ?? ReportState(reports: [], weeks: [], status: .none)
+        var state = state ?? ReportState(reports: .none)
         
         switch action {
         case let action as rAction.Get:
-                state.status = .loading
+                state.reports = .loading
                 getReports(by: action.wid, eid: action.eid, uid: action.uid)
-            break
-        case is wAction.Get:
-            if !token.isEmpty {
-                state.status = .loading
-                getWeeks()
-            } 
             break
         case let action as rAction.Post:
             if action.report != nil {
-                state.status = .loading
+                state.reports = .loading
                 postUpdateReport(report: action.report)
+            }
+        case let action as rAction.UploadFile:
+            if action.report != nil {
+                state.reports = .loading
+                uploadFile(report: action.report, file: action.data, type: action.type)
             }
             break
         default:
@@ -58,15 +57,13 @@ struct ReportReducer  {
                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
              
                     let report = Report.from(repos)
-           
-                    if !store.state.reportState.reports.contains(where: {$0.id == report?.id}) {
-                            store.state.reportState.reports.append(report!)
-                    }else if let index = store.state.reportState.reports.index(where: {$0.id == report?.id}){
-                        store.state.reportState.reports[index] = report!
-                    }
+                    store.state.reportState.reports = .Finished((report!, messages.success._03))
+//                    if !store.state.reportState.reports.contains(where: {$0.id == report?.id}) {
+//                            store.state.reportState.reports.append(report!)
+//                    }else if let index = store.state.reportState.reports.index(where: {$0.id == report?.id}){
+//                        store.state.reportState.reports[index] = report!
+//                    }
           
-                    store.state.reportState.status = .finished
-                    store.state.reportState.status = .none
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
                 } catch {
@@ -82,28 +79,7 @@ struct ReportReducer  {
             
         })
     }
-    func getWeeks() -> Void {
-        reportsProvider.request(.getWeeks(), completion: {
-            result in
-            switch result {
-            case .success(let response):
-                do {
-                    let array : NSArray = try response.mapJSON() as! NSArray
-                    let weeks = Week.from(array) ?? []
-                    store.state.reportState.weeks = weeks
-                    store.state.reportState.status = .none
-                } catch MoyaError.jsonMapping(let error) {
-                    print(error )
-                } catch {
-                    print(":(")
-                }
-                break
-            case .failure(let error):
-                print(error)
-                break
-            }
-        })
-    }
+
     func postUpdateReport(report: Report) -> Void {
         if report.id == nil {
             return
@@ -114,18 +90,19 @@ struct ReportReducer  {
                 case .success(let response):
                     do {
                         if response.statusCode == 404 || response.statusCode == 401 {
-                            store.state.reportState.status = .Failed(messages.error._04)
+                            store.state.reportState.reports = .Failed(messages.error._04)
                             return
                         }
                         let repos : NSDictionary = try response.mapJSON() as! NSDictionary
                         
                         if let report = Report.from(repos) {
-                            if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
-                                store.state.reportState.reports[index] = report
-                                store.state.reportState.status = .Finished(messages.success._02)
-                            }
-                        }
-                        store.state.reportState.status = .none
+//                            if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
+//                                store.state.reportState.reports[index] = report
+//                                store.state.reportState.status = .Finished(messages.success._02)
+//                            }
+                            store.state.reportState.reports = .Finished((report, messages.success._03))
+                      }
+                     
                     } catch MoyaError.jsonMapping(let error) {
                         print(error )
                     } catch {
@@ -134,11 +111,48 @@ struct ReportReducer  {
                     
                     break
                 case .failure(let error):
-                    store.state.reportState.status = .Failed(messages.error._05)
+                    store.state.reportState.reports = .Failed(messages.error._05)
                     print(error)
                     break
                 }
             })
         }
+    } 
+    func uploadFile(report: Report, file: Data, type: Int) -> Void {
+//        if report.id == nil {
+//            return
+//        }else {
+//            reportsProvider.request(.postFile(report: report, type: type, data: file), completion: {
+//                result in
+//                switch result {
+//                case .success(let response):
+//                    do {
+//                        if response.statusCode == 404 || response.statusCode == 401 {
+//                            store.state.reportState.status = .Failed(messages.error._04)
+//                            return
+//                        }
+//                        let repos : NSDictionary = try response.mapJSON() as! NSDictionary
+//
+//                        if let report = Report.from(repos) {
+//                            if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
+//                                store.state.reportState.reports[index] = report
+//                                store.state.reportState.status = .Finished(messages.success._02)
+//                            }
+//                        }
+//                        store.state.reportState.status = .none
+//                    } catch MoyaError.jsonMapping(let error) {
+//                        print(error )
+//                    } catch {
+//                        print(":(")
+//                    }
+//
+//                    break
+//                case .failure(let error):
+//                    store.state.reportState.status = .Failed(messages.error._05)
+//                    print(error)
+//                    break
+//                }
+//            })
+//        }
     }
 }

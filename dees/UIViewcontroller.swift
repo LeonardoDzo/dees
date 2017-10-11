@@ -16,7 +16,7 @@ extension UIViewController {
         view.addGestureRecognizer(tap)
     }
     
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         view.endEditing(true)
     }
     func setupBack() -> Void {
@@ -29,13 +29,13 @@ extension UIViewController {
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
     }
-    func back3() -> Void {
+    @objc func back3() -> Void {
         _ = navigationController?.popViewController(animated: true)
     }
     func back() -> Void {
         self.dismiss(animated: true, completion: nil)
     }
-    func keyboardWillShow(notification: Notification){
+    @objc func keyboardWillShow(notification: Notification){
         print(self.view.frame.origin.y)
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -52,7 +52,7 @@ extension UIViewController {
         self.tabBarController?.tabBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
     
-    func keyboardWillHide(notification: Notification){
+    @objc func keyboardWillHide(notification: Notification){
         self.view.setNeedsDisplay()
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0 {
@@ -112,7 +112,7 @@ extension UIViewController {
                     vc.user = ent
                 }
                 if let type = dic["type"] as? Int {
-                    vc.type = type
+                    vc.file_type = type
                 }
                 
             }

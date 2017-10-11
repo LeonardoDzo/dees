@@ -6,12 +6,11 @@ target 'dees' do
   use_frameworks!
   
   # Pods for dees
-  pod 'Moya'
+  pod 'Moya', '~> 9.0'
   pod 'ReSwift'
   pod 'Alamofire', '~> 4.4'
-  pod 'Moya-ModelMapper', '4.0.0'
+  pod 'Moya-ModelMapper', '5.0'
   pod 'Whisper'
   pod 'KDLoadingView', '~> 1.0.0'
-  pod 'SwipeCellKit'
   pod 'AnimatableReload'
 end

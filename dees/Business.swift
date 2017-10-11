@@ -62,7 +62,7 @@ struct Business : Mappable {
             Business.kColor : self.color ?? "",
             Business.kUsers : self.users.map({$0.toDictionary()}),
             Business.kChilds: self.business.map({$0.toDictionary()}),
-            Business.kExt : self.parentId ?? nil
+            Business.kExt : self.parentId ?? ""
         ]
     }
     

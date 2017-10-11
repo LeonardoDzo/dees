@@ -34,7 +34,8 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
             let path = "companies/\(report.eid!)/res/reports/\(report.id!)"
             return path
         case .postFile(let report, let type, _):
-            return "companies/\(report.eid!)/res/reports/\(report.id!)/\(type)/files"
+            let path = "companies/\(report.eid!)/res/reports/\(report.id!)/\(type)/files"
+            return path
         }
     }
     var method: Moya.Method {
@@ -48,6 +49,10 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
         case .postFile:
             return .post
         }
+    }
+    
+    var authorizationType: AuthorizationType {
+        return .bearer
     }
     
     var shouldAuthorize: Bool {
@@ -85,10 +90,12 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
     
     var task: Task {
         switch self {
-        case .get, .getWeeks, .postReport,.updateReport, .getByWeeks:
-            return .request
-        case .postFile(_,_, let data):
-            return .upload(.multipart([MultipartFormData(provider: .data(data), name: "archivo")]))
+        case .get, .getWeeks, .getByWeeks:
+            return .requestPlain
+        case .postReport,.updateReport:
+            return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
+        case .postFile(_,_,let data):
+            return  .requestData(data)
         }
     }
     var headers: [String: String]? {

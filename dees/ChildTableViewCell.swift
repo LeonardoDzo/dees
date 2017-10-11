@@ -75,7 +75,7 @@ extension ChildTableViewCell: UITableViewDelegate, UITableViewDataSource {
 
         
     }
-    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+    @objc func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
         if gestureReconizer.state != UIGestureRecognizerState.ended {
             return
         }
@@ -84,7 +84,7 @@ extension ChildTableViewCell: UITableViewDelegate, UITableViewDataSource {
         let indexPath = self.tableView?.indexPathForRow(at: p)
         
         if let index = indexPath {
-            let e = data.business[(index.row)]
+            _ = data.business[(index.row)]
             //segueDelegate.selected("enterpriseSegue", sender: e)
         } else {
         }
