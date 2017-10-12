@@ -122,12 +122,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/ReportReducer.swift"
-            timestampString = "529361769.381818"
+            timestampString = "529464237.409906"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "uploadFile(report:file:type:)"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "postUpdateReport(report:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dees/UserReducer.swift"
+            timestampString = "529461011.817815"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "login(whit:password:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -138,12 +154,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/ReportReducer.swift"
-            timestampString = "529361769.38224"
+            timestampString = "529464237.410472"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "uploadFile(report:file:type:)"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "uploadFile(report:file:type:name:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -154,12 +170,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/RerpotService.swift"
-            timestampString = "529290196.455888"
+            timestampString = "529464308.34342"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "path"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "task"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>

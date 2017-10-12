@@ -56,6 +56,13 @@ struct Constants {
                 error.title = "Por favor verifica tu internet"
                 return error
             }()
+            /// Algo malo paso en el servidor, por favor intentalo despues
+            static let _06 : Murmur! = {
+                var error = messages.error._00
+                error.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+                error.title = "Falló el servidor :("
+                return error
+            }()
         }
         /// Lista de mensajes de respuestas que salieron exitosas
         struct success {

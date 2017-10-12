@@ -14,12 +14,11 @@ enum ReportService {
     case postReport(report: Report)
     case updateReport(report: Report)
     case getWeeks()
-    case postFile(report: Report, type: Int, data: Data)
-
+    case postFile(report: Report, type: Int, data: Data, name: String)
+    
 }
 extension ReportService: TargetType, AccessTokenAuthorizable {
     var baseURL:URL {return URL(string: Constants.ServerApi.url)!}
-    
     var path: String {
         switch self {
         case .get(let wid, let eid, let uid):
@@ -33,7 +32,7 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
         case .updateReport(let report):
             let path = "companies/\(report.eid!)/res/reports/\(report.id!)"
             return path
-        case .postFile(let report, let type, _):
+        case .postFile(let report, let type, _,_):
             let path = "companies/\(report.eid!)/res/reports/\(report.id!)/\(type)/files"
             return path
         }
@@ -76,9 +75,9 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
     var parameterEncoding: ParameterEncoding {
         switch self {
         case .get, .getWeeks, .getByWeeks:
-             return URLEncoding.default
+            return URLEncoding.default
         case .postReport,.updateReport:
-             return JSONEncoding.default
+            return JSONEncoding.default
         case .postFile:
             return URLEncoding.default
         }
@@ -86,7 +85,8 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
     var sampleData: Data {
         return "".utf8Encoded
     }
-
+    
+    
     
     var task: Task {
         switch self {
@@ -94,12 +94,20 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
             return .requestPlain
         case .postReport,.updateReport:
             return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
-        case .postFile(_,_,let data):
-            return  .requestData(data)
+        case .postFile(_,_,let data, let name):
+            let gifData = MultipartFormData(provider: .data(data), name: "file", fileName:"\(name)", mimeType: "")
+            let multipartData = [gifData]
+            return .uploadMultipart(multipartData)
+           
         }
     }
     var headers: [String: String]? {
-        return ["Content-type": "application/json"]
+        switch self {
+        case .postFile:
+            return nil
+        default:
+            return ["Content-type": "application/json"]
+        }
     }
     
 }

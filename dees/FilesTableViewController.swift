@@ -8,6 +8,8 @@
 
 import UIKit
 import MobileCoreServices
+import ReSwift
+import Whisper
 
 class FilesTableViewController: UITableViewController, UINavigationControllerDelegate {
     var files = [File]()
@@ -38,11 +40,24 @@ class FilesTableViewController: UITableViewController, UINavigationControllerDel
         // #warning Incomplete implementation, return the number of rows
         return files.count
     }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = files[indexPath.row].name ?? "ARCHIVIN"
+        return cell
+    }
     override func viewWillAppear(_ animated: Bool) {
         files = report.files.filter({$0.type == file_type})
         var name = file_type != 0 ? "Financiero de " : "Operativo de "
         name.append(user.name!)
+        store.subscribe(self){
+            $0.select({
+                s in s.reportState
+            })
+        }
         self.navigationItem.titleView = titleNavBarView(title: enterprise.name!, subtitle: name)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        store.unsubscribe(self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailsSegue" {
@@ -59,12 +74,9 @@ extension FilesTableViewController:  UIDocumentMenuDelegate,UIDocumentPickerDele
         
         let cico = url as URL
         print("The Url is : \(cico)")
+        let name = cico.absoluteString.components(separatedBy: "/").last?.decodeUrl()
         
-        
-        //optional, case PDF -> render
-        //displayPDFweb.loadRequest(NSURLRequest(url: cico) as URLRequest)
-        var fileName:String = ""
-        var downloadURL:String = ""
+
         
         let alert = UIAlertController(title: "Nombre del archivo", message: "", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancelar", style: .destructive, handler: nil))
@@ -73,14 +85,12 @@ extension FilesTableViewController:  UIDocumentMenuDelegate,UIDocumentPickerDele
             //Mandar la respuesta
             let fileNameTextField = alert.textFields?[0]
             
-            fileName = (fileNameTextField?.text)!
-            
             let request = NSURLRequest(url: cico)
             
             let _ = URLSession.shared.dataTask(with: request as URLRequest) { (data, urlResponse, err) in
-
+                
                 if err == nil {
-                   store.dispatch(ReportsAction.UploadFile(report: self.report, type: self.file_type, data: data!))
+                    store.dispatch(ReportsAction.UploadFile(report: self.report, type: self.file_type, data: data!, name: name!))
                 } else {
                     print("Hubo un error")
                 }
@@ -90,7 +100,8 @@ extension FilesTableViewController:  UIDocumentMenuDelegate,UIDocumentPickerDele
         
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Nombre del archivo"
-            textField.text = cico.absoluteString.components(separatedBy: "/").last
+            textField.text = name
+            textField.isEnabled = false
         }
         
         present(alert, animated: true, completion:nil)
@@ -125,4 +136,22 @@ extension FilesTableViewController:  UIDocumentMenuDelegate,UIDocumentPickerDele
         self.present(importMenu, animated: true, completion: nil)
     }
     
+}
+extension FilesTableViewController : StoreSubscriber {
+    typealias StoreSubscriberStateType = ReportState
+    
+    func newState(state: ReportState) {
+        switch state.reports {
+            case .Failed(let m as Murmur):
+                Whisper.show(whistle: m, action: .show(3.0))
+                store.state.reportState.reports = .none
+                break
+            case .Finished(let tupla as (Report, Murmur)):
+                self.files = tupla.0.files.filter({$0.type == file_type})
+                self.tableView.reloadData()
+                break
+            default:
+                break
+        }
+    }
 }

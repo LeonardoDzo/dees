@@ -18,8 +18,8 @@ struct ReportReducer  {
         
         switch action {
         case let action as rAction.Get:
-                state.reports = .loading
-                getReports(by: action.wid, eid: action.eid, uid: action.uid)
+            state.reports = .loading
+            getReports(by: action.wid, eid: action.eid, uid: action.uid)
             break
         case let action as rAction.Post:
             if action.report != nil {
@@ -29,7 +29,7 @@ struct ReportReducer  {
         case let action as rAction.UploadFile:
             if action.report != nil {
                 state.reports = .loading
-                uploadFile(report: action.report, file: action.data, type: action.type)
+                uploadFile(report: action.report, file: action.data, type: action.type, name: action.name )
             }
             break
         default:
@@ -48,22 +48,20 @@ struct ReportReducer  {
         }else {
             return
         }
-        
-        
         reportsProvider.request(request, completion: {result in
             switch result {
             case .success(let response):
                 do {
                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-             
+                    
                     let report = Report.from(repos)
                     store.state.reportState.reports = .Finished((report!, messages.success._03))
-//                    if !store.state.reportState.reports.contains(where: {$0.id == report?.id}) {
-//                            store.state.reportState.reports.append(report!)
-//                    }else if let index = store.state.reportState.reports.index(where: {$0.id == report?.id}){
-//                        store.state.reportState.reports[index] = report!
-//                    }
-          
+                    //                    if !store.state.reportState.reports.contains(where: {$0.id == report?.id}) {
+                    //                            store.state.reportState.reports.append(report!)
+                    //                    }else if let index = store.state.reportState.reports.index(where: {$0.id == report?.id}){
+                    //                        store.state.reportState.reports[index] = report!
+                    //                    }
+                    
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
                 } catch {
@@ -79,7 +77,7 @@ struct ReportReducer  {
             
         })
     }
-
+    
     func postUpdateReport(report: Report) -> Void {
         if report.id == nil {
             return
@@ -96,13 +94,13 @@ struct ReportReducer  {
                         let repos : NSDictionary = try response.mapJSON() as! NSDictionary
                         
                         if let report = Report.from(repos) {
-//                            if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
-//                                store.state.reportState.reports[index] = report
-//                                store.state.reportState.status = .Finished(messages.success._02)
-//                            }
+                            //                            if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
+                            //                                store.state.reportState.reports[index] = report
+                            //                                store.state.reportState.status = .Finished(messages.success._02)
+                            //                            }
                             store.state.reportState.reports = .Finished((report, messages.success._03))
-                      }
-                     
+                        }
+                        
                     } catch MoyaError.jsonMapping(let error) {
                         print(error )
                     } catch {
@@ -118,41 +116,29 @@ struct ReportReducer  {
             })
         }
     } 
-    func uploadFile(report: Report, file: Data, type: Int) -> Void {
-//        if report.id == nil {
-//            return
-//        }else {
-//            reportsProvider.request(.postFile(report: report, type: type, data: file), completion: {
-//                result in
-//                switch result {
-//                case .success(let response):
-//                    do {
-//                        if response.statusCode == 404 || response.statusCode == 401 {
-//                            store.state.reportState.status = .Failed(messages.error._04)
-//                            return
-//                        }
-//                        let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-//
-//                        if let report = Report.from(repos) {
-//                            if let index = store.state.reportState.reports.index(where: {$0.id == report.id}){
-//                                store.state.reportState.reports[index] = report
-//                                store.state.reportState.status = .Finished(messages.success._02)
-//                            }
-//                        }
-//                        store.state.reportState.status = .none
-//                    } catch MoyaError.jsonMapping(let error) {
-//                        print(error )
-//                    } catch {
-//                        print(":(")
-//                    }
-//
-//                    break
-//                case .failure(let error):
-//                    store.state.reportState.status = .Failed(messages.error._05)
-//                    print(error)
-//                    break
-//                }
-//            })
-//        }
+    func uploadFile(report: Report, file: Data, type: Int, name: String) -> Void {
+        if report.id == nil {
+            return
+        }else {
+            reportsProvider.request(.postFile(report: report, type: type, data: file, name: name), completion: {
+                result in
+                switch result {
+                case .success(let response):
+                        if response.statusCode >= 400 && response.statusCode < 500  {
+                            store.state.reportState.reports = .Failed(messages.error._04)
+                            return
+                        }else if response.statusCode >= 500 {
+                            store.state.reportState.reports = .Failed(messages.error._06)
+                            return
+                        }
+                        store.dispatch(ReportsAction.Get(eid: report.eid, wid: report.wid, uid: report.uid))
+                    break
+                case .failure(let error):
+                    store.state.reportState.reports = .Failed(messages.error._05)
+                    print(error)
+                    break
+                }
+            })
+        }
     }
 }

@@ -11,9 +11,9 @@ import Mapper
 
 struct File: Mappable {
     static let kid = "id"
-    static let kidFormat = "id_format"
+    static let kidFormat = "reportId"
     static let kname = "name"
-    static let kpath = "path"
+    static let kpath = "uri"
     static let kextension = "extension"
     static let kmime = "mime"
     static let ktype = "type"

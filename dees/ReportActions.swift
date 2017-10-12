@@ -34,10 +34,12 @@ struct ReportsAction {
         var report: Report!
         var type: Int!
         var data: Data!
-        init(report: Report, type: Int, data: Data) {
+        var name: String!
+        init(report: Report, type: Int, data: Data, name: String) {
             self.report = report
             self.data = data
             self.type = type
+            self.name = name
         }
     }
 }
