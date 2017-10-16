@@ -22,6 +22,10 @@ class FilesTableViewController: UITableViewController, UINavigationControllerDel
         self.styleNavBarAndTab_1()
         let attachBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "Attach").maskWithColor(color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)), style: .plain, target: self, action: #selector(self.mySpecialFunction))
         self.navigationItem.rightBarButtonItem = attachBtn
+        tableView.tableFooterView = UIView()
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "notFiles"))
+        imageView.contentMode = .scaleAspectFit
+        self.tableView.backgroundView = imageView
     }
     
     override func didReceiveMemoryWarning() {
@@ -42,7 +46,9 @@ class FilesTableViewController: UITableViewController, UINavigationControllerDel
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = files[indexPath.row].name ?? "ARCHIVIN"
+        let file = files[indexPath.row]
+        cell.textLabel?.text = file.name ?? "Archivo sin nombre"
+        cell.imageView?.image = file.getImage()
         return cell
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -59,11 +65,11 @@ class FilesTableViewController: UITableViewController, UINavigationControllerDel
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detailsSegue" {
-            let vc = segue.destination as! FileViewViewController
-            vc.file = sender as! File
-        }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.pushToView(view: .webView, sender: (files[indexPath.row], report.eid))
+    }
+   func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath) {
+        cell.backgroundColor = UIColor(white: 1, alpha: 0.5)
     }
     
 }
@@ -83,7 +89,7 @@ extension FilesTableViewController:  UIDocumentMenuDelegate,UIDocumentPickerDele
         
         alert.addAction(UIAlertAction(title: "Aceptar", style: .default, handler: { (_alert) in
             //Mandar la respuesta
-            let fileNameTextField = alert.textFields?[0]
+            _ = alert.textFields?[0]
             
             let request = NSURLRequest(url: cico)
             

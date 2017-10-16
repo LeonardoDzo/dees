@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0209D4D51F8FDB4F0089805C /* FilesActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209D4D41F8FDB4F0089805C /* FilesActions.swift */; };
+		0209D4D71F8FDBD70089805C /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209D4D61F8FDBD70089805C /* FileService.swift */; };
+		0209D4D91F8FDDCD0089805C /* FileReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209D4D81F8FDDCD0089805C /* FileReducer.swift */; };
 		021B230F1F85585F00285E4A /* FilesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021B230E1F85585F00285E4A /* FilesTableViewController.swift */; };
 		022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022CF0581F460129007EEF1C /* UsersTableViewController.swift */; };
 		023611021F7EC24C009D2294 /* EnterpriseNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */; };
@@ -84,6 +87,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0209D4D41F8FDB4F0089805C /* FilesActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesActions.swift; sourceTree = "<group>"; };
+		0209D4D61F8FDBD70089805C /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
+		0209D4D81F8FDDCD0089805C /* FileReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReducer.swift; sourceTree = "<group>"; };
 		021B230E1F85585F00285E4A /* FilesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesTableViewController.swift; sourceTree = "<group>"; };
 		022CF0581F460129007EEF1C /* UsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseNavBar.swift; sourceTree = "<group>"; };
@@ -181,6 +187,7 @@
 		021B230D1F85584700285E4A /* Files */ = {
 			isa = PBXGroup;
 			children = (
+				02B974D31F4660F900884A82 /* FileViewViewController.swift */,
 				021B230E1F85585F00285E4A /* FilesTableViewController.swift */,
 			);
 			name = Files;
@@ -260,6 +267,7 @@
 				025EB9A11F34FC4D0075611F /* UserActions.swift */,
 				02A3A47B1F3A54260048750E /* BusinessActions.swift */,
 				02E7AB181F3D1EE50037B7D1 /* ReportActions.swift */,
+				0209D4D41F8FDB4F0089805C /* FilesActions.swift */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -272,6 +280,7 @@
 				02A3A47D1F3A55C60048750E /* BusinessReducer.swift */,
 				02E7AB1A1F3D238A0037B7D1 /* ReportReducer.swift */,
 				024CAFF31F8D4200008D2922 /* WeekReducer.swift */,
+				0209D4D81F8FDDCD0089805C /* FileReducer.swift */,
 			);
 			name = Reducers;
 			sourceTree = "<group>";
@@ -309,6 +318,7 @@
 				02A3A47F1F3A56B00048750E /* EnterprisesService.swift */,
 				027FE2271F3CFB54005C6FF8 /* RerpotService.swift */,
 				02CD44D11F7198AD00F36987 /* RoutingSvc.swift */,
+				0209D4D61F8FDBD70089805C /* FileService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -379,7 +389,6 @@
 				02E0EFB71F43C5CC00CE405A /* PreHomeViewController.swift */,
 				02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */,
 				022CF0581F460129007EEF1C /* UsersTableViewController.swift */,
-				02B974D31F4660F900884A82 /* FileViewViewController.swift */,
 				02DAC0A11F4D02950063B08F /* EnterpriseViewViewController.swift */,
 				0272A3721F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift */,
 				0279A4B51F4F55970085030D /* ResponsableTableViewController.swift */,
@@ -444,7 +453,7 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = XSFS8X2N87;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -578,6 +587,7 @@
 				02E0EFBA1F43C97D00CE405A /* ChengePasswordViewController.swift in Sources */,
 				02F4CC9E1F3B7310008312A6 /* UIColor.swift in Sources */,
 				02A3A4731F3A22450048750E /* UIViewcontroller.swift in Sources */,
+				0209D4D71F8FDBD70089805C /* FileService.swift in Sources */,
 				02DAC0A21F4D02950063B08F /* EnterpriseViewViewController.swift in Sources */,
 				02B5A21C1F670E07001CD113 /* preHomeCollectionViewCell.swift in Sources */,
 				0279A4BE1F4F84700085030D /* ChildTableViewCell.swift in Sources */,
@@ -605,8 +615,10 @@
 				02D4AE191F71E13300623406 /* EnterprisesTableViewController.swift in Sources */,
 				027FE2281F3CFB54005C6FF8 /* RerpotService.swift in Sources */,
 				021B230F1F85585F00285E4A /* FilesTableViewController.swift in Sources */,
+				0209D4D91F8FDDCD0089805C /* FileReducer.swift in Sources */,
 				0272A3731F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift in Sources */,
 				027D911A1F3907A8007AB6D2 /* AuthService.swift in Sources */,
+				0209D4D51F8FDB4F0089805C /* FilesActions.swift in Sources */,
 				02BE44C41F8E86CF002D3578 /* String.swift in Sources */,
 				02E7AB191F3D1EE50037B7D1 /* ReportActions.swift in Sources */,
 			);
@@ -745,18 +757,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dees/dees.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = XSFS8X2N87;
 				INFOPLIST_FILE = dees/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = res.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "60625cf0-b5c8-433d-9361-16c38a37eaa4";
+				PROVISIONING_PROFILE_SPECIFIER = "RES Production v1.0";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -767,16 +780,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dees/dees.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = XSFS8X2N87;
 				INFOPLIST_FILE = dees/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = res.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "a6e8696e-662a-4736-8c79-f3fcc8db0f1e";
+				PROVISIONING_PROFILE_SPECIFIER = "Notification PUSH RES";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

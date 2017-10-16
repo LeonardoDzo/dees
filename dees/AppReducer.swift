@@ -17,7 +17,9 @@ struct AppReducer {
         return AppState(
             userState: UserReducer().handleAction(action: action, state: state?.userState),
             businessState: BusinessReducer().handleAction(action: action, state: state?.businessState),
-            reportState: ReportReducer().handleAction(action: action, state: state?.reportState), weekState: WeekReducer().handleAction(action: action, state: state?.weekState)
+            reportState: ReportReducer().handleAction(action: action, state: state?.reportState),
+            weekState: WeekReducer().handleAction(action: action, state: state?.weekState),
+            files: FileReducer().handleAction(action: action, state: state?.files)
         )
     }
     

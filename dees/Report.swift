@@ -126,7 +126,7 @@ extension ReportBindible {
         if let operativeTxv = self.operativeTxv {
             operativeTxv.text = report.operative ?? ""
             if store.state.userState.user.id != report.uid {
-                operativeTxv.isEditable = false
+                //operativeTxv.isEditable = false
             }else{
                 operativeTxv.isEditable = true
             }
@@ -148,7 +148,7 @@ extension ReportBindible {
         if let financialTxv = self.financialTxv {
             financialTxv.text = report.financial ?? ""
             if report.uid != store.state.userState.user.id {
-                financialTxv.isEditable = false
+                //financialTxv.isEditable = false
             }else{
                 financialTxv.isEditable = true
             }
@@ -162,10 +162,10 @@ extension ReportBindible {
         }
         
         if let filesOp = self.filesOp {
-            filesOp.setTitle("No hay anexos",for: .disabled)
+            filesOp.setTitle("anexos (\(report.files.filter({$0.type == 0}).count))", for: .normal)
         }
         if let filesF = self.filesF {
-             filesF.setTitle("No hay anexos",for: .disabled)
+             filesF.setTitle("anexos (\(report.files.filter({$0.type == 1}).count))", for: .normal)
         }
         if let anexosLbl = anexosLbl {
             anexosLbl.text = report.files.count > 0 ? "Existen \(report.files.count)" : "No hay Reportes"

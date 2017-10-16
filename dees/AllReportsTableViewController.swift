@@ -15,6 +15,7 @@ protocol GoToProtocol :  class {
 }
 
 class AllReportsTableViewController: UITableViewController, UIGestureRecognizerDelegate {
+    var isFocus = false
     var enterprises = [Business]()
     var type : Int!
     var user: User!
@@ -36,11 +37,11 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         var vc = sb.instantiateViewController(withIdentifier: "AllReportsTableViewController") as? AllReportsTableViewController
         if vc != nil {
             vc = nil
-          
-           URLCache.shared.removeAllCachedResponses()
+            
+            URLCache.shared.removeAllCachedResponses()
         }
     }
-
+    
     deinit {
         print("deinit")
     }
@@ -63,7 +64,7 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         cell.tag = self.weeks[self.weekSelected].id
         cell.gotoProtocol = self
         cell.changeEnterpriseProtocol = self
-        cell.tableView.reloadData()
+        
         return cell
     }
     
@@ -82,13 +83,9 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     }
     
     @objc func rotated() -> Void {
-       // self.tableView.reloadData()
+        // self.tableView.reloadData()
     }
     
- 
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? ResponsableTableViewCell {
             if cell.users.count > 0 {
@@ -156,10 +153,10 @@ extension AllReportsTableViewController : StoreSubscriber {
             cell.getMyReports()
         }
         changeEnterprise(direction: .down)
-       
+        
     }
-   
-
+    
+    
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
         Whisper.hide(whisperFrom: self.navigationController!)
@@ -176,7 +173,7 @@ extension AllReportsTableViewController : StoreSubscriber {
             self.view.isUserInteractionEnabled = false
             cell.loadingView.start()
             return
-
+            
         case .Finished(let tupla as (Report,Murmur)):
             Whisper.show(whistle: tupla.1, action: .show(2.5))
             cell.updated()
@@ -190,7 +187,7 @@ extension AllReportsTableViewController : StoreSubscriber {
             break
         default:
             break
-        
+            
         }
     }
     
@@ -207,10 +204,11 @@ extension AllReportsTableViewController {
     }
     func setupNavBar() -> Void {
         let add = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.updateReport))
-        self.navigationItem.rightBarButtonItem = add
+        let focusBtn = UIBarButtonItem(image: !isFocus ? #imageLiteral(resourceName: "myReports") : #imageLiteral(resourceName: "allReports"), style: .plain, target: self, action: #selector(self.getFocusOnMyEnterprises))
+        self.navigationItem.rightBarButtonItems = [add,focusBtn]
     }
-
-
+    
+    
     
     @objc func updateReport() -> Void {
         if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell {
@@ -220,29 +218,45 @@ extension AllReportsTableViewController {
     
     func setVars() -> Void {
         self.user = store.state.userState.user
-        
-        if enterprises.count == 0 {
-            enterprises.removeAll()
-            self.enterprises = store.state.businessState.business.count > 0 ? store.state.businessState.business.first(where: {$0.id == type})?.business ?? [] : store.state.userState.user.bussiness
-            var count = -1
-            self.enterprises.enumerated().forEach({
-                index, b in
-                count += 1
-                b.business.enumerated().forEach( {
-                    i, b1 in
-                    count += 1
-                    self.enterprises.insert(b1, at: count)
-                })
-            })
-        }
-        
+        getEnterprise()
         self.weeks = store.state.weekState.getWeeks()
         didMove(toParentViewController: self)
+    }
+    @objc func getFocusOnMyEnterprises(){
+        self.isFocus =  !self.isFocus
+        if !isFocus {
+            self.enterprises.removeAll()
+        }
+        getEnterprise()
+        setupNavBar()
+    }
+    func getEnterprise() -> Void {
+        if isFocus {
+            self.enterprises = self.enterprises.filter({$0.users.contains(where: { $0.id == store.state.userState.user.id!})})
+        }else {
+            if enterprises.count == 0 {
+                enterprises.removeAll()
+                self.enterprises = store.state.businessState.business.count > 0 ? store.state.businessState.business.first(where: {$0.id == type})?.business ?? [] : store.state.userState.user.bussiness
+                var count = -1
+                self.enterprises.enumerated().forEach({
+                    index, b in
+                    count += 1
+                    b.business.enumerated().forEach( {
+                        i, b1 in
+                        count += 1
+                        self.enterprises.insert(b1, at: count)
+                    })
+                })
+            }
+        }
+        self.tableView.reloadData()
+        
+        
     }
 }
 
 extension AllReportsTableViewController : weekProtocol {
-   func changeWeek(direction : UISwipeGestureRecognizerDirection){
+    func changeWeek(direction : UISwipeGestureRecognizerDirection){
         var animation: UITableViewRowAnimation = .none
         if direction == .right {
             if weekSelected > 0 {
@@ -311,11 +325,11 @@ extension AllReportsTableViewController : EnterpriseProtocol {
         let indexpath = IndexPath(row: 0, section: enterpriseSelected)
         self.lastContentOffset = CGFloat( self.enterpriseSelected * Int(self.tableView.rowHeight))
         self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
-
+        
     }
     @objc func selectEnterprise() {
         if enterprises.count >  1 {
-            self.pushToView(view: .enterprises, sender: type)
+            self.pushToView(view: .enterprises, sender: isFocus)
         }
     }
     

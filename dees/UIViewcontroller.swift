@@ -91,13 +91,19 @@ extension UIViewController {
         case _ as WeeksTableViewController:
             break
         case let vc as EnterprisesTableViewController:
-            if sender != nil {
-                 vc.type = sender as! Int
+            if sender is Bool {
+                 vc.isFocus = sender as! Bool
             }
             break
         case let vc as AllReportsTableViewController:
             if sender is Business {
                 vc.enterprises = [sender as! Business]
+            }
+            break
+        case let vc as FileViewViewController:
+            if let tupla = sender as? (File, Int) {
+                vc.file = tupla.0
+                vc.eid = tupla.1
             }
             break
         case let vc as FilesTableViewController:

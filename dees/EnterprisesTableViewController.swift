@@ -10,7 +10,7 @@ import UIKit
 import ReSwift
 class EnterprisesTableViewController: UITableViewController {
     var user: User!
-    var type = 1
+    var isFocus = false
     var enterprises = [Business]()
     var filtered = [Business]()
     let searchController = UISearchController(searchResultsController: nil)
@@ -110,9 +110,9 @@ extension EnterprisesTableViewController : StoreSubscriber {
     }
     func newState(state: BusinessState) {
         self.user = store.state.userState.user
-        self.enterprises = state.business.count > 0 ? state.business.first(where: {$0.id == type})?.business ?? [] : store.state.userState.user.bussiness
-        
-        var count = -1
+         var count = -1
+        self.enterprises = state.business.count > 0 ? state.business.first(where: {$0.id == store.state.userState.type})?.business ?? [] : store.state.userState.user.bussiness
+       
         self.enterprises.enumerated().forEach({
             index, b in
             count += 1
@@ -122,8 +122,20 @@ extension EnterprisesTableViewController : StoreSubscriber {
                 self.enterprises.insert(b1, at: count)
             })
         })
+        getEnterprise()
+  
+        
         
         tableView.reloadData()
+    }
+    func getEnterprise() -> Void {
+        if isFocus {
+            self.enterprises = self.enterprises.filter({$0.users.contains(where: { $0.id == store.state.userState.user.id!})})
+            
+        }
+       
+        self.tableView.reloadData()
+        
     }
     
 }

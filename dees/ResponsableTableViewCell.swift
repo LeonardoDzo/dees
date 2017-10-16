@@ -21,6 +21,7 @@ class ResponsableTableViewCell: UITableViewCell {
     /// Bandera que sirve para moverme entre usaurios
     var lastsection = 0
     var enterprise : Business!
+    let xib = UINib(nibName: "TitleView", bundle: nil)
     lazy var loadingView : LoadingView = {
         let loading = LoadingView()
         loading.center = self.tableView.center
@@ -30,14 +31,18 @@ class ResponsableTableViewCell: UITableViewCell {
     }()
     override func awakeFromNib() {
         super.awakeFromNib()
-        setTableViewDataSourceDelegate()
-        self.tableView.addSubview(loadingView)
+        tableView.register(xib, forHeaderFooterViewReuseIdentifier: "TitleHeaderCell")
+        //self.tableView.addSubview(loadingView)
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swipe(sender:)))
         swipeLeft.direction = .left
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swipe(sender:)))
         swipeRight.direction = .right
         self.tableView.addGestureRecognizer(swipeLeft)
         self.tableView.addGestureRecognizer(swipeRight)
+        self.loadingView.center = tableView.center
+       self.loadingView.frame.origin.x -= self.loadingView.loading.frame.width/2
+       self.loadingView.frame.origin.y -= self.loadingView.loading.frame.width
+         setTableViewDataSourceDelegate()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -85,7 +90,7 @@ class ResponsableTableViewCell: UITableViewCell {
         return nil
     }
     func updated() {
-        self.loadingView.stop()
+       self.loadingView.stop()
         guard tableView.visibleCells.count > 0 , let cell = tableView.visibleCells[0] as? RerportTableViewCell else {
             return
         }
@@ -98,16 +103,14 @@ class ResponsableTableViewCell: UITableViewCell {
     }
     
     func setTableViewDataSourceDelegate() {
-        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tag = self.tag
-        let xib = UINib(nibName: "TitleView", bundle: nil)
-        tableView.register(xib, forHeaderFooterViewReuseIdentifier: "TitleHeaderCell")
-        self.loadingView.center = tableView.center
-        self.loadingView.frame.origin.x -= self.loadingView.loading.frame.width/2
-        self.loadingView.frame.origin.y -= self.loadingView.loading.frame.width
-        
+        self.tableView.reloadData()
+    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        loadingView.loading.prepareForInterfaceBuilder()
     }
     
 }
@@ -174,13 +177,13 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     
 
     func get(_ indexPath: IndexPath) -> Void {
-        self.loadingView.stop()
+        //self.loadingView.stop()
         if users.count == 0 {
             return
         }
         
         if let uid = users[indexPath.section].id {
-                store.dispatch(ReportsAction.Get(eid: self.enterprise.id, wid: self.tag, uid: uid))
+            store.dispatch(ReportsAction.Get(eid: self.enterprise.id, wid: self.tag, uid: uid))
         }
     }
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {

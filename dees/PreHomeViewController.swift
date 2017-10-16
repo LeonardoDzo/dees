@@ -43,6 +43,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
             tb.selectedIndex = section
             singleton.enterpriseNav.removeAll()
             singleton.enterpriseNav.push(enterprises)
+            
             if let nb  = tb.childViewControllers[section] as? UINavigationController {
                 if let vc = nb.childViewControllers[0] as? EnterpriseCollectionViewController {
                     vc.type = sender  as! Int + 1
@@ -50,6 +51,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
                     vc.type = sender as! Int + 1
                     
                 }
+                store.state.userState.type = sender as! Int + 1
             }
            
         }

@@ -16,13 +16,14 @@ enum RoutingDestination: String {
     case weeksView = "WeeksTableViewController",
          enterprises = "EnterprisesTableViewController",
          allReports = "AllReportsTableViewController",
-         filesView = "FilesTableViewController"
+         filesView = "FilesTableViewController",
+         webView = "FileViewViewController"
     case none = ""
 }
 extension RoutingDestination {
     func getStoryBoard() -> String {
         switch self {
-        case .weeksView, .allReports,.enterprises, .filesView, .none:
+        case .weeksView, .allReports,.enterprises, .filesView, .none, .webView:
             return StoryBoard.main.rawValue
         }
     }

@@ -54,6 +54,7 @@ class LoadingView: UIView {
             self.alpha = 1.0
         }
     }
+   
 }
 extension LoadingView {
     //MARK: - Public API
@@ -63,6 +64,7 @@ extension LoadingView {
         show()
     }
     public func stop() {
+
         hide()
     }
     

@@ -8,6 +8,7 @@
 
 import UIKit
 import ReSwift
+import UserNotifications
 let defaults = UserDefaults.standard
 
 let store = Store<AppState>(
@@ -15,7 +16,7 @@ let store = Store<AppState>(
     state: nil)
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
  
@@ -28,6 +29,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let pass = defaults.value(forKey: "password") else{
             return true
         }
+        if #available(iOS 8.0, *){
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                // Enable or disable features based on authorization.
+            }
+            application.registerForRemoteNotifications()
+        
+        }
+        application.registerForRemoteNotifications()
         UIApplication.shared.statusBarStyle = .lightContent
         store.dispatch(AuthActions.LogIn(password: pass as! String, email: email as! String))
         
@@ -60,6 +70,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        print("-------------------------")
+        print("DEVICE TOKEN: ",deviceTokenString)
+        
+    }
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        
+        print("i am not available in simulator \(error)")
+        
+    }
 
 
 }
