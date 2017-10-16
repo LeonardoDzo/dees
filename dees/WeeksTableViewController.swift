@@ -13,7 +13,7 @@ class WeeksTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.styleNavBarAndTab_1()
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         self.navigationItem.title = "Semanas"
         tableView.tableFooterView = UIView(frame: .zero)
         

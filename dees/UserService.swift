@@ -40,9 +40,6 @@ extension UserService: TargetType, AccessTokenAuthorizable {
         }
     }
     
-    var authorizationType: AuthorizationType {
-        return .bearer
-    }
     
     var shouldAuthorize: Bool {
         switch self {
@@ -82,9 +79,9 @@ extension UserService: TargetType, AccessTokenAuthorizable {
     var task: Task {
         switch self {
         case .showUser,.getAll:
-            return .requestPlain
+            return .request
         case  .updateUser, .changePass:
-            return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
+            return .request
         }
     }
     var headers: [String: String]? {

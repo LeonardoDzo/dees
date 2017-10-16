@@ -220,7 +220,8 @@ extension AllReportsTableViewController {
         self.user = store.state.userState.user
         getEnterprise()
         self.weeks = store.state.weekState.getWeeks()
-        didMove(toParentViewController: self)
+        //didMove(toParentViewController: self)
+        self.setTitle()
     }
     @objc func getFocusOnMyEnterprises(){
         self.isFocus =  !self.isFocus
@@ -271,7 +272,8 @@ extension AllReportsTableViewController : weekProtocol {
         }
         
         if animation != .none {
-            didMove(toParentViewController: self)
+            //            didMove(toParentViewController: self)
+            self.setTitle()
             tableView.beginUpdates()
             self.tableView.reloadSections(IndexSet(integer: self.enterpriseSelected), with: animation)
             tableView.endUpdates()
@@ -289,19 +291,35 @@ extension AllReportsTableViewController : weekProtocol {
         self.pushToView(view: .weeksView)
     }
     
-    override func didMove(toParentViewController parent: UIViewController?) {
-        super.didMove(toParentViewController: parent)
-        self.navigationItem.titleView = nil
-        if parent != nil && self.navigationItem.titleView == nil {
-            weeksTitleView = weeksView(ctrl: self)
-            
-            weeksTitleView?.setTitle(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
-            
-            self.navigationItem.titleView = weeksTitleView
-            
-            self.navigationItem.titleView?.isUserInteractionEnabled = true
+    
+    func setTitle(){
+        
+        guard let _ : Week = self.weeks[self.weekSelected]  else {
+            return
         }
+        weeksTitleView = weeksView(ctrl: self)
+        
+        weeksTitleView?.setTitle(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
+        
+        self.navigationItem.titleView = weeksTitleView
+        self.navigationItem.titleView?.isUserInteractionEnabled = true
+        
+        
     }
+    
+    //    override func didMove(toParentViewController parent: UIViewController?) {
+    //        super.didMove(toParentViewController: parent)
+    //        self.navigationItem.titleView = nil
+    //        if parent != nil && self.navigationItem.titleView == nil {
+    //            weeksTitleView = weeksView(ctrl: self)
+    //
+    //            weeksTitleView?.setTitle(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
+    //
+    //            self.navigationItem.titleView = weeksTitleView
+    //
+    //            self.navigationItem.titleView?.isUserInteractionEnabled = true
+    //        }
+    //    }
 }
 
 extension AllReportsTableViewController : EnterpriseProtocol {

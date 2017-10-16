@@ -126,7 +126,7 @@ extension ReportBindible {
         if let operativeTxv = self.operativeTxv {
             operativeTxv.text = report.operative ?? ""
             if store.state.userState.user.id != report.uid {
-                //operativeTxv.isEditable = false
+                operativeTxv.isEditable = false
             }else{
                 operativeTxv.isEditable = true
             }
@@ -148,7 +148,7 @@ extension ReportBindible {
         if let financialTxv = self.financialTxv {
             financialTxv.text = report.financial ?? ""
             if report.uid != store.state.userState.user.id {
-                //financialTxv.isEditable = false
+                financialTxv.isEditable = false
             }else{
                 financialTxv.isEditable = true
             }

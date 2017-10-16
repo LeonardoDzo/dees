@@ -44,7 +44,7 @@ class weeksView: UIView {
     }
     
     func configureView() {
-        
+     
         tapRight.addTarget(ctrl, action: #selector(ctrl.tapRightWeek))
         tapLeft.addTarget(ctrl, action: #selector(ctrl.tapLeftWeek))
         backgroundColor = UIColor.clear
@@ -52,7 +52,6 @@ class weeksView: UIView {
         leftView.addGestureRecognizer(tapLeft)
         leftView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: ctrl, action: #selector(ctrl.selectWeek))
-        
         titleView.addGestureRecognizer(tap)
         titleView.isUserInteractionEnabled = true
         
@@ -83,7 +82,7 @@ class weeksView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        frame = bounds
+        //frame = bounds
         
     }
 }

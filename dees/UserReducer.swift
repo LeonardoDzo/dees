@@ -13,7 +13,7 @@ import Moya
 import Mapper
 import Whisper
 var token = ""
-var authPlugin = AccessTokenPlugin(tokenClosure: token)
+var authPlugin = AccessTokenPlugin(token: token)
 let userProvider = MoyaProvider<UserService>(plugins: [authPlugin])
 let authProvider = MoyaProvider<AuthService>(plugins: [])
 struct UserReducer {
@@ -66,7 +66,7 @@ struct UserReducer {
                         return
                     }
                     token = t
-                    authPlugin = AccessTokenPlugin(tokenClosure: token)
+                    authPlugin = AccessTokenPlugin(token: token)
                     
                     print("TOKEN:" ,token)
                     let user  = User.from(repos)

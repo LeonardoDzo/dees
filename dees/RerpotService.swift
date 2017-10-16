@@ -50,9 +50,7 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
         }
     }
     
-    var authorizationType: AuthorizationType {
-        return .bearer
-    }
+
     
     var shouldAuthorize: Bool {
         switch self {
@@ -91,13 +89,13 @@ extension ReportService: TargetType, AccessTokenAuthorizable {
     var task: Task {
         switch self {
         case .get, .getWeeks, .getByWeeks:
-            return .requestPlain
+            return .request
         case .postReport,.updateReport:
-            return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
+            return .request
         case .postFile(_,_,let data, let name):
             let gifData = MultipartFormData(provider: .data(data), name: "file", fileName:"\(name)", mimeType: "")
             let multipartData = [gifData]
-            return .uploadMultipart(multipartData)
+            return .upload(.multipart(multipartData))
            
         }
     }

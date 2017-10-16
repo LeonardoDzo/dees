@@ -12,6 +12,18 @@ enum FileService {
     case get(wid: Int, eid: Int)
 }
 extension FileService : TargetType, AccessTokenAuthorizable {
+    var shouldAuthorize: Bool {
+        return true
+    }
+    
+    var parameters: [String : Any]? {
+        return nil
+    }
+    
+    var parameterEncoding: ParameterEncoding {
+         return JSONEncoding.default
+    }
+    
     var baseURL: URL { return URL(string: Constants.ServerApi.url)!}
     
     var path: String {
@@ -30,14 +42,11 @@ extension FileService : TargetType, AccessTokenAuthorizable {
     }
     
     var task: Task {
-        return .requestPlain
+        return .request
     }
     
     var headers: [String : String]? {
          return ["Content-type": "application/json"]
     }
     
-    var authorizationType: AuthorizationType {
-        return .bearer
-    }
 }

@@ -42,9 +42,7 @@ class DetailsContentViewController: UIViewController, UITextViewDelegate {
                 self.saveBtn.isHidden = false
                 self.textViewDetails.isEditable = true
             }else{
-                self.textViewDetails.isEditable = true
-                self.saveBtn.isHidden = false
-               // self.textViewDetails.isEditable = false
+                self.textViewDetails.isEditable = false
             }
             self.textViewDetails.text = report.operative
         case "Financiero":

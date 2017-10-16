@@ -11,8 +11,8 @@ import Alamofire
 import Whisper
 struct Constants {
     struct ServerApi {
-        //static let url = "http://biapi.cotecnologias.com/api/"
-        static let url = "http://192.168.1.191:83/api/"
+        static let url = "http://biapi.cotecnologias.com/api/"
+        //static let url = "http://192.168.1.191:83/api/"
         static let fileurl = "http://resapi.cotecnologias.com"
         static let headers: HTTPHeaders = [
             "Content-Type": "application/json"
@@ -67,7 +67,7 @@ struct Constants {
         /// Lista de mensajes de respuestas que salieron exitosas
         struct success {
             /// Success Generico
-            static let _00 = Murmur(title: "Todo salió correctament!",  backgroundColor: #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1), titleColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+            static let _00 = Murmur(title: "Todo salió correctamente!",  backgroundColor: #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1), titleColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
             ///Se vio el reporte
             static let _01 : Murmur! = {
                 var s = messages.success._00

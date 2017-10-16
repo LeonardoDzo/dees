@@ -28,10 +28,7 @@ extension AuthService: TargetType, AccessTokenAuthorizable {
             return .post
         }
     }
-    
-    var authorizationType: AuthorizationType {
-        return .bearer
-    }
+
     
     var shouldAuthorize: Bool {
         switch self {
@@ -61,7 +58,7 @@ extension AuthService: TargetType, AccessTokenAuthorizable {
     var task: Task {
         switch self {
         case .login:
-            return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
+            return .request
         }
     }
     var headers: [String: String]? {

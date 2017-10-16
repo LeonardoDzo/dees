@@ -49,9 +49,7 @@ extension EnterpriseService: TargetType, AccessTokenAuthorizable {
             return .put
         }
     }
-    var authorizationType: AuthorizationType {
-        return .bearer
-    }
+
     var shouldAuthorize: Bool {
         switch self {
         case .getAll, .addUserAt, .deleteUser, .get, .putEnterprise, .create, .delete:
@@ -86,9 +84,9 @@ extension EnterpriseService: TargetType, AccessTokenAuthorizable {
     var task: Task {
         switch self {
         case .getAll,.deleteUser, .get, .delete:
-            return .requestPlain
+            return .request
         case .addUserAt, .putEnterprise, .create:
-            return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
+            return .request
         }
     }
     var headers: [String: String]? {
