@@ -8,9 +8,54 @@
 
 import UIKit
 
-class DetailsContentViewController: UIViewController, UITextViewDelegate {
+protocol ReportDetailBindilble: AnyObject {
+    var report : Report! {get set}
+    var type : String! {get set}
+    var textViewDetails: UITextView! { get }
+    var saveBtn: UIButton! {get}
+}
+extension ReportDetailBindilble {
+    var textViewDetails : UITextView! {return nil}
+    var saveBtn : UIButton! {return nil}
+    func bind(by report: Report) -> Void {
+        self.report = report
+        bind()
+    }
+    func bind() -> Void {
+        guard let report = report else {
+            return
+        }
+        if let textViewDetails = self.textViewDetails {
+            if store.state.userState.user.id == report.uid {
+                self.saveBtn.isHidden = false
+                textViewDetails.isEditable = true
+            }else{
+                self.textViewDetails.isEditable = true
+                self.saveBtn.isHidden = false
+                // self.textViewDetails.isEditable = false
+            }
+            switch type {
+            case "Operativo":
+                self.textViewDetails.text = report.operative
+            case "Financiero":
+                self.textViewDetails.text = report.financial
+            case "Observaciones":
+                if store.state.userState.user.permissions.contains(where: {$0.rid.rawValue > 601 }) {
+                    self.saveBtn.isHidden = false
+                    textViewDetails.isEditable = true
+                }
+                self.textViewDetails.text = report.observations
+            default:
+                break
+            }
+        }
+    }
+}
+
+
+
+class DetailsContentViewController: UIViewController, UITextViewDelegate, ReportDetailBindilble {
     @IBOutlet weak var enterpriseTitle: UILabel!
-    
     @IBOutlet weak var cancelImg: UIImageView!
     @IBOutlet weak var userLbl: UILabel!
     @IBOutlet weak var titleLbl: UILabel!
@@ -18,7 +63,7 @@ class DetailsContentViewController: UIViewController, UITextViewDelegate {
     var report : Report!
     var enterprise: Business!
     var user: User!
-    var type = ""
+    var type: String!
     override func viewDidLoad() {
         super.viewDidLoad()
         textViewDetails.delegate = self
@@ -36,35 +81,7 @@ class DetailsContentViewController: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         titleLbl.text = type
-        switch type {
-        case "Operativo":
-            if store.state.userState.user.id == report.uid {
-                self.saveBtn.isHidden = false
-                self.textViewDetails.isEditable = true
-            }else{
-                self.textViewDetails.isEditable = true
-                self.saveBtn.isHidden = false
-               // self.textViewDetails.isEditable = false
-            }
-            self.textViewDetails.text = report.operative
-        case "Financiero":
-            if store.state.userState.user.id == report.uid {
-                self.saveBtn.isHidden = false
-                self.textViewDetails.isEditable = true
-            }else{
-                self.textViewDetails.isEditable = false
-            }
-            self.textViewDetails.text = report.financial
-        case "Observaciones":
-            if store.state.userState.user.permissions.contains(where: {$0.rid.rawValue > 601 }) {
-                self.saveBtn.isHidden = false
-                self.textViewDetails.isEditable = true
-            }
-            self.textViewDetails.text = report.observations
-        default:
-            break
-        }
-        
+        self.bind(by: self.report)
         enterpriseTitle.text = enterprise.name
         userLbl.text = user.name
         enterpriseTitle.layer.backgroundColor = UIColor(hexString: "#\(enterprise.color!)00")?.cgColor
@@ -98,9 +115,6 @@ class DetailsContentViewController: UIViewController, UITextViewDelegate {
                
                 self.contentView.frame.origin.y += 130
             }
-            
-        
-        
     }
     override func keyboardWillShow(notification: Notification) {
         

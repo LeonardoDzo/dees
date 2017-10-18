@@ -32,7 +32,7 @@ extension UIViewController {
     @objc func back3() -> Void {
         _ = navigationController?.popViewController(animated: true)
     }
-    func back() -> Void {
+    @objc func back() -> Void {
         self.dismiss(animated: true, completion: nil)
     }
     @objc func keyboardWillShow(notification: Notification){

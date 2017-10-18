@@ -26,4 +26,8 @@ struct Week : Mappable {
         startDate = startDate.components(separatedBy: "T").first
         endDate = endDate.components(separatedBy: "T").first
     }
+    
+    func getTitleOfWeek() -> String {
+        return (Date(string:self.startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!
+    }
 }

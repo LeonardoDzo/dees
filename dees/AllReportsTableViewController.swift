@@ -295,7 +295,7 @@ extension AllReportsTableViewController : weekProtocol {
         if parent != nil && self.navigationItem.titleView == nil {
             weeksTitleView = weeksView(ctrl: self)
             
-            weeksTitleView?.setTitle(title: "Reporte", subtitle:  (Date(string:self.weeks[self.weekSelected].startDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear3))! + " al " + (Date(string:self.weeks[self.weekSelected].endDate, formatter: .yearMonthAndDay)?.string(with: .dayMonthAndYear2))!)
+            weeksTitleView?.setTitle(title: "Reporte", subtitle: self.weeks[self.weekSelected].getTitleOfWeek())
             
             self.navigationItem.titleView = weeksTitleView
             

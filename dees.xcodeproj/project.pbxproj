@@ -11,6 +11,8 @@
 		0209D4D71F8FDBD70089805C /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209D4D61F8FDBD70089805C /* FileService.swift */; };
 		0209D4D91F8FDDCD0089805C /* FileReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209D4D81F8FDDCD0089805C /* FileReducer.swift */; };
 		021B230F1F85585F00285E4A /* FilesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021B230E1F85585F00285E4A /* FilesTableViewController.swift */; };
+		0220BF521F97D4E900AD6303 /* ExpandableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220BF511F97D4E900AD6303 /* ExpandableHeaderView.swift */; };
+		0220BF541F97DBCF00AD6303 /* ResponsablePendingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220BF531F97DBCF00AD6303 /* ResponsablePendingTableViewCell.swift */; };
 		022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022CF0581F460129007EEF1C /* UsersTableViewController.swift */; };
 		023611021F7EC24C009D2294 /* EnterpriseNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */; };
 		0238D2CE1F745D180009B1F0 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0238D2CC1F745D180009B1F0 /* UIImageView.swift */; };
@@ -35,6 +37,7 @@
 		025EB9AC1F350A730075611F /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9AB1F350A730075611F /* Business.swift */; };
 		025EB9AE1F35464F0075611F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9AD1F35464F0075611F /* Constants.swift */; };
 		025EB9B01F354B740075611F /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025EB9AF1F354B740075611F /* UserService.swift */; };
+		02671E011F968CD4001B087D /* PenginsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02671E001F968CD4001B087D /* PenginsTableViewController.swift */; };
 		0271D4171F69CA4800727F28 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0271D4161F69CA4800727F28 /* UIImage.swift */; };
 		0272A3731F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0272A3721F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift */; };
 		0272A3751F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0272A3741F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift */; };
@@ -56,6 +59,11 @@
 		02A3A47C1F3A54260048750E /* BusinessActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47B1F3A54260048750E /* BusinessActions.swift */; };
 		02A3A47E1F3A55C60048750E /* BusinessReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47D1F3A55C60048750E /* BusinessReducer.swift */; };
 		02A3A4801F3A56B00048750E /* EnterprisesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47F1F3A56B00048750E /* EnterprisesService.swift */; };
+		02A614841F9697A600A417A7 /* PendingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A614831F9697A600A417A7 /* PendingsProvider.swift */; };
+		02A614861F969B0100A417A7 /* PendingsActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A614851F969B0100A417A7 /* PendingsActions.swift */; };
+		02A614881F969B8200A417A7 /* PendingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A614871F969B8200A417A7 /* PendingsState.swift */; };
+		02A6148A1F969C0100A417A7 /* Pending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A614891F969C0100A417A7 /* Pending.swift */; };
+		02A6148C1F96A00000A417A7 /* PendingReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A6148B1F96A00000A417A7 /* PendingReducer.swift */; };
 		02AB81BB1F7066300081FE5E /* RerportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AB81BA1F7066300081FE5E /* RerportTableViewCell.swift */; };
 		02B5A21C1F670E07001CD113 /* preHomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B5A21B1F670E07001CD113 /* preHomeCollectionViewCell.swift */; };
 		02B5A2211F672599001CD113 /* AllReportsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B5A2201F672599001CD113 /* AllReportsTableViewController.swift */; };
@@ -91,6 +99,9 @@
 		0209D4D61F8FDBD70089805C /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
 		0209D4D81F8FDDCD0089805C /* FileReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReducer.swift; sourceTree = "<group>"; };
 		021B230E1F85585F00285E4A /* FilesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesTableViewController.swift; sourceTree = "<group>"; };
+		0220BF501F97D3BC00AD6303 /* DesignableX */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DesignableX; sourceTree = "<group>"; };
+		0220BF511F97D4E900AD6303 /* ExpandableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableHeaderView.swift; sourceTree = "<group>"; };
+		0220BF531F97DBCF00AD6303 /* ResponsablePendingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsablePendingTableViewCell.swift; sourceTree = "<group>"; };
 		022CF0581F460129007EEF1C /* UsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseNavBar.swift; sourceTree = "<group>"; };
 		0238D2CC1F745D180009B1F0 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
@@ -118,6 +129,7 @@
 		025EB9AD1F35464F0075611F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		025EB9AF1F354B740075611F /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		02647F2D1F87FD3700E5AAC9 /* dees.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dees.entitlements; sourceTree = "<group>"; };
+		02671E001F968CD4001B087D /* PenginsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenginsTableViewController.swift; sourceTree = "<group>"; };
 		0271D4161F69CA4800727F28 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		0272A3721F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseCollectionViewController.swift; sourceTree = "<group>"; };
 		0272A3741F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -139,6 +151,11 @@
 		02A3A47B1F3A54260048750E /* BusinessActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessActions.swift; sourceTree = "<group>"; };
 		02A3A47D1F3A55C60048750E /* BusinessReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessReducer.swift; sourceTree = "<group>"; };
 		02A3A47F1F3A56B00048750E /* EnterprisesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterprisesService.swift; sourceTree = "<group>"; };
+		02A614831F9697A600A417A7 /* PendingsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingsProvider.swift; sourceTree = "<group>"; };
+		02A614851F969B0100A417A7 /* PendingsActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingsActions.swift; sourceTree = "<group>"; };
+		02A614871F969B8200A417A7 /* PendingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingsState.swift; sourceTree = "<group>"; };
+		02A614891F969C0100A417A7 /* Pending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pending.swift; sourceTree = "<group>"; };
+		02A6148B1F96A00000A417A7 /* PendingReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingReducer.swift; sourceTree = "<group>"; };
 		02AB81BA1F7066300081FE5E /* RerportTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RerportTableViewCell.swift; sourceTree = "<group>"; };
 		02B5A21B1F670E07001CD113 /* preHomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = preHomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		02B5A2201F672599001CD113 /* AllReportsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllReportsTableViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +223,7 @@
 				02C058331F82CD050022186A /* TitleView.xib */,
 				02C058351F82CD770022186A /* TitleHeader.swift */,
 				0280EF2B1F86B932003247F5 /* DesignableView.swift */,
+				0220BF511F97D4E900AD6303 /* ExpandableHeaderView.swift */,
 			);
 			name = extra;
 			sourceTree = "<group>";
@@ -239,6 +257,7 @@
 		025EB9841F34F43F0075611F /* dees */ = {
 			isa = PBXGroup;
 			children = (
+				0220BF501F97D3BC00AD6303 /* DesignableX */,
 				02647F2D1F87FD3700E5AAC9 /* dees.entitlements */,
 				0238D2D11F745D3F0009B1F0 /* gifts */,
 				0238D2D01F745D1D0009B1F0 /* extra */,
@@ -268,6 +287,7 @@
 				02A3A47B1F3A54260048750E /* BusinessActions.swift */,
 				02E7AB181F3D1EE50037B7D1 /* ReportActions.swift */,
 				0209D4D41F8FDB4F0089805C /* FilesActions.swift */,
+				02A614851F969B0100A417A7 /* PendingsActions.swift */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -281,6 +301,7 @@
 				02E7AB1A1F3D238A0037B7D1 /* ReportReducer.swift */,
 				024CAFF31F8D4200008D2922 /* WeekReducer.swift */,
 				0209D4D81F8FDDCD0089805C /* FileReducer.swift */,
+				02A6148B1F96A00000A417A7 /* PendingReducer.swift */,
 			);
 			name = Reducers;
 			sourceTree = "<group>";
@@ -293,6 +314,7 @@
 				02A3A4791F3A53C20048750E /* BusinessState.swift */,
 				02E7AB1C1F3D24A80037B7D1 /* ReportState.swift */,
 				024CAFEF1F8D3A63008D2922 /* weekState.swift */,
+				02A614871F969B8200A417A7 /* PendingsState.swift */,
 			);
 			name = States;
 			sourceTree = "<group>";
@@ -306,8 +328,17 @@
 				02E7AB1E1F3D32400037B7D1 /* Week.swift */,
 				02B974D11F465E2500884A82 /* File.swift */,
 				02991C861F7ADD84006148EF /* Persmission.swift */,
+				02A614891F969C0100A417A7 /* Pending.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		02671DFF1F968CAD001B087D /* Pendings */ = {
+			isa = PBXGroup;
+			children = (
+				02671E001F968CD4001B087D /* PenginsTableViewController.swift */,
+			);
+			name = Pendings;
 			sourceTree = "<group>";
 		};
 		027D91181F39079A007AB6D2 /* Services */ = {
@@ -319,6 +350,7 @@
 				027FE2271F3CFB54005C6FF8 /* RerpotService.swift */,
 				02CD44D11F7198AD00F36987 /* RoutingSvc.swift */,
 				0209D4D61F8FDBD70089805C /* FileService.swift */,
+				02A614831F9697A600A417A7 /* PendingsProvider.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -356,6 +388,7 @@
 				02B5A21B1F670E07001CD113 /* preHomeCollectionViewCell.swift */,
 				02B5A2221F672D86001CD113 /* ResponsableTableViewCell.swift */,
 				02AB81BA1F7066300081FE5E /* RerportTableViewCell.swift */,
+				0220BF531F97DBCF00AD6303 /* ResponsablePendingTableViewCell.swift */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -380,6 +413,7 @@
 		02DD8D321F3E235B00896850 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				02671DFF1F968CAD001B087D /* Pendings */,
 				02BE44C71F8E9B52002D3578 /* Library */,
 				021B230D1F85584700285E4A /* Files */,
 				02B5A21D1F671E4B001CD113 /* Reports */,
@@ -559,7 +593,9 @@
 				02A3A4801F3A56B00048750E /* EnterprisesService.swift in Sources */,
 				025EB99E1F34FB100075611F /* User.swift in Sources */,
 				025EB9A41F34FC660075611F /* UserReducer.swift in Sources */,
+				02A6148C1F96A00000A417A7 /* PendingReducer.swift in Sources */,
 				022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */,
+				02A614881F969B8200A417A7 /* PendingsState.swift in Sources */,
 				02B5A2231F672D86001CD113 /* ResponsableTableViewCell.swift in Sources */,
 				0280EF2C1F86B932003247F5 /* DesignableView.swift in Sources */,
 				024CAFF41F8D4200008D2922 /* WeekReducer.swift in Sources */,
@@ -583,25 +619,31 @@
 				025EB9881F34F43F0075611F /* ViewController.swift in Sources */,
 				02E7AB1B1F3D238A0037B7D1 /* ReportReducer.swift in Sources */,
 				02E0EFB81F43C5CC00CE405A /* PreHomeViewController.swift in Sources */,
+				02A614861F969B0100A417A7 /* PendingsActions.swift in Sources */,
 				025EB9A61F34FCC60075611F /* UserSatate.swift in Sources */,
 				02E0EFBA1F43C97D00CE405A /* ChengePasswordViewController.swift in Sources */,
 				02F4CC9E1F3B7310008312A6 /* UIColor.swift in Sources */,
 				02A3A4731F3A22450048750E /* UIViewcontroller.swift in Sources */,
 				0209D4D71F8FDBD70089805C /* FileService.swift in Sources */,
 				02DAC0A21F4D02950063B08F /* EnterpriseViewViewController.swift in Sources */,
+				02A614841F9697A600A417A7 /* PendingsProvider.swift in Sources */,
+				02671E011F968CD4001B087D /* PenginsTableViewController.swift in Sources */,
 				02B5A21C1F670E07001CD113 /* preHomeCollectionViewCell.swift in Sources */,
 				0279A4BE1F4F84700085030D /* ChildTableViewCell.swift in Sources */,
 				02991C871F7ADD84006148EF /* Persmission.swift in Sources */,
 				02B974D41F4660F900884A82 /* FileViewViewController.swift in Sources */,
 				0238D2CF1F745D180009B1F0 /* loadingView.swift in Sources */,
+				0220BF541F97DBCF00AD6303 /* ResponsablePendingTableViewCell.swift in Sources */,
 				0272A3751F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift in Sources */,
 				025EB9861F34F43F0075611F /* AppDelegate.swift in Sources */,
 				02AB81BB1F7066300081FE5E /* RerportTableViewCell.swift in Sources */,
 				025EB9AC1F350A730075611F /* Business.swift in Sources */,
 				025EB9A21F34FC4D0075611F /* UserActions.swift in Sources */,
 				02C0582E1F82AF1D0022186A /* EnterpriseHeader.swift in Sources */,
+				0220BF521F97D4E900AD6303 /* ExpandableHeaderView.swift in Sources */,
 				025EB9B01F354B740075611F /* UserService.swift in Sources */,
 				0238D2CE1F745D180009B1F0 /* UIImageView.swift in Sources */,
+				02A6148A1F969C0100A417A7 /* Pending.swift in Sources */,
 				02E7AB211F3D3BBD0037B7D1 /* DateFormatter.swift in Sources */,
 				025EB9A01F34FBF10075611F /* AppReducer.swift in Sources */,
 				024CAFF01F8D3A63008D2922 /* weekState.swift in Sources */,

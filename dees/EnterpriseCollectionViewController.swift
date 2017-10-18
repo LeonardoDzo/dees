@@ -64,6 +64,7 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id, for: indexPath) as! EnterpriseCollectionViewCell
         let e = enterprisesNav.items.last?[indexPath.item]
         cell.nameLbl.text = e?.name!
+        
         switch (enterprisesNav.items.last?.count)! {
         case 1:
              cell.background.image = #imageLiteral(resourceName: "background_company1")
