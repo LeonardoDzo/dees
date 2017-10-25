@@ -13,6 +13,7 @@ enum UserService {
     case showUser(id: Int)
     case getAll()
     case updateUser(id:Int, name: String)
+    case token(eid: Int)
     case changePass(old: String, new: String)
 }
 extension UserService: TargetType, AccessTokenAuthorizable {
@@ -27,6 +28,8 @@ extension UserService: TargetType, AccessTokenAuthorizable {
             return "users/\(id)"
         case .changePass:
             return "Users/Reset_Password"
+        case .token(let eid):
+            return "companies/\(eid)/res/token"
             
         }
         
@@ -35,7 +38,7 @@ extension UserService: TargetType, AccessTokenAuthorizable {
         switch self {
         case .showUser,.getAll:
             return .get
-        case .updateUser, .changePass:
+        case .updateUser, .changePass, .token:
             return .post
         }
     }
@@ -46,7 +49,7 @@ extension UserService: TargetType, AccessTokenAuthorizable {
     
     var shouldAuthorize: Bool {
         switch self {
-        case .showUser, .updateUser, .changePass, .getAll:
+        case .showUser, .updateUser, .changePass, .getAll, .token:
             return true
         }
     }
@@ -59,13 +62,18 @@ extension UserService: TargetType, AccessTokenAuthorizable {
         case .changePass(let old,let new):
             return  ["old_password": old,
                      "new_password": new]
+        case .token:
+            if let s =  defaults.value(forKey: "device") as? String {
+                return ["device": s]
+            }
+            return ["device": ""]
         }
     }
     var parameterEncoding: ParameterEncoding {
         switch self {
         case .showUser, .getAll:
             return URLEncoding.default// Send parameters in URL for GET, DELETE and HEAD. For other HTTP methods, parameters will be sent in request body
-        case .updateUser, .changePass:
+        case .updateUser, .changePass, .token:
             return JSONEncoding.default// Always sends parameters in URL, regardless of which HTTP method is used
         }
     }
@@ -75,7 +83,7 @@ extension UserService: TargetType, AccessTokenAuthorizable {
             return "{\"id\": \(id), \"name\": \"Harry Potter\"}".utf8Encoded
         case .updateUser(let id, let name):
             return "{\"id\": \(id), \"name\": \"\(name)\"}".utf8Encoded
-        case .changePass, .getAll:
+        case .changePass, .getAll, .token:
             return "asdasd".utf8Encoded
         }
     }
@@ -83,7 +91,7 @@ extension UserService: TargetType, AccessTokenAuthorizable {
         switch self {
         case .showUser,.getAll:
             return .requestPlain
-        case  .updateUser, .changePass:
+        case  .updateUser, .changePass, .token:
             return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
         }
     }

@@ -25,6 +25,7 @@ class EnterprisesTableViewController: UITableViewController {
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
+       
         tableView.tableHeaderView = searchController.searchBar
         tableView.tableFooterView = searchFooter
         self.view.addSubview(searchFooter)

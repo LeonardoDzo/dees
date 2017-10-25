@@ -9,7 +9,7 @@
 import Foundation
 import Moya
 enum FileService {
-    case get(wid: Int, eid: Int)
+    case get(wid: Int?, eid: Int)
 }
 extension FileService : TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return URL(string: Constants.ServerApi.url)!}
@@ -17,7 +17,10 @@ extension FileService : TargetType, AccessTokenAuthorizable {
     var path: String {
         switch self {
         case .get(let wid, let eid):
-            return "companies/\(eid)/res/library/week/\(wid)"
+            if wid == nil {
+                return "companies/\(eid)/res/library"
+            }
+            return "companies/\(eid)/res/library/week/\(wid!)"
         }
     }
     

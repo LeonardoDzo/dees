@@ -34,5 +34,7 @@ class preHomeCollectionViewCell: UICollectionViewCell {
     }
     @IBAction func handleClickPendinngs(_ sender: Any) {
         print("click on pendings \(self.tag)")
+        prehome.section = 2
+        prehome.handleClick(sender: self.tag)
     }
 }

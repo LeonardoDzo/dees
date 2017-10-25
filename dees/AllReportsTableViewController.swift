@@ -77,7 +77,10 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         if store.state.businessState.business.count > 0 {
             name?.append(e.users.count > 1 ?" (\(e.users.count))" : "")
         }
-        cell.borderColor.layer.backgroundColor = UIColor(hexString: "#\(e.color!)##")?.cgColor
+        if e.color != nil {
+             cell.borderColor.layer.backgroundColor = UIColor(hexString: "#\(e.color!)##")?.cgColor
+        }
+       
         cell.setTitle(name!)
         return cell
     }
@@ -91,6 +94,10 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
             if cell.users.count > 0 {
                 cell.lastsection = 0
                 cell.tableView.scrollToRow(at: IndexPath(row: 0, section: cell.lastsection), at: .top, animated: false)
+                cell.tag = self.weeks[self.weekSelected].id
+                cell.enterprise = self.enterprises[self.enterpriseSelected]
+                cell.tableView.reloadData()
+                cell.getMyReports()
             }
         }
     }
@@ -172,9 +179,11 @@ extension AllReportsTableViewController : StoreSubscriber {
         case .loading:
             self.view.isUserInteractionEnabled = false
             cell.loadingView.start()
+        
             return
             
         case .Finished(let tupla as (Report,Murmur)):
+            //Loader.removeLoaderFromTableView(table: cell.tableView)
             Whisper.show(whistle: tupla.1, action: .show(2.5))
             cell.updated()
             
@@ -294,8 +303,10 @@ extension AllReportsTableViewController : weekProtocol {
         self.navigationItem.titleView = nil
         if parent != nil && self.navigationItem.titleView == nil {
             weeksTitleView = weeksView(ctrl: self)
+            if weeks.count > 0 {
+                weeksTitleView?.setTitle(title: "Reporte", subtitle: self.weeks[self.weekSelected].getTitleOfWeek())
+            }
             
-            weeksTitleView?.setTitle(title: "Reporte", subtitle: self.weeks[self.weekSelected].getTitleOfWeek())
             
             self.navigationItem.titleView = weeksTitleView
             

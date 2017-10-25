@@ -5,7 +5,6 @@
 //  Created by Leonardo Durazo on 10/08/17.
 //  Copyright © 2017 Leonardo Durazo. All rights reserved.
 //
-
 import Foundation
 import ReSwift
 import Moya
@@ -53,7 +52,13 @@ struct ReportReducer  {
             case .success(let response):
                 do {
                     let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                    
+                    if response.statusCode >= 400 && response.statusCode < 500  {
+                        store.state.reportState.reports = .Failed(messages.error._04)
+                        return
+                    }else if response.statusCode >= 500 {
+                        store.state.reportState.reports = .Failed(messages.error._06)
+                        return
+                    }
                     let report = Report.from(repos)
                     store.state.reportState.reports = .Finished((report!, messages.success._03))
                     //                    if !store.state.reportState.reports.contains(where: {$0.id == report?.id}) {

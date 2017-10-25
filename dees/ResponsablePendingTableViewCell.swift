@@ -10,6 +10,7 @@ import UIKit
 
 class ResponsablePendingTableViewCell: UITableViewCell {
     var model : pendingModel!
+    var toggle = false
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -42,7 +43,7 @@ extension ResponsablePendingTableViewCell : UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "childCell", for: indexPath)
         let week = model.users[indexPath.section].weeks[indexPath.row]
-        cell.textLabel?.text = week.getTitleOfWeek()
+        cell.textLabel?.text = "Semana \(week.getTitleOfWeek())"
         return cell
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -58,4 +59,5 @@ extension ResponsablePendingTableViewCell : UITableViewDelegate, UITableViewData
        
       //CLICK
     }
+
 }

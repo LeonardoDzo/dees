@@ -13,9 +13,15 @@ PODS:
   - Moya/Core (9.0.0):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
+  - Realm (3.0.0):
+    - Realm/Headers (= 3.0.0)
+  - Realm/Headers (3.0.0)
+  - RealmSwift (3.0.0):
+    - Realm (= 3.0.0)
   - Result (3.2.4)
   - ReSwift (4.0.0)
-  - Whisper (5.0.0)
+  - Starscream (3.0.2)
+  - Whisper (5.1.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
@@ -23,7 +29,9 @@ DEPENDENCIES:
   - KDLoadingView (~> 1.0.0)
   - Moya (~> 9.0)
   - Moya-ModelMapper (= 5.0)
+  - RealmSwift
   - ReSwift
+  - Starscream (~> 3.0.2)
   - Whisper
 
 SPEC CHECKSUMS:
@@ -33,10 +41,13 @@ SPEC CHECKSUMS:
   ModelMapper: bef729f9c7095cadffc3c2ef9432fc5e21d8fc60
   Moya: cf5e6ee93af526532f92614004b8ad2ea60fd845
   Moya-ModelMapper: fc14d8c7d6466f11aea83e785c7f2c4c521fead6
+  Realm: dec0de73be8c57506e39db72694d513c189493b3
+  RealmSwift: 44a7090b16d1b22a406c6bf129bdd602db1bbecc
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   ReSwift: f058ef13b46ae5f463f10605ccbbb7fb04424d8d
-  Whisper: 051f25e704bf8992641ffd28b20d5682ddc5f5d3
+  Starscream: b512c62f6706421221b5ceb2ba01a9f58aca5bea
+  Whisper: 62e406a71a288476e605a4db06de8c6975bbb350
 
-PODFILE CHECKSUM: 3af2bdf4d31272d7c4626c51cc7aeb7dab6fdedc
+PODFILE CHECKSUM: a27a5cec06f2b58c13f171b55a417bcb97c4fdfa
 
 COCOAPODS: 1.2.1.rc.1

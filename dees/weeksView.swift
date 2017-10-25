@@ -14,6 +14,7 @@ class weeksView: UIView {
     let tapLeft = UITapGestureRecognizer()
     var titleView : titleNavBarView!
     weak var ctrl : weekProtocol!
+    
     let nextView : UIImageView = {
         let next = UIImageView()
         next.frame = CGRect(x: 0, y: 0, width: 30, height: 30)

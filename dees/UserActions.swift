@@ -32,6 +32,14 @@ struct AuthActions {
             newPass = new
         }
     }
+    struct Token: Action {
+        var eid: Int!
+        init(eid: Int) {
+            self.eid = eid
+        }
+    }
+    
+    
 }
 
 struct UsersAction {
@@ -46,6 +54,12 @@ struct UsersAction {
         }
         init() {
             
+        }
+    }
+    struct SendMessage: Action {
+        var message : _requestMessage!
+        init(m: _requestMessage) {
+            self.message = m
         }
     }
 }

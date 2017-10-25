@@ -12,7 +12,7 @@ struct FileActions {
     struct get: Action {
         var eid: Int!
         var wid: Int!
-        init(eid: Int, wid: Int) {
+        init(eid: Int, wid: Int? = nil) {
             self.eid = eid
             self.wid = wid
         }

@@ -13,4 +13,6 @@ target 'dees' do
   pod 'Whisper'
   pod 'KDLoadingView', '~> 1.0.0'
   pod 'AnimatableReload'
+  pod 'Starscream', '~> 3.0.2'
+  pod 'RealmSwift'
 end

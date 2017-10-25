@@ -85,18 +85,25 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
     }
     
     @IBAction func handleClickOp_Files(_ sender: UIButton) {
-        go(to: 0)
+        go(to: 0, for: 0)
     }
     @IBAction func handleClickFi_Files(_ sender: UIButton) {
-        go(to: 1)
+        go(to: 1, for: 0)
+    }
+    @IBAction func handleClickOp_Reply(_ sender: UIButton) {
+        go(to: 0, for: 1)
     }
     
-    func go(to type: Int) -> Void {
+    @IBAction func handleClickFi_Reply(_ sender: UIButton) {
+        go(to: 1, for: 1)
+    }
+    func go(to type: Int, for t: Int) -> Void {
         let info = ["report": report,
                     "type": type] as [String : Any]
         if report != nil {
-            gotoProtocol.goTo(.filesView, sender: info)
+            gotoProtocol.goTo(t == 0 ? .filesView : .chatView, sender: info)
         }
+        
     }
     func update() -> Void {
         if report != nil {

@@ -46,6 +46,7 @@ struct User : Mappable {
     func toDictionary() -> NSDictionary {
         return [User.kEmail: self.email ?? "",
                 User.kName: self.name ?? ""]
+        
     }
     
 }

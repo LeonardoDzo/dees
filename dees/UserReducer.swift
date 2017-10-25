@@ -12,9 +12,12 @@ import Alamofire
 import Moya
 import Mapper
 import Whisper
+
+var socket : WebsocketService!
 var token = ""
 var authPlugin = AccessTokenPlugin(tokenClosure: token)
 let userProvider = MoyaProvider<UserService>(plugins: [authPlugin])
+let chatProvider = MoyaProvider<MessageProvider>(plugins: [authPlugin])
 let authProvider = MoyaProvider<AuthService>(plugins: [])
 struct UserReducer {
     func handleAction(action: Action, state: UserState? ) -> UserState {
@@ -37,6 +40,16 @@ struct UserReducer {
                 }
             }
             break
+        case let action as AuthActions.Token:
+            if action.eid != nil {
+                setToken(eid: action.eid)
+            }
+            break
+        case let action as UsersAction.SendMessage:
+            if action.message != nil {
+                sendMessage(m: action.message)
+            }
+            break
         case let action as AuthActions.ChangePass:
             if action.oldPass != nil {
                 state.status = .loading
@@ -51,7 +64,44 @@ struct UserReducer {
         }
         return state
     }
-    
+    func setToken(eid: Int) -> Void {
+        guard let _ =  defaults.value(forKey: "device") as? String else {
+            print("NO TOKEN")
+           return
+        }
+        userProvider.request(.token(eid: eid) , completion: { result in
+            switch result {
+            case .success(let response):
+                print(response)
+                break
+            case .failure(let error):
+                print(error)
+                store.state.userState.status = .Failed("Hubo algun error")
+                store.state.userState.status = .none
+                break
+            }
+            
+        })
+    }
+    func getUser(by id: Int) -> Void {
+        userProvider.request(.showUser(id: id), completion: {result in
+            switch result {
+            case .success(let response):
+                do {
+                    let repos = try response.mapJSON() as! User
+                    print(repos)
+                } catch MoyaError.jsonMapping(let error) {
+                    print(error )
+                } catch {
+                    print(":(")
+                }
+                break
+            case .failure(let error):
+                print(error)
+                break
+            }
+        })
+    }
     func login(whit email: String, password: String ) -> Void {
         authProvider.request(.login(email: email, passwd: password), completion: { result in
             switch result {
@@ -74,11 +124,15 @@ struct UserReducer {
                     defaults.set(password, forKey: "password")
                     store.state.userState.user = user
                     store.state.userState.status = .Finished(user!)
+                    socket = WebsocketService.shared
                     store.dispatch(wAction.Get())
+                    if let eid : Int =  user?.bussiness.first?.id {
+                         store.dispatch(AuthActions.Token(eid:eid))
+                    }
                     
-                    let sEnterprises = user?.bussiness.filter({$0.parentId == nil}) ?? []
+                    let Enterprises = user?.bussiness.filter({$0.parentId == nil}) ?? []
                     
-                    sEnterprises.forEach({e in
+                    Enterprises.forEach({e in
                         store.dispatch(baction.Get(id: e.id))
                     });
                     
@@ -132,26 +186,6 @@ struct UserReducer {
             
         })
     }
-    func getUser(by id: Int) -> Void {
-        userProvider.request(.showUser(id: id), completion: {result in
-            switch result {
-            case .success(let response):
-                do {
-                    let repos = try response.mapJSON() as! User
-                    print(repos)
-                } catch MoyaError.jsonMapping(let error) {
-                    print(error )
-                } catch {
-                    print(":(")
-                }
-                break
-            case .failure(let error):
-                print(error)
-                break
-            }
-        })
-        
-    }
     func getUsers() -> Void {
         userProvider.request(.getAll(), completion: {result in
             switch result {
@@ -174,6 +208,30 @@ struct UserReducer {
             }
         })
         
+    }
+    
+    func sendMessage(m: _requestMessage) -> Void {
+        chatProvider.request(.post(m: m), completion: { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let repos : NSDictionary = try response.mapJSON() as! NSDictionary
+                    print(repos)
+                } catch MoyaError.jsonMapping(let error) {
+                    print(error )
+                    store.state.userState.status = .Failed("Hubo algun error")
+                } catch {
+                    print(":(")
+                }
+                break
+            case .failure(let error):
+                print(error)
+                store.state.userState.status = .Failed("Hubo algun error")
+                store.state.userState.status = .none
+                break
+            }
+            
+        })
     }
     func logOut() -> Void {
         UserDefaults().removeObject(forKey: "token")

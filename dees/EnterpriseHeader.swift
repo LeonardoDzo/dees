@@ -10,6 +10,7 @@ import UIKit
 
 class EnterpriseHeader: UITableViewHeaderFooterView {
     var ctrl: EnterpriseProtocol!
+    var weekProtocol: weekProtocol!
     
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var fowardView: UIImageView!
@@ -18,9 +19,21 @@ class EnterpriseHeader: UITableViewHeaderFooterView {
     
 
     func configureView() {
-        let tap = UITapGestureRecognizer(target: ctrl, action: #selector(ctrl.selectEnterprise))
-        let tapLeft = UITapGestureRecognizer(target: ctrl, action:  #selector(ctrl.tapLeft))
-        let tapRight = UITapGestureRecognizer(target: ctrl, action: #selector(ctrl.tapRight))
+        var tap : UITapGestureRecognizer
+        var tapRight: UITapGestureRecognizer
+        var tapLeft: UITapGestureRecognizer
+        
+        if ctrl == nil {
+            tap = UITapGestureRecognizer(target: weekProtocol, action: #selector(weekProtocol.selectWeek))
+            tapLeft = UITapGestureRecognizer(target: weekProtocol, action:  #selector(weekProtocol.tapLeftWeek))
+            tapRight = UITapGestureRecognizer(target: weekProtocol, action: #selector(weekProtocol.tapRightWeek))
+        }else{
+             tap = UITapGestureRecognizer(target: ctrl, action: #selector(ctrl.selectEnterprise))
+             tapLeft = UITapGestureRecognizer(target: ctrl, action:  #selector(ctrl.tapLeft))
+             tapRight = UITapGestureRecognizer(target: ctrl, action: #selector(ctrl.tapRight))
+        }
+        
+       
         
         
         titleLbl.isUserInteractionEnabled = true
@@ -42,19 +55,22 @@ class EnterpriseHeader: UITableViewHeaderFooterView {
         }else{
             titleLbl.font = titleLbl.font.withSize(13)
         }
-        borderColor.backgroundColor = UIColor(hexString: "#\(ctrl.enterprises[ctrl.enterpriseSelected].color! )ff")
-        if ctrl.enterprises.count > 1 {
-            fowardView.isHidden = false
-            backView.isHidden = false
+        if ctrl != nil {
+            borderColor.backgroundColor = UIColor(hexString: "#\(ctrl.enterprises[ctrl.enterpriseSelected].color! )ff")
+            if ctrl.enterprises.count > 1 {
+                fowardView.isHidden = false
+                backView.isHidden = false
+            }
+            if ctrl.enterpriseSelected == 0 {
+                backView.isHidden = true
+            }
+            if ctrl.enterpriseSelected == ctrl.enterprises.count-1 {
+                fowardView.isHidden = true
+            }else{
+                fowardView.isHidden = false
+            }
         }
-        if ctrl.enterpriseSelected == 0 {
-            backView.isHidden = true
-        }
-        if ctrl.enterpriseSelected == ctrl.enterprises.count-1 {
-            fowardView.isHidden = true
-        }else{
-            fowardView.isHidden = false
-        }
+        
         fowardView.isUserInteractionEnabled = true
         backView.isUserInteractionEnabled = true
     }

@@ -155,10 +155,10 @@ extension ReportBindible {
         }
 
         if let replyOp = self.replyOp {
-            replyOp.isHidden = true
+            replyOp.isHidden = false
         }
         if let replyF = self.replyF {
-            replyF.isHidden = true
+            replyF.isHidden = false
         }
         
         if let filesOp = self.filesOp {

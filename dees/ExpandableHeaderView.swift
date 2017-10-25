@@ -9,6 +9,7 @@
 import UIKit
 protocol ExpandableHeaderViewDelegate {
     func toggleSection(header: ExpandableHeaderView, section: Int) -> Void
+//    func toggleRow(header: ResponsablePendingTableViewCell, row: Int) -> Void
 }
 
 class ExpandableHeaderView: UITableViewHeaderFooterView {
@@ -38,6 +39,7 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         super.layoutSubviews()
         self.contentView.backgroundColor = #colorLiteral(red: 0.06009880453, green: 0.07446683198, blue: 0.1128933206, alpha: 1)
         self.textLabel?.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        self.textLabel?.textAlignment = .center
         self.textLabel?.font = UIFont(name: "pirulen", size: 13)
         
     }

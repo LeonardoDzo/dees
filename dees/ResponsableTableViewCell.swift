@@ -14,12 +14,14 @@ class ResponsableTableViewCell: UITableViewCell {
     let notificationCenter = NotificationCenter.default
     var gotoProtocol : GoToProtocol!
     var changeEnterpriseProtocol : EnterpriseProtocol!
+    var weekProtocol: weekProtocol!
     var lastContentOffset: CGFloat = 0
     @IBOutlet weak var tableView: UITableView!
     var reports = [Report]()
     var users = [User]()
     /// Bandera que sirve para moverme entre usaurios
     var lastsection = 0
+    var isPending = false
     var enterprise : Business!
     let xib = UINib(nibName: "TitleView", bundle: nil)
     lazy var loadingView : LoadingView = {
@@ -59,15 +61,27 @@ class ResponsableTableViewCell: UITableViewCell {
         }else if direction == .right{
             self.lastsection += 1
         }
-        
-        if lastsection > users.count-1 {
-            changeEnterpriseProtocol.changeEnterprise(direction: direction)
-            return
-        }else if lastsection < 0 {
-            changeEnterpriseProtocol.changeEnterprise(direction: direction)
-            return
+        if changeEnterpriseProtocol != nil {
+            if lastsection > users.count-1 {
+                lastsection = 0
+                changeEnterpriseProtocol.changeEnterprise(direction: direction)
+                return
+            }else if lastsection < 0 {
+                 lastsection = 0
+                changeEnterpriseProtocol.changeEnterprise(direction: direction)
+                return
+            }
+        }else if weekProtocol != nil {
+            if lastsection > users.count-1 {
+               
+                weekProtocol.changeWeek(direction: direction)
+                return
+            }else if lastsection < 0 {
+                weekProtocol.changeWeek(direction: direction)
+                return
+            }
         }
-        
+       
         let indexpath = IndexPath(row: 0, section: lastsection)
         self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
     }
@@ -118,6 +132,9 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     func numberOfSections(in tableView: UITableView) -> Int {
         if enterprise == nil {
             return 0
+        }
+        if isPending {
+            return users.count
         }
         if enterprise.users.count == 0 {
             self.users = [store.state.userState.user]

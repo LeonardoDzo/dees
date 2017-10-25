@@ -100,6 +100,27 @@ extension UIViewController {
                 vc.enterprises = [sender as! Business]
             }
             break
+        case let vc as AllPendingsTableViewController:
+            if sender is [pendingModel] {
+                vc.pendings = sender as! [pendingModel]
+            }
+            break
+        case let vc as ChatViewController:
+            if let dic = sender as? [String: Any] {
+                if let report = dic["report"] as? Report {
+                    vc.report = report
+                }
+                if let ent = dic["enterprise"] as? Business {
+                    vc.enterprise = ent
+                }
+                if let ent = dic["user"] as? User {
+                    vc.user = ent
+                }
+                if let type = dic["type"] as? Int {
+                    vc.file_type = type
+                }
+            }
+            break
         case let vc as FileViewViewController:
             if let tupla = sender as? (File, Int) {
                 vc.file = tupla.0

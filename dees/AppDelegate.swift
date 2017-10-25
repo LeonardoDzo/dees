@@ -23,12 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        guard let email = defaults.value(forKey: "email") else{
-            return true
-        }
-        guard let pass = defaults.value(forKey: "password") else{
-            return true
-        }
+       
         if #available(iOS 8.0, *){
             let center = UNUserNotificationCenter.current()
             center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
@@ -39,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         application.registerForRemoteNotifications()
         UIApplication.shared.statusBarStyle = .lightContent
-        store.dispatch(AuthActions.LogIn(password: pass as! String, email: email as! String))
+        
         
         UISearchBar.appearance().barTintColor = #colorLiteral(red: 0.07843137255, green: 0.1019607843, blue: 0.1647058824, alpha: 1)
         UISearchBar.appearance().tintColor = .white
@@ -47,7 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         return true
     }
-
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+       print(userInfo)
+    }
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -73,8 +71,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        defaults.set(deviceTokenString, forKey: "device")
         print("-------------------------")
         print("DEVICE TOKEN: ",deviceTokenString)
+        guard let email = defaults.value(forKey: "email") else{
+            return
+        }
+        guard let pass = defaults.value(forKey: "password") else{
+            return 
+        }
+        store.dispatch(AuthActions.LogIn(password: pass as! String, email: email as! String))
         
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

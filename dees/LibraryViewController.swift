@@ -177,8 +177,7 @@ extension LibraryViewController: EnterpriseProtocol {
             self.borderLbl.backgroundColor =  UIColor(hexString: "#\(e.color!)ff")
             self.enterpriseLbl.text = e.name
         }, completion: nil)
-        store.dispatch(FileActions.get(eid: e.id, wid: weeks[self.weekSelected].id))
-        
+        store.dispatch(FileActions.get(eid: e.id))
     }
     
     func selectEnterprise() {
