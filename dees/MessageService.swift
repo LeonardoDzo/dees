@@ -30,20 +30,29 @@ struct _requestMessage : _request {
 
 enum MessageProvider {
     case post(m : _requestMessage)
+    case get(m: _requestMessage)
+    case groups()
 }
 extension MessageProvider : TargetType, AccessTokenAuthorizable {
     var baseURL:URL {return URL(string: Constants.ServerApi.url)!}
     
     var path: String {
         switch self {
-        case .post(let m):
+        case .post(let m), .get(let m):
             let path =  "companies/\(m.eid!)/res/reply/\(m.type.rawValue)/user/\(m.uid!)"
-            print(path)
             return path
+        case .groups:
+            return "companies/0/res/groups"
         }
     }
     
     var method: Moya.Method {
+        switch self {
+        case .get, .groups:
+            return .get
+        case .post:
+            return .post
+        }
         return .post
     }
     var authorizationType: AuthorizationType {
@@ -59,7 +68,8 @@ extension MessageProvider : TargetType, AccessTokenAuthorizable {
             return ["message": m.message,
                     "tags": "",
                     "weekId": m.wid]
-            
+        case .get, .groups:
+            return nil
         }
     }
     var parameterEncoding: ParameterEncoding {
@@ -73,7 +83,12 @@ extension MessageProvider : TargetType, AccessTokenAuthorizable {
     
     
     var task: Task {
-        return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
+        switch self {
+        case .post:
+            return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
+        case .get, .groups():
+            return .requestPlain
+        }
     }
     
     var headers: [String: String]? {

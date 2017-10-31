@@ -56,12 +56,25 @@ struct UsersAction {
             
         }
     }
+   
+    
+}
+struct GroupsAction {
     struct SendMessage: Action {
         var message : _requestMessage!
         init(m: _requestMessage) {
             self.message = m
         }
     }
+    struct GroupIn: Action {
+        var message : _requestMessage!
+        init(m: _requestMessage) {
+            self.message = m
+        }
+    }
+    struct Groups: Action {
+        init() {
+        }
+    }
 }
-
 

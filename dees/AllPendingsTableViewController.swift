@@ -1,30 +1,30 @@
  //
-//  AllPendingsTableViewController.swift
-//  dees
-//
-//  Created by Leonardo Durazo on 18/10/17.
-//  Copyright © 2017 Leonardo Durazo. All rights reserved.
-//
-
-import UIKit
-import ReSwift
-import Whisper
-import AnimatableReload
+ //  AllPendingsTableViewController.swift
+ //  dees
+ //
+ //  Created by Leonardo Durazo on 18/10/17.
+ //  Copyright © 2017 Leonardo Durazo. All rights reserved.
+ //
  
-class AllPendingsTableViewController: UITableViewController {
+ import UIKit
+ import ReSwift
+ import Whisper
+ import AnimatableReload
+ 
+ class AllPendingsTableViewController: UITableViewController {
     let notificationCenter = NotificationCenter.default
     var pendings = [pendingModel]()
     var enterpriseSelected = 0
     var weekSelected = 0
     lazy var weeksTitleView : weeksView? = weeksView(frame: .zero)
     /// variables no implementadas
-    var weeks: [Week] = []
-    var enterprises: [Business] = []
+    var weeks = [Week]()
+    var enterprises = [Business]()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConf()
         let add = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.updateReport))
-      
+        
         self.navigationItem.rightBarButtonItems = [add]
     }
     
@@ -51,11 +51,11 @@ class AllPendingsTableViewController: UITableViewController {
         cell.enterprise = pending.enterprise
         if let week = pending.weeks[weekSelected].week {
             cell.tag = week.id
-                //cell.gotoProtocol = self
-                cell.weekProtocol = self
-            
+            //cell.gotoProtocol = self
+            cell.weekProtocol = self
             cell.users = pending.weeks[weekSelected].users
             cell.isPending = true
+            cell.tableView.reloadData()
         }
         
         return cell
@@ -76,7 +76,7 @@ class AllPendingsTableViewController: UITableViewController {
         let nib = UINib(nibName: "EnterpriseHeader", bundle: nil)
         
         self.styleNavBarAndTab_1()
- 
+        
         self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "EnterpriseHeaderCell")
         self.hideKeyboardWhenTappedAround()
     }
@@ -98,7 +98,7 @@ class AllPendingsTableViewController: UITableViewController {
         var animation : UISwipeGestureRecognizerDirection = .down
         let visibleRect = CGRect(origin: tableView.contentOffset, size: tableView.bounds.size)
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
-        if let indexPath = tableView.indexPathForRow(at: visiblePoint){
+        if let indexPath = tableView.indexPathForRow(at: visiblePoint) {
             if weekSelected < indexPath.section {
                 animation = .right
             }else if weekSelected > indexPath.section{
@@ -112,9 +112,9 @@ class AllPendingsTableViewController: UITableViewController {
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         if let indexPath = tableView.indexPathForRow(at: visiblePoint){
             if let cell = tableView.cellForRow(at: indexPath) as? ResponsableTableViewCell {
-               let pending : pendingModel = self.pendings[enterpriseSelected]
+                let pending : pendingModel = self.pendings[enterpriseSelected]
                 cell.tag = pending.weeks[weekSelected].week.id
-    
+                
                 cell.enterprise = pending.enterprise
                 cell.tableView.reloadData()
                 cell.getMyReports()
@@ -134,8 +134,8 @@ class AllPendingsTableViewController: UITableViewController {
         }
     }
     
-}
-extension AllPendingsTableViewController : StoreSubscriber {
+ }
+ extension AllPendingsTableViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = ReportState
     
     override func viewWillAppear(_ animated: Bool) {
@@ -189,9 +189,9 @@ extension AllPendingsTableViewController : StoreSubscriber {
             
         }
     }
-}
-
-extension AllPendingsTableViewController:  EnterpriseProtocol {
+ }
+ 
+ extension AllPendingsTableViewController:  EnterpriseProtocol {
     
     func showScrollOptions(sender: UISwipeGestureRecognizer) {
         changeEnterprise(direction: sender.direction == .right ? .left : .right)
@@ -216,14 +216,14 @@ extension AllPendingsTableViewController:  EnterpriseProtocol {
             animationStr = "left"
             self.enterpriseSelected += enterpriseSelected < pendings.count-1 ? 1 : 0
         }
-       
+        
         if animation != .none {
             didMove(toParentViewController: self)
             
             
             AnimatableReload.reload(tableView: self.tableView!, animationDirection: animationStr)
-//            self.tableView.reloadSections(IndexSet(integer: weekSelected), with: animation)
-           
+            //            self.tableView.reloadSections(IndexSet(integer: weekSelected), with: animation)
+            
             
         }
     }
@@ -254,8 +254,8 @@ extension AllPendingsTableViewController:  EnterpriseProtocol {
             }
         }
     }
-}
-extension AllPendingsTableViewController: weekProtocol {
+ }
+ extension AllPendingsTableViewController: weekProtocol {
     func changeWeek(direction : UISwipeGestureRecognizerDirection){
         
         if direction == .right {
@@ -271,7 +271,7 @@ extension AllPendingsTableViewController: weekProtocol {
             }
             return
         }else if weekSelected < 0{
-             weekSelected = 0
+            weekSelected = 0
             if enterpriseSelected > 0 {
                 changeEnterprise(direction: .left)
             }
@@ -279,7 +279,7 @@ extension AllPendingsTableViewController: weekProtocol {
         }
         let indexpath = IndexPath(row: 0, section: weekSelected)
         self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
-
+        
     }
     @objc func tapLeftWeek() {
         changeWeek(direction: .left)
@@ -297,11 +297,10 @@ extension AllPendingsTableViewController: weekProtocol {
         super.didMove(toParentViewController: parent)
         self.navigationItem.titleView = nil
         if parent != nil && self.navigationItem.titleView == nil {
-            
             self.navigationItem.titleView = titleNavBarView(title: "Empresa", subtitle: self.pendings[enterpriseSelected].enterprise.name!)
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.selectEnterprise))
             self.navigationItem.titleView?.addGestureRecognizer(tap)
             self.navigationItem.titleView?.isUserInteractionEnabled = true
         }
     }
-}
+ }

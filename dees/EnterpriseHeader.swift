@@ -55,8 +55,8 @@ class EnterpriseHeader: UITableViewHeaderFooterView {
         }else{
             titleLbl.font = titleLbl.font.withSize(13)
         }
-        if ctrl != nil {
-            borderColor.backgroundColor = UIColor(hexString: "#\(ctrl.enterprises[ctrl.enterpriseSelected].color! )ff")
+        if ctrl != nil, ctrl.enterprises.count > 0 {
+            borderColor.backgroundColor = UIColor(hexString: "#\(ctrl.enterprises[ctrl.enterpriseSelected].color ?? "FFFF" )ff")
             if ctrl.enterprises.count > 1 {
                 fowardView.isHidden = false
                 backView.isHidden = false

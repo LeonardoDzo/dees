@@ -31,15 +31,18 @@ struct FileReducer  {
     }
     
     
-    func get(_ eid: Int,_ wid: Int) -> Void {
+    func get(_ eid: Int,_ wid: Int? = nil) -> Void {
+        
         fileProvider.request(.get(wid: wid, eid: eid), completion: {
             result in
             switch result {
             case .success(let response):
                 do {
-                    let array : NSArray = try response.mapJSON() as! NSArray
-                    let file = File.from(array) ?? []
-                    store.state.files.files = .Finished((file, messages.success._00))
+                    if let array : NSArray = try response.mapJSON() as? NSArray {
+                        let file = File.from(array) ?? []
+                        store.state.files.files = .Finished((file, messages.success._00))
+                    }
+                    print(response)
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
                 } catch {

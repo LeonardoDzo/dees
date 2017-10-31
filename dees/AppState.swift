@@ -16,6 +16,7 @@ struct AppState: StateType{
     var weekState : WeekState
     var files: FileState
     var pendingState: PendingsState
+    var groupState : GroupState
 }
 enum Result<T> {
     case loading

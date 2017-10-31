@@ -229,6 +229,7 @@ extension AllReportsTableViewController {
         self.user = store.state.userState.user
         getEnterprise()
         self.weeks = store.state.weekState.getWeeks()
+        
         didMove(toParentViewController: self)
     }
     @objc func getFocusOnMyEnterprises(){

@@ -8,11 +8,14 @@
 
 import Foundation
 import RealmSwift
-let realm = RealmManager()
+let realm = RealmManager.shared
 
 class RealmManager {
     
-    let realm = try! Realm()
+    var realm = try! Realm()
+    private init(){
+    }
+    static let shared = RealmManager()
     
     /**
      Delete local database
@@ -34,11 +37,15 @@ class RealmManager {
         })
     }
     func save(objs: Object) {
-        try! realm.write({
-            // If update = true, objects that are already in the Realm will be
-            // updated instead of added a new.
-            realm.add(objs, update: true)
-        })
+        do{
+            try! realm.write({
+                // If update = true, objects that are already in the Realm will be
+                // updated instead of added a new.
+                realm.add(objs, update: true)
+            })
+        }
+        
+        
     }
     
     /**

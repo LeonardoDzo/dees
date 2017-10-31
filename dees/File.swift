@@ -44,6 +44,7 @@ struct File: Mappable {
     static let kmime = "mime"
     static let ktype = "type"
     static let kuserId = "userId"
+    static let kweekId = "weekId"
     
     var id : Int!
     var fid: Int!
@@ -53,6 +54,7 @@ struct File: Mappable {
     var type: Int?
     var path: String?
     var uid: Int?
+    var wid: Int?
     init(map: Mapper) throws {
         try id = map.from(File.kid)
         try fid = map.from(File.kidFormat)
@@ -62,6 +64,7 @@ struct File: Mappable {
         type = map.optionalFrom(File.ktype)
         path = map.optionalFrom(File.kpath)
         uid = map.optionalFrom(File.kuserId)
+        wid = map.optionalFrom(File.kweekId)
     }
     
     func getImage() -> UIImage {

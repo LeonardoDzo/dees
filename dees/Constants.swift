@@ -9,18 +9,29 @@
 import Foundation
 import Alamofire
 import Whisper
+enum ip : String {
+    case ip_kike = "192.168.1.105"
+    case ip_Test = "192.168.1.191"
+    case ip_Prod = "biapi.cotecnologias.com"
+}
+extension ip  {
+    func getPort() -> String {
+        switch self {
+        case .ip_kike:
+            return ":8085/"
+        case .ip_Test:
+            return ":83/"
+        case .ip_Prod:
+            return "/"
+        }
+    }
+}
 struct Constants {
     struct ServerApi {
-        /// ApiURL de produccion
-        //static let url = "http://biapi.cotecnologias.com/api/"
-        /// ApiURL de pruebas
-        //static let url = "http://192.168.1.191:83/api/"
-        static let url = "http://192.168.1.102:8085/api/"
-        static let ws = "ws://192.168.1.102:8085/api/companies/"
+        static let uri = ip.ip_Test
+        static let url = "http://\(ServerApi.uri.rawValue)\(ServerApi.uri.getPort())api/"
+        static let ws = "ws://\(ServerApi.uri.rawValue)\(ServerApi.uri.getPort())api/companies/"
         static let fileurl = "http://resapi.cotecnologias.com"
-        static let headers: HTTPHeaders = [
-            "Content-Type": "application/json"
-        ]
     }
     struct Announcement {
         

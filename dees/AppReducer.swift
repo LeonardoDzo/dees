@@ -20,7 +20,8 @@ struct AppReducer {
             reportState: ReportReducer().handleAction(action: action, state: state?.reportState),
             weekState: WeekReducer().handleAction(action: action, state: state?.weekState),
             files: FileReducer().handleAction(action: action, state: state?.files),
-            pendingState: PendingReducer().handleAction(action: action, state: state?.pendingState)
+            pendingState: PendingReducer().handleAction(action: action, state: state?.pendingState),
+            groupState: GroupReducer().handleAction(action: action, state: state?.groupState)
         )
     }
     

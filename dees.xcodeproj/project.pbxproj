@@ -15,6 +15,8 @@
 		021B230F1F85585F00285E4A /* FilesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021B230E1F85585F00285E4A /* FilesTableViewController.swift */; };
 		0220BF521F97D4E900AD6303 /* ExpandableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220BF511F97D4E900AD6303 /* ExpandableHeaderView.swift */; };
 		0220BF541F97DBCF00AD6303 /* ResponsablePendingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220BF531F97DBCF00AD6303 /* ResponsablePendingTableViewCell.swift */; };
+		022A90801FA259A400601965 /* MyMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022A907F1FA259A400601965 /* MyMessageTableViewCell.swift */; };
+		022A90821FA25E0500601965 /* GroupState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022A90811FA25E0500601965 /* GroupState.swift */; };
 		022CB4241F9FB12D009541E8 /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022CB4231F9FB12D009541E8 /* WebSocketService.swift */; };
 		022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022CF0581F460129007EEF1C /* UsersTableViewController.swift */; };
 		023611021F7EC24C009D2294 /* EnterpriseNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */; };
@@ -84,6 +86,8 @@
 		02B5A21C1F670E07001CD113 /* preHomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B5A21B1F670E07001CD113 /* preHomeCollectionViewCell.swift */; };
 		02B5A2211F672599001CD113 /* AllReportsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B5A2201F672599001CD113 /* AllReportsTableViewController.swift */; };
 		02B5A2231F672D86001CD113 /* ResponsableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B5A2221F672D86001CD113 /* ResponsableTableViewCell.swift */; };
+		02B8A1F61FA25F92002F623A /* GroupReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B8A1F51FA25F92002F623A /* GroupReducer.swift */; };
+		02B8A1F81FA261AC002F623A /* chatView_StoreSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B8A1F71FA261AC002F623A /* chatView_StoreSubscriber.swift */; };
 		02B974D21F465E2500884A82 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B974D11F465E2500884A82 /* File.swift */; };
 		02B974D41F4660F900884A82 /* FileViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B974D31F4660F900884A82 /* FileViewViewController.swift */; };
 		02BE44C41F8E86CF002D3578 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BE44C31F8E86CF002D3578 /* String.swift */; };
@@ -120,6 +124,8 @@
 		021B230E1F85585F00285E4A /* FilesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesTableViewController.swift; sourceTree = "<group>"; };
 		0220BF511F97D4E900AD6303 /* ExpandableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableHeaderView.swift; sourceTree = "<group>"; };
 		0220BF531F97DBCF00AD6303 /* ResponsablePendingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsablePendingTableViewCell.swift; sourceTree = "<group>"; };
+		022A907F1FA259A400601965 /* MyMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMessageTableViewCell.swift; sourceTree = "<group>"; };
+		022A90811FA25E0500601965 /* GroupState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupState.swift; sourceTree = "<group>"; };
 		022CB4231F9FB12D009541E8 /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
 		022CF0581F460129007EEF1C /* UsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		023611011F7EC24C009D2294 /* EnterpriseNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseNavBar.swift; sourceTree = "<group>"; };
@@ -192,6 +198,8 @@
 		02B5A21B1F670E07001CD113 /* preHomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = preHomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		02B5A2201F672599001CD113 /* AllReportsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllReportsTableViewController.swift; sourceTree = "<group>"; };
 		02B5A2221F672D86001CD113 /* ResponsableTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponsableTableViewCell.swift; sourceTree = "<group>"; };
+		02B8A1F51FA25F92002F623A /* GroupReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupReducer.swift; sourceTree = "<group>"; };
+		02B8A1F71FA261AC002F623A /* chatView_StoreSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatView_StoreSubscriber.swift; sourceTree = "<group>"; };
 		02B974D11F465E2500884A82 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		02B974D31F4660F900884A82 /* FileViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewViewController.swift; sourceTree = "<group>"; };
 		02BE44C31F8E86CF002D3578 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -336,6 +344,7 @@
 				024CAFF31F8D4200008D2922 /* WeekReducer.swift */,
 				0209D4D81F8FDDCD0089805C /* FileReducer.swift */,
 				02A6148B1F96A00000A417A7 /* PendingReducer.swift */,
+				02B8A1F51FA25F92002F623A /* GroupReducer.swift */,
 			);
 			name = Reducers;
 			sourceTree = "<group>";
@@ -349,6 +358,7 @@
 				02E7AB1C1F3D24A80037B7D1 /* ReportState.swift */,
 				024CAFEF1F8D3A63008D2922 /* weekState.swift */,
 				02A614871F969B8200A417A7 /* PendingsState.swift */,
+				022A90811FA25E0500601965 /* GroupState.swift */,
 			);
 			name = States;
 			sourceTree = "<group>";
@@ -453,6 +463,8 @@
 			isa = PBXGroup;
 			children = (
 				02A477811F9E8E0B00B4E707 /* ChatViewController.swift */,
+				022A907F1FA259A400601965 /* MyMessageTableViewCell.swift */,
+				02B8A1F71FA261AC002F623A /* chatView_StoreSubscriber.swift */,
 			);
 			name = Chat;
 			sourceTree = "<group>";
@@ -671,6 +683,7 @@
 				022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */,
 				02A614881F969B8200A417A7 /* PendingsState.swift in Sources */,
 				02A099C31F9ECFAF008B459D /* UIViewControllerX.swift in Sources */,
+				02B8A1F61FA25F92002F623A /* GroupReducer.swift in Sources */,
 				02B5A2231F672D86001CD113 /* ResponsableTableViewCell.swift in Sources */,
 				0280EF2C1F86B932003247F5 /* DesignableView.swift in Sources */,
 				024CAFF41F8D4200008D2922 /* WeekReducer.swift in Sources */,
@@ -720,6 +733,7 @@
 				0220BF541F97DBCF00AD6303 /* ResponsablePendingTableViewCell.swift in Sources */,
 				0272A3751F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift in Sources */,
 				025EB9861F34F43F0075611F /* AppDelegate.swift in Sources */,
+				022A90801FA259A400601965 /* MyMessageTableViewCell.swift in Sources */,
 				02AB81BB1F7066300081FE5E /* RerportTableViewCell.swift in Sources */,
 				025EB9AC1F350A730075611F /* Business.swift in Sources */,
 				025EB9A21F34FC4D0075611F /* UserActions.swift in Sources */,
@@ -737,6 +751,7 @@
 				027FE2261F3CF151005C6FF8 /* Report.swift in Sources */,
 				02A099C01F9ECFAF008B459D /* UIButtonX.swift in Sources */,
 				02D4AE1B1F71F48700623406 /* SearchFooter.swift in Sources */,
+				02B8A1F81FA261AC002F623A /* chatView_StoreSubscriber.swift in Sources */,
 				02F4CC9A1F3B6F16008312A6 /* BusinessTableViewCell.swift in Sources */,
 				027D911E1F393D37007AB6D2 /* ProfileViewController.swift in Sources */,
 				02C058361F82CD770022186A /* TitleHeader.swift in Sources */,
@@ -747,6 +762,7 @@
 				0209D4D91F8FDDCD0089805C /* FileReducer.swift in Sources */,
 				0272A3731F4E4BFB008D3287 /* EnterpriseCollectionViewController.swift in Sources */,
 				027D911A1F3907A8007AB6D2 /* AuthService.swift in Sources */,
+				022A90821FA25E0500601965 /* GroupState.swift in Sources */,
 				020AD2CF1F9FA7FF00DD079B /* MessageService.swift in Sources */,
 				0254C7AA1F9AD37600C4340F /* Loader.swift in Sources */,
 				022CB4241F9FB12D009541E8 /* WebSocketService.swift in Sources */,

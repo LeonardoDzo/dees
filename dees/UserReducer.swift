@@ -45,11 +45,6 @@ struct UserReducer {
                 setToken(eid: action.eid)
             }
             break
-        case let action as UsersAction.SendMessage:
-            if action.message != nil {
-                sendMessage(m: action.message)
-            }
-            break
         case let action as AuthActions.ChangePass:
             if action.oldPass != nil {
                 state.status = .loading
@@ -126,6 +121,7 @@ struct UserReducer {
                     store.state.userState.status = .Finished(user!)
                     socket = WebsocketService.shared
                     store.dispatch(wAction.Get())
+                    store.dispatch(GroupsAction.Groups())
                     if let eid : Int =  user?.bussiness.first?.id {
                          store.dispatch(AuthActions.Token(eid:eid))
                     }
@@ -210,29 +206,7 @@ struct UserReducer {
         
     }
     
-    func sendMessage(m: _requestMessage) -> Void {
-        chatProvider.request(.post(m: m), completion: { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                    print(repos)
-                } catch MoyaError.jsonMapping(let error) {
-                    print(error )
-                    store.state.userState.status = .Failed("Hubo algun error")
-                } catch {
-                    print(":(")
-                }
-                break
-            case .failure(let error):
-                print(error)
-                store.state.userState.status = .Failed("Hubo algun error")
-                store.state.userState.status = .none
-                break
-            }
-            
-        })
-    }
+  
     func logOut() -> Void {
         UserDefaults().removeObject(forKey: "token")
         UserDefaults().removeObject(forKey: "email")

@@ -10,7 +10,7 @@ import UIKit
 import ReSwift
 import UserNotifications
 let defaults = UserDefaults.standard
-
+import RealmSwift
 let store = Store<AppState>(
     reducer: AppReducer().handleAction,
     state: nil)
@@ -23,7 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-       
+//        var config = Realm.Configuration()
+//        config.deleteRealmIfMigrationNeeded = true
+        
         if #available(iOS 8.0, *){
             let center = UNUserNotificationCenter.current()
             center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in

@@ -38,7 +38,8 @@ class PenginsTableViewController: UITableViewController {
     
     var unCreated = [pendingModel]()
     
-    
+    let searchController = UISearchController(searchResultsController: nil)
+    var filteredPendings = [pendingModel]()
     var sections = [("Mis Pendientes", [pendingModel](), true),("Reportes no creados", [pendingModel](), false)]
     
     lazy var refCtrl: UIRefreshControl = {
@@ -64,8 +65,7 @@ class PenginsTableViewController: UITableViewController {
         
     }
 
-    let searchController = UISearchController(searchResultsController: nil)
-    var filteredPendings = [pendingModel]()
+   
     override func viewDidLoad() {
         super.viewDidLoad()
          self.enterprises = store.state.businessState.business.count > 0 ? store.state.businessState.business.first(where: {$0.id == store.state.userState.type})?.business ?? [] : store.state.userState.user.bussiness
