@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MIBadgeButton_Swift
 import KDLoadingView
 class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate {
     
@@ -18,8 +19,8 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
     @IBOutlet weak var loadingView: KDLoadingView!
     @IBOutlet weak var filesF: UIButton!
     @IBOutlet weak var filesOp: UIButton!
-    @IBOutlet weak var replyF: UIButton!
-    @IBOutlet weak var replyOp: UIButton!
+    @IBOutlet weak var replyF: UIButtonX!
+    @IBOutlet weak var replyOp: UIButtonX!
     @IBOutlet weak var observationTitle: UIStackView!
     
     @IBOutlet weak var operativeStack: UIStackView!
@@ -98,10 +99,10 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         go(to: 1, for: 1)
     }
     func go(to type: Int, for t: Int) -> Void {
-        let info = ["report": report,
-                    "type": type] as [String : Any]
+        let conf = configuration(uid: self.report.uid, wid: report.wid, type: type, eid: report.eid, files: report.files, user: nil )
+        
         if report != nil {
-            gotoProtocol.goTo(t == 0 ? .filesView : .chatView, sender: info)
+            gotoProtocol.goTo(t == 0 ? .filesView : .chatView, sender: conf)
         }
         
     }
@@ -109,5 +110,31 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         if report != nil {
             store.dispatch(ReportsAction.Post(report: report))
         }
+    }
+    func updateMessages() -> Void {
+        replyOp.setTitle("\(getMessages(type: 0))", for: .normal)
+        replyF.setTitle("\(getMessages(type: 1))", for: .normal)
+        
+    }
+    func getMessages(type: Int) -> Int {
+        let groups = realm.realm.objects(Group.self).filter("companyId  = %@ AND userId = %@", report.eid, report.uid)
+        var count =  0
+        groups.toArray(ofType: Group.self).filter({$0.type == type}).forEach({ (g) in
+            let userin_times = g._party.first(where: {$0.id == store.state.userState.user.id})?.timestamp
+            g.messages.forEach({ (m) in
+                if userin_times! < m.timestamp {
+                    count += 1
+                }
+                
+            })
+        })
+        if !store.state.userState.user.isDirectorCeo(), groups.toArray(ofType: Group.self).filter({$0.type == type }).count == 0  {
+            if type == 0 {
+                replyOp.isHidden = true
+            }else{
+                replyF.isHidden = true
+            }
+        }
+        return count
     }
 }

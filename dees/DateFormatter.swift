@@ -87,6 +87,11 @@ extension DateFormatter {
         formatter.setLocalizedDateFormatFromTemplate("MM yyyy")
         return formatter
     }()
+    @nonobjc static let full: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd'T'HH:mm:ss")
+        return formatter
+    }()
 }
 extension Date {
     

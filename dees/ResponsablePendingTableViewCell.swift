@@ -59,5 +59,6 @@ extension ResponsablePendingTableViewCell : UITableViewDelegate, UITableViewData
        
       //CLICK
     }
+    
 
 }

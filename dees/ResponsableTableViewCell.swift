@@ -9,6 +9,7 @@
 import UIKit
 import ReSwift
 import Whisper
+import RealmSwift
 import KDLoadingView
 class ResponsableTableViewCell: UITableViewCell {
     let notificationCenter = NotificationCenter.default
@@ -23,6 +24,7 @@ class ResponsableTableViewCell: UITableViewCell {
     var lastsection = 0
     var isPending = false
     var enterprise : Business!
+    var notificationToken: NotificationToken? = nil
     let xib = UINib(nibName: "TitleView", bundle: nil)
     lazy var loadingView : LoadingView = {
         let loading = LoadingView()
@@ -42,9 +44,12 @@ class ResponsableTableViewCell: UITableViewCell {
         self.tableView.addGestureRecognizer(swipeLeft)
         self.tableView.addGestureRecognizer(swipeRight)
         self.loadingView.center = tableView.center
-       self.loadingView.frame.origin.x -= self.loadingView.loading.frame.width/2
-       self.loadingView.frame.origin.y -= self.loadingView.loading.frame.width
-         setTableViewDataSourceDelegate()
+        self.loadingView.frame.origin.x -= self.loadingView.loading.frame.width/2
+        self.loadingView.frame.origin.y -= self.loadingView.loading.frame.width
+        setTableViewDataSourceDelegate()
+        notificationToken?.invalidate()
+        
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -90,8 +95,16 @@ class ResponsableTableViewCell: UITableViewCell {
         guard let cell = tableView.visibleCells[0] as? RerportTableViewCell else {
             return
         }
+        
         if let indexPath = self.tableView.indexPath(for: cell) {
+           
             get(indexPath)
+            store.unsubscribe(self)
+            store.subscribe(self) {
+                $0.select({ (s)  in
+                    s.groupState
+                })
+            }
         }
     }
     func getUser() -> User? {
@@ -222,7 +235,7 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     }
     
 }
-extension ResponsableTableViewCell {
+extension ResponsableTableViewCell: StoreSubscriber {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
             cellMostVisible()
@@ -242,4 +255,47 @@ extension ResponsableTableViewCell {
             tableView.scrollToRow(at: indexPath!, at: .top, animated: true)
         }
     }
+    func checkGroup() -> Void {
+        let group = realm.realm.objects(Group.self).filter("companyId = %@", enterprise.id)
+        notificationToken = notificationSubscription(group: group)
+    }
+    
+    func notificationSubscription(group: Results<Group>) -> NotificationToken {
+        return group.observe {[weak self] (changes) in
+            self?.updateUI(changes: changes)
+        }
+    }
+    func updateUI(changes: RealmCollectionChange<Results<Group>>) -> Void  {
+        switch changes {
+        case .initial: break;
+        //tableView.reloadData()
+        case .update(_, _, _, _):
+            // Query results have changed, so apply them to the UITableView
+            guard tableView.visibleCells.count > 0 , let cell = tableView.visibleCells[0] as? RerportTableViewCell else {
+                return
+            }
+            cell.updateMessages()
+        case .error:
+            // handle error
+            ()
+        }
+        
+    }
+    
 }
+extension ResponsableTableViewCell {
+    typealias StoreSubscriberStateType = GroupState
+    
+    func newState(state: GroupState) {
+        switch state.groups {
+        case .finished:
+            notificationToken?.invalidate()
+            checkGroup()
+            break
+        default:
+            break
+        }
+    }
+    
+}
+

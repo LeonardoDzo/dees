@@ -48,19 +48,9 @@ struct GroupReducer {
                     var group = try JSONDecoder().decode(Group.self, from: repos)
                     group = self.verifymessage(group: group)
                     
-                    if let pDic = dic["party"], let partyMembers : Data = self.jsonToData(json: pDic) {
-                        let party: [PartyMember] = try jsonDecoder.decode([PartyMember].self, from: partyMembers)
-                        party.forEach({user in
-                            do {
-                                try realm.realm.write({
-                                    group.party.append(user)
-                                })
-                            } catch let e {
-                                print(e)
-                            }
-                            
-                        })
-                        
+                    if group.party.count > 0 {
+                        _ = group.party.map({group._party.append($0)})
+                        group.party.removeAll()
                     }
                     if let msgs = dic["messages"], let messages = self.jsonToData(json: msgs) {
                         let messages: [MessageEntitie] = try jsonDecoder.decode([MessageEntitie].self, from: messages)
@@ -95,8 +85,10 @@ struct GroupReducer {
             switch result {
             case .success(let response):
                 do {
-                    let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                    print(repos)
+                    let dic : NSDictionary = try response.mapJSON() as! NSDictionary
+                    if response.statusCode < 400 {
+                        store.dispatch(GroupsAction.GroupIn(m: m))
+                    }
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
                     store.state.userState.status = .Failed("Hubo algun error")
@@ -125,13 +117,18 @@ struct GroupReducer {
             switch result {
             case .success(let response):
                 do {
-                 
+                    let dic = try response.mapJSON()
+                    print(dic)
                     if response.statusCode >= 400 {
                         print("Error al traer los grupos")
                         completion(.failed)
                     }
                     var groups : [Group] = try JSONDecoder().decode([Group].self, from: response.data)
                     groups.enumerated().forEach({ (i,g) in
+                        if g.party.count > 0 {
+                            _ = g.party.map({groups[i]._party.append($0)})
+                             groups[i].party.removeAll()
+                        }
                         groups[i] = self.verifymessage(group: g)
                     })
                     realm.saveObjects(objs: groups)

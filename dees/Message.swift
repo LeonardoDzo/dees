@@ -12,12 +12,14 @@ import Mapper
 
 class MessageEntitie: Object, Codable {
     @objc dynamic var createdAt: String = ""
+    @objc dynamic  var timestamp : Int = 0
     @objc dynamic var groupId: Int = 0
     @objc dynamic var id: Int = 0
     @objc dynamic var message: String = ""
     @objc dynamic var tags: String = ""
     @objc dynamic var userId: Int = -1
     @objc dynamic var weekId: Int = -1
+    
     
     private enum CodingKeys: String, CodingKey {
         case createdAt
@@ -27,6 +29,7 @@ class MessageEntitie: Object, Codable {
         case tags
         case userId
         case weekId
+        case timestamp
     }
     
     override static func primaryKey() -> String? {
@@ -40,18 +43,22 @@ class Group: Object, Codable {
     @objc dynamic var id: Int = -1
     @objc dynamic var type: Int = -1
     @objc dynamic var userId: Int = -1
-    var party = List<PartyMember>()
+    var _party = List<PartyMember>()
     var messages = List<MessageEntitie>()
-    
+    var party = [PartyMember]()
     private enum CodingKeys: String, CodingKey {
         case companyId
         case type
         case id
         case userId
+        case party
     }
 
     override static func primaryKey() -> String? {
         return "id"
+    }
+    override static func ignoredProperties() -> [String] {
+        return ["party"]
     }
 }
 class PartyMember : Object, Codable {
@@ -60,7 +67,7 @@ class PartyMember : Object, Codable {
     @objc dynamic var lastname: String = ""
     @objc dynamic var dateIn: String = ""
     @objc dynamic var email: String = ""
-    
+    @objc dynamic var timestamp : Int = -1
     
     override static func primaryKey() -> String? {
         return "id"

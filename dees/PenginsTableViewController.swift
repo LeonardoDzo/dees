@@ -60,7 +60,7 @@ class PenginsTableViewController: UITableViewController {
         return view
     }()
     
-    func handleRefresh() {
+    @objc func handleRefresh() {
         store.dispatch(PendingsActions.get(eid: store.state.userState.type))
         
     }

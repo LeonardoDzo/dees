@@ -12,11 +12,8 @@ import ReSwift
 import Whisper
 
 class FilesTableViewController: UITableViewController, UINavigationControllerDelegate {
+    var conf : configuration!
     var files = [File]()
-    var enterprise: Business!
-    var user: User!
-    var file_type: Int!
-    var report: Report!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.styleNavBarAndTab_1()
@@ -52,21 +49,24 @@ class FilesTableViewController: UITableViewController, UINavigationControllerDel
         return cell
     }
     override func viewWillAppear(_ animated: Bool) {
-        files = report.files.filter({$0.type == file_type})
-        var name = file_type != 0 ? "Financiero de " : "Operativo de "
-        name.append(user.name!)
+        files = conf.files.filter({$0.type == conf.type})
+        var name = conf.type != 0 ? "Financiero de " : "Operativo de "
+        name.append(conf.user.name!)
         store.subscribe(self){
             $0.select({
                 s in s.reportState
             })
         }
-        self.navigationItem.titleView = titleNavBarView(title: enterprise.name!, subtitle: name)
+        if let enterprise =  conf.getEnterprise() {
+            self.navigationItem.titleView = titleNavBarView(title:enterprise.name!, subtitle: name)
+        }
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.pushToView(view: .webView, sender: (files[indexPath.row], report.eid))
+        self.pushToView(view: .webView, sender: (files[indexPath.row], conf.eid))
     }
    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath) {
         cell.backgroundColor = UIColor(white: 1, alpha: 0.5)
@@ -96,7 +96,7 @@ extension FilesTableViewController:  UIDocumentMenuDelegate,UIDocumentPickerDele
             let _ = URLSession.shared.dataTask(with: request as URLRequest) { (data, urlResponse, err) in
                 
                 if err == nil {
-                    store.dispatch(ReportsAction.UploadFile(report: self.report, type: self.file_type, data: data!, name: name!))
+                    store.dispatch(ReportsAction.UploadFile(report: Report(uid: self.conf.uid, eid: self.conf.eid, wid: self.conf.wid), type:self.conf.type, data: data!, name: name!))
                 } else {
                     print("Hubo un error")
                 }
@@ -153,7 +153,7 @@ extension FilesTableViewController : StoreSubscriber {
                 store.state.reportState.reports = .none
                 break
             case .Finished(let tupla as (Report, Murmur)):
-                self.files = tupla.0.files.filter({$0.type == file_type})
+                self.files = tupla.0.files.filter({$0.type == conf.type})
                 self.tableView.reloadData()
                 break
             default:

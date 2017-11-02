@@ -13,5 +13,16 @@ struct GroupState: StateType {
     var groups : Result<Any> = .loading
     var currentGroup : Result<Group> = .loading
     
+    func isCurrentGroup(id: Int) -> Bool {
+        switch currentGroup {
+        case .Finished(let t):
+            if t.id == id {
+                return true
+            }
+            return false
+        default:
+            return false
+        }
+    }
 }
 

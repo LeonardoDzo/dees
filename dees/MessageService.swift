@@ -53,7 +53,6 @@ extension MessageProvider : TargetType, AccessTokenAuthorizable {
         case .post:
             return .post
         }
-        return .post
     }
     var authorizationType: AuthorizationType {
         return .bearer

@@ -15,4 +15,5 @@ target 'dees' do
   pod 'AnimatableReload'
   pod 'Starscream', '~> 3.0.2'
   pod 'RealmSwift'
+  pod 'MIBadgeButton-Swift', :git => 'https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git', :branch => 'master'
 end

@@ -166,6 +166,9 @@ extension AllReportsTableViewController : StoreSubscriber {
     
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
+        if let cell = tableView.cellForRow(at: IndexPath(row: 0,section: self.enterpriseSelected)) as? ResponsableTableViewCell {
+            store.unsubscribe(cell)
+        }
         Whisper.hide(whisperFrom: self.navigationController!)
     }
     
@@ -175,6 +178,7 @@ extension AllReportsTableViewController : StoreSubscriber {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell else {
             return
         }
+        
         switch state.reports {
         case .loading:
             self.view.isUserInteractionEnabled = false
@@ -369,15 +373,15 @@ extension AllReportsTableViewController : EnterpriseProtocol {
 }
 extension AllReportsTableViewController : GoToProtocol {
     func goTo(_ route: RoutingDestination, sender: Any?) {
-        guard var dic = sender as? [String : Any] else {
+        guard var conf = sender as? configuration else {
             return
         }
-        dic["enterprise"] = self.enterprises[self.enterpriseSelected]
         if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected)) as? ResponsableTableViewCell {
-            dic["user"] = cell.getUser()
+            conf.user = cell.getUser()
         }
-        
-        self.pushToView(view: route, sender: dic)
+
+    
+        self.pushToView(view: route, sender: conf)
     }
     func viewInfo(_ report: Report,_ type: String) {
         let data = [

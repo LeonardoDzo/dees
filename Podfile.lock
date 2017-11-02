@@ -2,6 +2,7 @@ PODS:
   - Alamofire (4.5.1)
   - AnimatableReload (0.1.0)
   - KDLoadingView (1.0.4)
+  - MIBadgeButton-Swift (0.5)
   - ModelMapper (7.2.0)
   - Moya (9.0.0):
     - Moya/Core (= 9.0.0)
@@ -27,6 +28,7 @@ DEPENDENCIES:
   - Alamofire (~> 4.4)
   - AnimatableReload
   - KDLoadingView (~> 1.0.0)
+  - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
   - Moya (~> 9.0)
   - Moya-ModelMapper (= 5.0)
   - RealmSwift
@@ -34,10 +36,21 @@ DEPENDENCIES:
   - Starscream (~> 3.0.2)
   - Whisper
 
+EXTERNAL SOURCES:
+  MIBadgeButton-Swift:
+    :branch: master
+    :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
+
+CHECKOUT OPTIONS:
+  MIBadgeButton-Swift:
+    :commit: 3c2638d2e6e46ec2e6dd978d8ada8863df3df5e6
+    :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
+
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   AnimatableReload: dcef76a16258b82bf845225012aa8f3b1aa7df6c
   KDLoadingView: fcb015daf91c245f0a212fd52b8061621f421dfe
+  MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
   ModelMapper: bef729f9c7095cadffc3c2ef9432fc5e21d8fc60
   Moya: cf5e6ee93af526532f92614004b8ad2ea60fd845
   Moya-ModelMapper: fc14d8c7d6466f11aea83e785c7f2c4c521fead6
@@ -48,6 +61,6 @@ SPEC CHECKSUMS:
   Starscream: b512c62f6706421221b5ceb2ba01a9f58aca5bea
   Whisper: 62e406a71a288476e605a4db06de8c6975bbb350
 
-PODFILE CHECKSUM: a27a5cec06f2b58c13f171b55a417bcb97c4fdfa
+PODFILE CHECKSUM: a57cd5ed36312bd8268c07054192a03b5afcd0c8
 
 COCOAPODS: 1.2.1.rc.1

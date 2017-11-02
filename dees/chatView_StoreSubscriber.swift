@@ -51,6 +51,7 @@ extension ChatViewController : StoreSubscriber {
     func updateUI(changes: RealmCollectionChange<Results<Group>>) -> Void  {
         switch changes {
         case .initial:
+            
             tableView.reloadData()
         case .update(_, _, _, _):
             // Query results have changed, so apply them to the UITableView

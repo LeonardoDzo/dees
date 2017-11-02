@@ -43,6 +43,10 @@ struct User : Mappable {
     }
     init() {
     }
+    
+    func isDirectorCeo() -> Bool {
+        return permissions.contains(where: {$0.rid.rawValue > 601})
+    }
     func toDictionary() -> NSDictionary {
         return [User.kEmail: self.email ?? "",
                 User.kName: self.name ?? ""]

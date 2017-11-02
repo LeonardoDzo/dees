@@ -12,8 +12,9 @@ class MyMessageTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var textBubbleView: UIViewX!
-    @IBOutlet weak var photo: UIImageView!
     @IBOutlet weak var messageTxt: UITextView!
+    @IBOutlet weak var weekLbl: UILabel!
+    @IBOutlet weak var hourLbl: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         if messageTxt != nil {

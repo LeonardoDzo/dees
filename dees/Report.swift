@@ -9,7 +9,7 @@
 import Foundation
 import Mapper
 import UIKit
-
+import MIBadgeButton_Swift
 struct seen : Mappable {
     static let kid = "id"
     static let kseenAt = "seenAt"
@@ -96,8 +96,8 @@ protocol ReportBindible: AnyObject {
     var observationsTxv: UITextView! {get}
     var financialTxv: UITextView! {get}
     var anexosLbl: UILabel! {get}
-    var replyF: UIButton! {get}
-    var replyOp: UIButton! {get}
+    var replyF: UIButtonX! {get}
+    var replyOp: UIButtonX! {get}
     var filesF: UIButton! {get}
     var filesOp: UIButton! {get}
     var observationTitle : UIStackView! {get}
@@ -108,8 +108,8 @@ extension ReportBindible {
     var observationsTxv: UITextView! {return nil}
     var financialTxv: UITextView! {return nil}
     var anexosLbl: UILabel! {return nil}
-    var replyF: UIButton! {return nil}
-    var replyOp: UIButton! {return nil}
+    var replyF: UIButtonX! {return nil}
+    var replyOp: UIButtonX! {return nil}
     var filesF: UIButton! {return nil}
     var filesOp: UIButton! {return nil}
     var observationTitle : UIStackView! {return nil}
@@ -123,6 +123,7 @@ extension ReportBindible {
         guard let report = report else {
             return
         }
+        let groups = realm.realm.objects(Group.self).filter("companyId  = %@", report.eid)
         if let operativeTxv = self.operativeTxv {
             operativeTxv.text = report.operative ?? ""
             if store.state.userState.user.id != report.uid {
@@ -155,10 +156,26 @@ extension ReportBindible {
         }
 
         if let replyOp = self.replyOp {
-            replyOp.isHidden = false
+            if !store.state.userState.user.isDirectorCeo(), groups.toArray(ofType: Group.self).filter({$0.type == 0}).count == 0  {
+                replyOp.isHidden = true
+            }
+            
+            
         }
         if let replyF = self.replyF {
-            replyF.isHidden = false
+            if !store.state.userState.user.isDirectorCeo(), groups.toArray(ofType: Group.self).filter({$0.type == 1}).count == 0  {
+                replyF.isHidden = true
+            }
+            var count =  0
+            groups.toArray(ofType: Group.self).filter({$0.type == 1}).forEach({ (g) in
+                let userin_times = g._party.first(where: {$0.id == store.state.userState.user.id})?.timestamp
+                g.messages.forEach({ (m) in
+                    if userin_times! < m.timestamp {
+                        count += g.messages.count
+                    }
+                })
+            })
+            replyF.setTitle("\(count)", for: .normal)
         }
         
         if let filesOp = self.filesOp {

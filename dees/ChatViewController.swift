@@ -9,11 +9,23 @@
 import UIKit
 import ReSwift
 import RealmSwift
+
+struct configuration{
+    var uid : Int!
+    var wid : Int!
+    var type : Int!
+    var eid : Int!
+    var files = [File]()
+    var user  : User!
+    func getEnterprise() -> Business? {
+        return store.state.businessState.getEnterprise(id: eid) ?? store.state.userState.user.bussiness.first(where: {$0.id == eid})
+    }
+    
+}
+
+
 class ChatViewController: UIViewController {
-    var enterprise: Business!
-    var user: User!
-    var file_type: Int!
-    var report: Report!
+    var conf : configuration!
     var group: Results<Group>!
     let notificationCenter = NotificationCenter.default
     var messages_group : Results<MessageEntitie>!
@@ -43,16 +55,27 @@ class ChatViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        var name = file_type != 0 ? "Financiero de " : "Operativo de "
-        name.append(user.name!)
+      
+        let user = conf.user
+        var name = conf.type != 0 ? "Financiero de " : "Operativo de "
+        if store.state.userState.user.isDirectorCeo() {
+            name.append((user?.name)!)
+        }else{
+            name.append(store.state.userState.user.name!)
+        }
         
+        
+        if let enterprise = conf.getEnterprise() {
+            self.navigationItem.titleView = titleNavBarView(title: enterprise.name!, subtitle:  name)
+        }
+ 
         store.subscribe(self) {
             $0.select({ (state)  in
                 state.groupState
             })
         }
-        store.dispatch(GroupsAction.GroupIn(m: _requestMessage(eid: enterprise.id, wid: report.wid, uid: report.uid, type: TYPE_ON_REPORT(rawValue: file_type), message: "")))
-        self.navigationItem.titleView = titleNavBarView(title: enterprise.name!, subtitle: name)
+        store.dispatch(GroupsAction.GroupIn(m: _requestMessage(eid: conf.eid, wid: conf.wid, uid: conf.uid, type: TYPE_ON_REPORT(rawValue: conf.type), message: "")))
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
@@ -60,17 +83,22 @@ class ChatViewController: UIViewController {
     }
     
     @IBAction func handleSendMessage(_ sender: UIButton) {
-        let m = _requestMessage(eid: self.enterprise.id, wid: self.report.wid, uid: self.report.uid, type: TYPE_ON_REPORT(rawValue: self.file_type), message: messageTxtView.text)
+        let m = _requestMessage(eid: conf.eid, wid: conf.wid, uid: conf.uid, type: TYPE_ON_REPORT(rawValue: conf.type), message: messageTxtView.text)
         messageTxtView.text.removeAll()
+        heightLayoutView.constant = 47
         store.dispatch(GroupsAction.SendMessage(m: m))
     }
     deinit {
         notificationToken?.invalidate()
+        group = nil
+        conf = nil
+        store.state.groupState.currentGroup = .none
     }
     
     
     
 }
+
 extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if group != nil , let m = group.first?.messages {
@@ -88,10 +116,15 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
              cell.messageTxt.text = "HUBO UN ERRIR"
             return cell
         }
-        let own =  self.group.first?.party.first(where: {$0.id == message.userId})
-        let cell = tableView.dequeueReusableCell(withIdentifier: message.userId == store.state.userState.user.id ? "myCell" : "uCell" , for: indexPath) as! MyMessageTableViewCell
        
+        let own =  self.group.first?._party.first(where: {$0.id == message.userId})
+        let cell = tableView.dequeueReusableCell(withIdentifier: message.userId == store.state.userState.user.id ? "myCell" : "uCell" , for: indexPath) as! MyMessageTableViewCell
+        if let week = store.state.weekState.getWeeks().first(where: {$0.id == message.weekId}) {
+            cell.weekLbl.text = "Sem. " + week.getTitleOfWeek()
+        }
         cell.messageTxt.text = message.message
+        cell.hourLbl.text = Date(timeIntervalSince1970: TimeInterval(message.timestamp/1000)).string(with: .hourAndMin)
+        cell.hourLbl.sizeToFit()
         if cell.nameLbl != nil {
             cell.nameLbl.text! = (own?.name)! + " " + (own?.lastname)!
         }
@@ -106,7 +139,7 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
         let size  = CGSize(width: 250, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         let estimatedFrame = NSString(string: (message.message)).boundingRect(with: size, options: options, attributes:nil, context: nil)
-        return estimatedFrame.height + 50
+        return estimatedFrame.height + 60
     }
     
     
