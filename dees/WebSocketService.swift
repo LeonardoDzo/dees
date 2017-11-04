@@ -64,10 +64,8 @@ class WebsocketService: WebSocketDelegate {
                     
                     self.showNotification(group: group.first!, message: message)
                     try! realm.realm.write {
-                        group.first?.messages.append(message)
-                    }
-                    
-                    
+                        group.first?._messages.append(message)
+                    }    
                     realm.save(objs: group.first!)
                 }
                 

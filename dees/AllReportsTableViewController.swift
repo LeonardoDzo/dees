@@ -9,6 +9,8 @@
 import UIKit
 import ReSwift
 import Whisper
+import AnimatableReload
+import KDLoadingView
 protocol GoToProtocol :  class {
     func goTo(_ route: RoutingDestination, sender: Any?)
     func viewInfo(_ report: Report,_ type: String) -> Void
@@ -23,6 +25,12 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     var Bsection = -1
     var weeks = [Week]()
     var weekSelected: Int = 0
+    lazy var loading : KDLoadingView = {
+       var loading = KDLoadingView(frame: .zero)
+       loading.hidesWhenStopped = true
+       loading.firstColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+       return loading
+    }()
     lazy var weeksTitleView : weeksView? = weeksView(frame: .zero)
     let notificationCenter = NotificationCenter.default
     var lastContentOffset: CGFloat = 0
@@ -166,31 +174,30 @@ extension AllReportsTableViewController : StoreSubscriber {
     
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
-        if let cell = tableView.cellForRow(at: IndexPath(row: 0,section: self.enterpriseSelected)) as? ResponsableTableViewCell {
-            store.unsubscribe(cell)
-        }
         Whisper.hide(whisperFrom: self.navigationController!)
     }
     
     func newState(state: ReportState) {
         self.view.isUserInteractionEnabled = true
         
+        self.loading.stopAnimating()
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell else {
             return
         }
-        
+        cell.notificationToken?.invalidate()
         switch state.reports {
         case .loading:
             self.view.isUserInteractionEnabled = false
             cell.loadingView.start()
-        
+            self.loading.frame = CGRect(origin: self.view.center, size: CGSize(width: 100, height: 100))
+            self.loading.startAnimating()
             return
             
         case .Finished(let tupla as (Report,Murmur)):
             //Loader.removeLoaderFromTableView(table: cell.tableView)
             Whisper.show(whistle: tupla.1, action: .show(2.5))
             cell.updated()
-            
+            cell.checkGroup()
             break
         case .Failed(let m as Murmur):
             Whisper.show(whistle: m, action: .show(2.5))
@@ -272,23 +279,25 @@ extension AllReportsTableViewController {
 extension AllReportsTableViewController : weekProtocol {
     func changeWeek(direction : UISwipeGestureRecognizerDirection){
         var animation: UITableViewRowAnimation = .none
+        var animationStr: String!
         if direction == .right {
             if weekSelected > 0 {
                 animation = .left
+                animationStr = "left"
                 self.weekSelected -= 1
             }
         }else{
             if weekSelected < weeks.count-1 {
                 animation = .right
+                animationStr = "right"
                 self.weekSelected += 1
             }
         }
         
         if animation != .none {
             didMove(toParentViewController: self)
-            tableView.beginUpdates()
-            self.tableView.reloadSections(IndexSet(integer: self.enterpriseSelected), with: animation)
-            tableView.endUpdates()
+           
+            AnimatableReload.reload(tableView: self.tableView!, animationDirection: animationStr)
         }
     }
     @objc func tapLeftWeek() {
@@ -311,7 +320,6 @@ extension AllReportsTableViewController : weekProtocol {
             if weeks.count > 0 {
                 weeksTitleView?.setTitle(title: "Reporte", subtitle: self.weeks[self.weekSelected].getTitleOfWeek())
             }
-            
             
             self.navigationItem.titleView = weeksTitleView
             
@@ -349,38 +357,45 @@ extension AllReportsTableViewController : EnterpriseProtocol {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "viewInfo" {
-            if let data = sender as? [String:Any] {
-                guard let report = data["report"] as? Report else {
-                    return
-                }
-                guard let type = data["type"] as? String else {
-                    return
-                }
-                
-                if let vc = segue.destination as? DetailsContentViewController {
-                    vc.report = report
-                    vc.type = type
-                    if let e = enterprises.first(where: {$0.id == report.eid}) {
-                        vc.enterprise = e
-                        vc.user = e.users.count > 0 ? e.users.first(where: {$0.id == report.uid}) : store.state.userState.user
-                    }
-                }
-            }
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "viewInfo" {
+//            if let data = sender as? [String:Any] {
+//                guard let report = data["report"] as? Report else {
+//                    return
+//                }
+//                guard let type = data["type"] as? String else {
+//                    return
+//                }
+//
+//                if let vc = segue.destination as? DetailsContentViewController {
+//                    vc.report = report
+//                    vc.type = type
+//                    if let e = enterprises.first(where: {$0.id == report.eid}) {
+//                        vc.enterprise = e
+//                        vc.user = e.users.count > 0 ? e.users.first(where: {$0.id == report.uid}) : store.state.userState.user
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
 extension AllReportsTableViewController : GoToProtocol {
     func goTo(_ route: RoutingDestination, sender: Any?) {
+        var route = route
         guard var conf = sender as? configuration else {
             return
         }
         if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected)) as? ResponsableTableViewCell {
             conf.user = cell.getUser()
         }
+        if route == .chatView, store.state.userState.user.id  == conf.uid {
+            let group = realm.realm.objects(Group.self).filter("companyId = %@ AND type = %@", conf.eid, conf.type).toArray(ofType: Group.self)
+            
+            if group.count > 1 {
+               route = .chatResponsables
+            }
+        }
 
-    
         self.pushToView(view: route, sender: conf)
     }
     func viewInfo(_ report: Report,_ type: String) {

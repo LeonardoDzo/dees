@@ -51,6 +51,9 @@ class WeeksTableViewController: UITableViewController {
             if let vc =  navController.viewControllers[navController.viewControllers.count - 2] as? weekProtocol {
                 vc.weekSelected = indexPath.row
                 self.navigationController?.popViewController(animated: true)
+            }else if let vc = navController.viewControllers[navController.viewControllers.count - 2] as? ChatViewController {
+                vc.conf.wid = weeks[indexPath.row].id
+                self.navigationController?.popViewController(animated: true)
             }
            
           

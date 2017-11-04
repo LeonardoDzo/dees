@@ -31,6 +31,7 @@ struct _requestMessage : _request {
 enum MessageProvider {
     case post(m : _requestMessage)
     case get(m: _requestMessage)
+    case getBy(eid: Int,gid: Int )
     case groups()
 }
 extension MessageProvider : TargetType, AccessTokenAuthorizable {
@@ -38,9 +39,11 @@ extension MessageProvider : TargetType, AccessTokenAuthorizable {
     
     var path: String {
         switch self {
-        case .post(let m), .get(let m):
+        case .post(let m), .get(let m) :
             let path =  "companies/\(m.eid!)/res/reply/\(m.type.rawValue)/user/\(m.uid!)"
             return path
+        case .getBy(let eid, let gid):
+            return "companies/\(eid)/res/groups/\(gid)"
         case .groups:
             return "companies/0/res/groups"
         }
@@ -48,7 +51,7 @@ extension MessageProvider : TargetType, AccessTokenAuthorizable {
     
     var method: Moya.Method {
         switch self {
-        case .get, .groups:
+        case .get, .groups, .getBy:
             return .get
         case .post:
             return .post
@@ -67,7 +70,7 @@ extension MessageProvider : TargetType, AccessTokenAuthorizable {
             return ["message": m.message,
                     "tags": "",
                     "weekId": m.wid]
-        case .get, .groups:
+        case .get, .groups, .getBy:
             return nil
         }
     }
@@ -85,7 +88,7 @@ extension MessageProvider : TargetType, AccessTokenAuthorizable {
         switch self {
         case .post:
             return .requestParameters(parameters: self.parameters!, encoding: self.parameterEncoding)
-        case .get, .groups():
+        case .get, .groups(), .getBy:
             return .requestPlain
         }
     }

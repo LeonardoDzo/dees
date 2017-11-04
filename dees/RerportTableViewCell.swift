@@ -117,24 +117,34 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         
     }
     func getMessages(type: Int) -> Int {
-        let groups = realm.realm.objects(Group.self).filter("companyId  = %@ AND userId = %@", report.eid, report.uid)
         var count =  0
-        groups.toArray(ofType: Group.self).filter({$0.type == type}).forEach({ (g) in
-            let userin_times = g._party.first(where: {$0.id == store.state.userState.user.id})?.timestamp
-            g.messages.forEach({ (m) in
-                if userin_times! < m.timestamp {
-                    count += 1
-                }
-                
+        if report != nil {
+            let groups = realm.realm.objects(Group.self).filter("companyId  = %@ AND userId = %@ AND type = %@", report.eid, report.uid, type)
+            
+            groups.forEach({ (g) in
+                let userin_times = g._party.first(where: {$0.id == store.state.userState.user.id})?.timestamp
+                g._messages.forEach({ (m) in
+                    if userin_times! < m.timestamp {
+                        count += 1
+                    }
+                    
+                })
             })
-        })
-        if !store.state.userState.user.isDirectorCeo(), groups.toArray(ofType: Group.self).filter({$0.type == type }).count == 0  {
-            if type == 0 {
-                replyOp.isHidden = true
+            if !store.state.userState.user.isDirectorCeo(), groups.toArray(ofType: Group.self).filter({$0.type == type }).count == 0  {
+                if type == 0 {
+                    replyOp.isHidden = true
+                }else{
+                    replyF.isHidden = true
+                }
             }else{
-                replyF.isHidden = true
+                if type == 0 {
+                    replyOp.isHidden = false
+                }else{
+                    replyF.isHidden = false
+                }
             }
         }
+        
         return count
     }
 }

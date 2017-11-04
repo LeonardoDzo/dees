@@ -10,7 +10,7 @@ target 'dees' do
   pod 'ReSwift'
   pod 'Alamofire', '~> 4.4'
   pod 'Moya-ModelMapper', '5.0'
-  pod 'Whisper'
+  pod 'Whisper', '4.0.0'
   pod 'KDLoadingView', '~> 1.0.0'
   pod 'AnimatableReload'
   pod 'Starscream', '~> 3.0.2'

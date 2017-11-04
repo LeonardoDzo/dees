@@ -20,7 +20,13 @@ extension UIViewController {
         view.endEditing(true)
     }
     func setupBack() -> Void {
-        let backBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back3))
+        var backBtn :UIBarButtonItem!
+        if let _ = self.navigationController {
+            backBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back3))
+        } else {
+            backBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back))
+        }
+      
         self.navigationItem.leftBarButtonItem = backBtn
     }
     func alertMessage(title: String, msg: String){
@@ -30,9 +36,14 @@ extension UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     @objc func back3() -> Void {
-        _ = navigationController?.popViewController(animated: true)
+        if let value = navigationController?.popViewController(animated: true) {
+            print(value)
+        }else{
+             self.dismiss(animated: true, completion: nil)
+        }
     }
     @objc func back() -> Void {
+        
         self.dismiss(animated: true, completion: nil)
     }
     @objc func keyboardWillShow(notification: Notification){
@@ -110,6 +121,11 @@ extension UIViewController {
                 vc.conf = sender as! configuration
             }
             break
+        case let vc as ResponsableTableViewController:
+            if sender is configuration {
+                vc.conf = sender as! configuration
+            }
+            break
         case let vc as FileViewViewController:
             if let tupla = sender as? (File, Int) {
                 vc.file = tupla.0
@@ -124,7 +140,16 @@ extension UIViewController {
            break
         }
         
-        self.navigationController?.pushViewController(viewcontroller, animated: true)
+        
+        if let nav = self.navigationController {
+            nav.pushViewController(viewcontroller, animated: true)
+        }else{
+            let targetViewController = viewcontroller // this is that controller, that you want to be embedded in navigation controller
+            let targetNavigationController = UINavigationController(rootViewController: targetViewController)
+            
+            self.present(targetNavigationController, animated: true, completion: nil)
+        }
+        
     }
     
 }

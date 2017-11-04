@@ -8,8 +8,11 @@
 
 import UIKit
 
-class MyMessageTableViewCell: UITableViewCell {
+class MyMessageTableViewCell: UITableViewCell, MessageBindible {
 
+    var group: Group?
+    var message: MessageEntitie!
+    
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var textBubbleView: UIViewX!
     @IBOutlet weak var messageTxt: UITextView!

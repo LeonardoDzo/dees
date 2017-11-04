@@ -68,8 +68,14 @@ struct GroupsAction {
     }
     struct GroupIn: Action {
         var message : _requestMessage!
+        var gid : Int!
+        var eid: Int!
         init(m: _requestMessage) {
             self.message = m
+        }
+        init(gid: Int, eid: Int) {
+            self.eid = eid
+            self.gid = gid
         }
     }
     struct Groups: Action {

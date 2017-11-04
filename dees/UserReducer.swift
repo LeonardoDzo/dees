@@ -124,8 +124,10 @@ struct UserReducer {
                     store.dispatch(GroupsAction.Groups())
                     if let eid : Int =  user?.bussiness.first?.id {
                          store.dispatch(AuthActions.Token(eid:eid))
+                        if let gid = defaults.value(forKey: "Notification-Chat") as? Int {
+                            store.dispatch(GroupsAction.GroupIn(gid: gid, eid: eid))
+                        }
                     }
-                    
                     let Enterprises = user?.bussiness.filter({$0.parentId == nil}) ?? []
                     
                     Enterprises.forEach({e in

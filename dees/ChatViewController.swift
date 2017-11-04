@@ -25,6 +25,7 @@ struct configuration{
 
 
 class ChatViewController: UIViewController {
+    @IBOutlet weak var weekLbl: UIButton!
     var conf : configuration!
     var group: Results<Group>!
     let notificationCenter = NotificationCenter.default
@@ -35,6 +36,7 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var heightLayoutView: NSLayoutConstraint!
     @IBOutlet weak var sendBtn: UIButton!
     @IBOutlet weak var addBtn: UIButton!
+    @IBOutlet weak var bottomLayout: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.styleNavBarAndTab_1()
@@ -46,6 +48,9 @@ class ChatViewController: UIViewController {
         sendBtn.imageView?.image? =  (sendBtn.imageView?.image?.maskWithColor(color: #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1)))!
         addBtn.imageView?.image? = (addBtn.imageView?.image?.maskWithColor(color: #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1)))!
         // Do any additional setup after loading the view.
+        self.navigationController?.delegate = self
+        self.setupBack()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,11 +60,19 @@ class ChatViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-      
+        if let titleWeek = store.state.weekState.getWeeks().first(where: {$0.id == conf.wid})?.getTitleOfWeek() {
+             weekLbl.setTitle("Semana \(titleWeek)", for: .normal)
+        }
+       
         let user = conf.user
         var name = conf.type != 0 ? "Financiero de " : "Operativo de "
         if store.state.userState.user.isDirectorCeo() {
-            name.append((user?.name)!)
+            if user == nil {
+                let enterprise = store.state.businessState.getEnterprise(id: conf.eid)
+                name.append(enterprise?.users.first(where: {$0.id != store.state.userState.user.id})?.name ?? "Sin nombre")
+            }else{
+                name.append((user?.name)!)
+            }
         }else{
             name.append(store.state.userState.user.name!)
         }
@@ -75,13 +88,21 @@ class ChatViewController: UIViewController {
             })
         }
         store.dispatch(GroupsAction.GroupIn(m: _requestMessage(eid: conf.eid, wid: conf.wid, uid: conf.uid, type: TYPE_ON_REPORT(rawValue: conf.type), message: "")))
-        
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+
     }
     override func viewWillDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         store.unsubscribe(self)
+        store.state.groupState.currentGroup = .none
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        self.bottomLayout.constant = 0
+        self.loadViewIfNeeded()
+        
+    }
     @IBAction func handleSendMessage(_ sender: UIButton) {
         let m = _requestMessage(eid: conf.eid, wid: conf.wid, uid: conf.uid, type: TYPE_ON_REPORT(rawValue: conf.type), message: messageTxtView.text)
         messageTxtView.text.removeAll()
@@ -95,51 +116,43 @@ class ChatViewController: UIViewController {
         store.state.groupState.currentGroup = .none
     }
     
+    @IBAction func handleChangeWeek(_ sender: UIButton) {
+        self.pushToView(view: .weeksView)
+    }
     
     
 }
 
-extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
+extension ChatViewController : UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if group != nil , let m = group.first?.messages {
-            print("Messages: ",m)
-        }
-        print(self.group)
-       let count = group != nil ? group.first!.messages.count  : 0
+       let count = group != nil ? group.first!._messages.count  : 0
          return  count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let message =  self.group.first?.messages[indexPath.row] else {
-             let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! MyMessageTableViewCell
-             cell.messageTxt.text = "HUBO UN ERRIR"
-            return cell
-        }
+        let message =  self.group.first?._messages[indexPath.row]
        
-        let own =  self.group.first?._party.first(where: {$0.id == message.userId})
-        let cell = tableView.dequeueReusableCell(withIdentifier: message.userId == store.state.userState.user.id ? "myCell" : "uCell" , for: indexPath) as! MyMessageTableViewCell
-        if let week = store.state.weekState.getWeeks().first(where: {$0.id == message.weekId}) {
-            cell.weekLbl.text = "Sem. " + week.getTitleOfWeek()
-        }
-        cell.messageTxt.text = message.message
-        cell.hourLbl.text = Date(timeIntervalSince1970: TimeInterval(message.timestamp/1000)).string(with: .hourAndMin)
-        cell.hourLbl.sizeToFit()
-        if cell.nameLbl != nil {
-            cell.nameLbl.text! = (own?.name)! + " " + (own?.lastname)!
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: message?.userId == store.state.userState.user.id ? "myCell" : "uCell" , for: indexPath) as! MyMessageTableViewCell
+        cell.bind(by: message!, group: group.first)
+        
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let message = group.first?.messages[indexPath.row] else {
+        guard let message = group.first?._messages[indexPath.row] else {
             return 0
         }
         let size  = CGSize(width: 250, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         let estimatedFrame = NSString(string: (message.message)).boundingRect(with: size, options: options, attributes:nil, context: nil)
         return estimatedFrame.height + 60
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        self.bottomLayout.constant = 0
+        self.view.setNeedsDisplay()
+        self.view.layoutIfNeeded()
     }
     
     

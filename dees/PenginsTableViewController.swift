@@ -93,7 +93,7 @@ class PenginsTableViewController: UITableViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = true
         searchController.searchBar.placeholder = "Buscar Empresas"
-         searchController.searchBar.barStyle = .blackTranslucent
+        searchController.searchBar.barStyle = .blackTranslucent
         searchController.dimsBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
         self.tableView.addSubview(self.refCtrl)

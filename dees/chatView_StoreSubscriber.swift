@@ -56,16 +56,19 @@ extension ChatViewController : StoreSubscriber {
         case .update(_, _, _, _):
             // Query results have changed, so apply them to the UITableView
             self.tableView.beginUpdates()
-            self.tableView.insertRows(at: [IndexPath(row: (self.group.first?.messages.count)!-1, section: 0)], with: .automatic)
+            self.tableView.insertRows(at: [IndexPath(row: (self.group.first?._messages.count)!-1, section: 0)], with: .automatic)
            
             self.tableView.endUpdates()
-             self.tableView.scrollToRow(at: IndexPath(row: (self.group.first?.messages.count)!-1, section: 0), at: .bottom, animated: true)
+             self.tableView.scrollToRow(at: IndexPath(row: (self.group.first?._messages.count)!-1, section: 0), at: .bottom, animated: true)
         case .error:
             // handle error
             ()
         }
-    
+        if self.group.first != nil, (self.group.first?._messages.count)! > 0 {
+            self.tableView.scrollToRow(at: IndexPath(row: (self.group.first?._messages.count)!-1, section: 0), at: .bottom, animated: true)
+        }
     }
+    
 
     
 }

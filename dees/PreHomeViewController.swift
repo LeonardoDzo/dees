@@ -125,7 +125,7 @@ extension PreHomeViewController : preHomeProtocol {
             
             break
         case .finished:
-          
+            
             collectionView?.reloadData()
             verifyEnterprises()
             break
@@ -135,6 +135,7 @@ extension PreHomeViewController : preHomeProtocol {
         default:
             break
         }
+        
         
     }
     

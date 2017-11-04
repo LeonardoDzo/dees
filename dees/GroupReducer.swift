@@ -27,10 +27,10 @@ struct GroupReducer {
             }
             break
         case let action as GroupsAction.GroupIn:
-            if action.message.eid != nil {
+           
                 state.currentGroup = .loading
-                self.groupIn(action.message)
-            }
+                self.groupIn(action.message, gid: action.gid, eid: action.eid)
+            
             
         default:
             break
@@ -38,12 +38,22 @@ struct GroupReducer {
         return state
     }
     
-    func groupIn(_ message: _requestMessage) -> Void {
-        chatProvider.request(.get(m: message), completion: { result in
+    func groupIn(_ message: _requestMessage?, gid: Int?, eid: Int?) -> Void {
+        
+        var request : MessageProvider
+        
+        if message != nil {
+            request = MessageProvider.get(m: message!)
+        }else if gid != nil, eid != nil{
+            request = MessageProvider.getBy(eid: eid!, gid: gid!)
+        }else{
+            return
+        }
+        
+        chatProvider.request(request, completion: { result in
             switch result {
             case .success(let response):
                 do {
-                    let dic: NSDictionary = (try response.mapJSON() as? NSDictionary)!
                     let repos = response.data
                     var group = try JSONDecoder().decode(Group.self, from: repos)
                     group = self.verifymessage(group: group)
@@ -52,17 +62,14 @@ struct GroupReducer {
                         _ = group.party.map({group._party.append($0)})
                         group.party.removeAll()
                     }
-                    if let msgs = dic["messages"], let messages = self.jsonToData(json: msgs) {
-                        let messages: [MessageEntitie] = try jsonDecoder.decode([MessageEntitie].self, from: messages)
-                        messages.forEach({m in
-                            group.messages.append(m)
-                            
-                        })
-                        
-                    }
                     
                     realm.save(objs: group)
                     store.state.groupState.currentGroup = .Finished(group)
+                    if let _ = defaults.value(forKey: "Notification-Chat") as? Int,  let topController = UIApplication.topViewController() {
+                        defaults.removeObject(forKey: "Notification-Chat")
+                          topController.pushToView(view: .chatView, sender: configuration(uid: group.userId, wid: store.state.weekState.getWeeks().last?.id! , type: group.type, eid: group.companyId, files: [], user: nil))
+                    }
+                  
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
                     store.state.userState.status = .Failed("Hubo algun error")
@@ -86,6 +93,7 @@ struct GroupReducer {
             case .success(let response):
                 do {
                     let dic : NSDictionary = try response.mapJSON() as! NSDictionary
+                    print(dic)
                     if response.statusCode < 400 {
                         store.dispatch(GroupsAction.GroupIn(m: m))
                     }
@@ -127,7 +135,11 @@ struct GroupReducer {
                     groups.enumerated().forEach({ (i,g) in
                         if g.party.count > 0 {
                             _ = g.party.map({groups[i]._party.append($0)})
-                             groups[i].party.removeAll()
+                            groups[i].party.removeAll()
+                            g.messages.forEach({ (m) in
+                                groups[i]._messages.append(m)
+                                
+                            })
                         }
                         groups[i] = self.verifymessage(group: g)
                     })
@@ -150,13 +162,15 @@ struct GroupReducer {
             
         })
     }
-
+    
     
     
     func verifymessage(group: Group) -> Group {
         if let group_db = realm.realm.object(ofType: Group.self, forPrimaryKey: group.id) {
-            group.messages.append(objectsIn: group_db.messages)
+            group._messages.append(objectsIn: group_db._messages)
+            group.messages.removeAll()
         }
+        
         return group
     }
     

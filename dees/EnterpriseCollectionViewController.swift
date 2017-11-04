@@ -33,18 +33,6 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         // Dispose of any resources that can be recreated.
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "responsableSegue" {
-            let vc = segue.destination as! ResponsableTableViewController
-            vc.business = sender as! Business
-            vc.week = week
-            
-        }else if segue.identifier == "enterpriseSegue" {
-            let vc = segue.destination as! EnterpriseViewViewController
-            vc.enterprise = sender as! Business
-        }
-    }
-
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {

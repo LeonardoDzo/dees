@@ -16,7 +16,6 @@ class ResponsableTableViewCell: UITableViewCell {
     var gotoProtocol : GoToProtocol!
     var changeEnterpriseProtocol : EnterpriseProtocol!
     var weekProtocol: weekProtocol!
-    var lastContentOffset: CGFloat = 0
     @IBOutlet weak var tableView: UITableView!
     var reports = [Report]()
     var users = [User]()
@@ -43,13 +42,8 @@ class ResponsableTableViewCell: UITableViewCell {
         swipeRight.direction = .right
         self.tableView.addGestureRecognizer(swipeLeft)
         self.tableView.addGestureRecognizer(swipeRight)
-        self.loadingView.center = tableView.center
-        self.loadingView.frame.origin.x -= self.loadingView.loading.frame.width/2
-        self.loadingView.frame.origin.y -= self.loadingView.loading.frame.width
         setTableViewDataSourceDelegate()
         notificationToken?.invalidate()
-        
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -99,12 +93,7 @@ class ResponsableTableViewCell: UITableViewCell {
         if let indexPath = self.tableView.indexPath(for: cell) {
            
             get(indexPath)
-            store.unsubscribe(self)
-            store.subscribe(self) {
-                $0.select({ (s)  in
-                    s.groupState
-                })
-            }
+            
         }
     }
     func getUser() -> User? {
@@ -235,7 +224,7 @@ extension ResponsableTableViewCell : UITableViewDelegate, UITableViewDataSource 
     }
     
 }
-extension ResponsableTableViewCell: StoreSubscriber {
+extension ResponsableTableViewCell {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
             cellMostVisible()
@@ -256,7 +245,7 @@ extension ResponsableTableViewCell: StoreSubscriber {
         }
     }
     func checkGroup() -> Void {
-        let group = realm.realm.objects(Group.self).filter("companyId = %@", enterprise.id)
+        let group = realm.realm.objects(Group.self)
         notificationToken = notificationSubscription(group: group)
     }
     
@@ -283,19 +272,5 @@ extension ResponsableTableViewCell: StoreSubscriber {
     }
     
 }
-extension ResponsableTableViewCell {
-    typealias StoreSubscriberStateType = GroupState
-    
-    func newState(state: GroupState) {
-        switch state.groups {
-        case .finished:
-            notificationToken?.invalidate()
-            checkGroup()
-            break
-        default:
-            break
-        }
-    }
-    
-}
+
 

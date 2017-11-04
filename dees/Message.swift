@@ -37,6 +37,50 @@ class MessageEntitie: Object, Codable {
     }
 }
 
+protocol MessageBindible: AnyObject {
+    var message: MessageEntitie! {get set}
+    var group : Group? {get set}
+    var nameLbl: UILabel! {get}
+    var weekLbl: UILabel! {get}
+    var hourLbl: UILabel! {get}
+    var messageTxt: UITextView! {get}
+}
+extension MessageBindible {
+    var nameLbl: UILabel! {return nil}
+    var weekLbl: UILabel! {return nil}
+    var hourLbl: UILabel! {return nil}
+    var messageTxt: UITextView! {return nil}
+    
+    func bind(by message: MessageEntitie, group: Group? = nil) {
+        self.message = message
+        self.group = group
+        self.bind()
+    }
+    func bind() -> Void {
+        guard let message = message else {
+            return
+        }
+        
+        if let messageTxt = self.messageTxt {
+            messageTxt.text = self.message.message
+        }
+        if let weekLbl = self.weekLbl {
+            if let week = store.state.weekState.getWeeks().first(where: {$0.id == message.weekId}) {
+                weekLbl.text = "Sem. " + week.getTitleOfWeek()
+            }
+        }
+        if let hourLbl = self.hourLbl {
+            hourLbl.text = Date(timeIntervalSince1970: TimeInterval(message.timestamp/1000)).string(with: .hourAndMin)
+            hourLbl.sizeToFit()
+        }
+        if let nameLbl = self.nameLbl {
+            if let own =  self.group?._party.first(where: {$0.id == message.userId}) {
+                nameLbl.text = own.name + " " + own.lastname
+            }
+        }
+    }
+}
+
 class Group: Object, Codable {
 
     @objc dynamic var companyId: Int = -1
@@ -44,21 +88,23 @@ class Group: Object, Codable {
     @objc dynamic var type: Int = -1
     @objc dynamic var userId: Int = -1
     var _party = List<PartyMember>()
-    var messages = List<MessageEntitie>()
     var party = [PartyMember]()
+    var _messages = List<MessageEntitie>()
+    var messages = [MessageEntitie]()
     private enum CodingKeys: String, CodingKey {
         case companyId
         case type
         case id
         case userId
         case party
+        case messages
     }
 
     override static func primaryKey() -> String? {
         return "id"
     }
     override static func ignoredProperties() -> [String] {
-        return ["party"]
+        return ["party","messages"]
     }
 }
 class PartyMember : Object, Codable {
