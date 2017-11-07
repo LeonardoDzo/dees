@@ -21,6 +21,7 @@ class ResponsablePendingTableViewCell: UITableViewCell {
         tableView.dataSource = self
         tableView.tag = self.tag
         self.tableView.reloadData()
+       
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -29,6 +30,8 @@ class ResponsablePendingTableViewCell: UITableViewCell {
     }
     
     @IBOutlet weak var tableView: UITableView!
+    
+ 
 
 }
 extension ResponsablePendingTableViewCell : UITableViewDelegate, UITableViewDataSource, ExpandableHeaderViewDelegate {

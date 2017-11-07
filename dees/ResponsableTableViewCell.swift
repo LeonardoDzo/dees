@@ -23,6 +23,7 @@ class ResponsableTableViewCell: UITableViewCell {
     var lastsection = 0
     var isPending = false
     var enterprise : Business!
+    var loading = UIActivityIndicatorView()
     var notificationToken: NotificationToken? = nil
     let xib = UINib(nibName: "TitleView", bundle: nil)
     lazy var loadingView : LoadingView = {
@@ -44,8 +45,18 @@ class ResponsableTableViewCell: UITableViewCell {
         self.tableView.addGestureRecognizer(swipeRight)
         setTableViewDataSourceDelegate()
         notificationToken?.invalidate()
+        activityIndicator()
     }
-    
+    func activityIndicator() {
+        loading = UIActivityIndicatorView(frame: CGRect(x:0, y:0, width:80,height: 80))
+        loading.sizeThatFits(CGSize(width: 40, height: 40))
+        loading.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        loading.center = self.tableView.center
+        loading.color = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        loading.layer.cornerRadius = 12
+        loading.clipsToBounds = true
+        self.tableView.addSubview(loading)
+    }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }

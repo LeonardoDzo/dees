@@ -163,21 +163,33 @@ extension UIView
     {
        
         
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
         
-        gradient.colors = [
-            UIColor.backgroundFadedGrey().cgColor,
-            UIColor.gradientFirstStop().cgColor,
-            UIColor.gradientSecondStop().cgColor
-        ]
-        gradient.locations = [0.0, 0.75, 1.0]
-        gradient.startPoint = CGPoint(x:0,y: 0)
-        gradient.endPoint = CGPoint(x:1.0,y: 0.0)
+        let colors = [UIColor.gray.cgColor, UIColor.white.cgColor, UIColor.gray.cgColor]
+        gradient.colors = colors
+        
+        let locations = [0.25, 0.5, 0.75]
+        gradient.locations = locations as [NSNumber]?
+        UIGraphicsBeginImageContextWithOptions(frame.size, false, 0)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // Use image to create a mask on the gradient layer.
+        let maskLayer = CALayer()
+        maskLayer.backgroundColor = UIColor.clear.cgColor
+        maskLayer.frame = bounds.offsetBy(dx: bounds.size.width, dy: 0)
+        maskLayer.contents = image?.cgImage
+        
+        gradient.mask = maskLayer
+
         let gradientAnimation = CABasicAnimation(keyPath: "locations")
-        gradientAnimation.fromValue = [0.0,0.0,0.25]
-        gradientAnimation.toValue = [0.75,1.0,1.0]
-        gradientAnimation.duration = 3.0
-        
+        gradientAnimation.fromValue = [0.0, 0.0, 0.25]
+        gradientAnimation.toValue = [0.75, 1.0, 1.0]
+        gradientAnimation.duration = 1.7
         gradientAnimation.repeatCount = Float.infinity
+        gradientAnimation.isRemovedOnCompletion = false
+        gradientAnimation.fillMode = kCAFillModeForwards
         gradient.add(gradientAnimation, forKey: nil)
         self.ld_setGradient(aLayer: gradient)
         

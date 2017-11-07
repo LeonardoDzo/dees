@@ -49,9 +49,10 @@ extension ChatViewController : StoreSubscriber {
         }
     }
     func updateUI(changes: RealmCollectionChange<Results<Group>>) -> Void  {
-        isFiltered()
+          isFiltered()
         switch changes {
         case .initial:
+            
             tableView.reloadData()
         case .update(_, _, _, _):
             // Query results have changed, so apply them to the UITableView
@@ -67,12 +68,12 @@ extension ChatViewController : StoreSubscriber {
            
             self.tableView.scrollToRow(at: IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1), at: .bottom, animated: true)
         case .error:
-            // handle error
             ()
         }
         if messages_group != nil, (messages_group.count) > 0 {
             self.tableView.scrollToRow(at: IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1), at: .bottom, animated: true)
         }
+        
     }
 
 

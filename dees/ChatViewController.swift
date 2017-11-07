@@ -117,9 +117,14 @@ class ChatViewController: UIViewController {
         
     }
     @IBAction func handleSendMessage(_ sender: UIButton) {
+       
+        if group != nil, let g = group.first?._party.first(where: {$0.id != store.state.userState.user.id}) {
+            conf.uid = g.id
+        }
         let m = _requestMessage(eid: conf.eid, wid: conf.wid, uid: conf.uid, type: TYPE_ON_REPORT(rawValue: conf.type), message: messageTxtView.text)
         messageTxtView.text.removeAll()
         heightLayoutView.constant = 47
+        
         store.dispatch(GroupsAction.SendMessage(m: m))
     }
     deinit {

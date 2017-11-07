@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/AllPendingsTableViewController.swift"
-            timestampString = "531710990.945081"
+            timestampString = "531711792.12184"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "151"
@@ -136,7 +136,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/GroupReducer.swift"
-            timestampString = "531710990.94518"
+            timestampString = "531763531.768547"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "134"
@@ -152,7 +152,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/ChatViewController.swift"
-            timestampString = "531710990.945246"
+            timestampString = "531766203.794548"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
@@ -247,7 +247,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/EnterpriseCollectionViewController.swift"
-            timestampString = "531710990.945336"
+            timestampString = "531711792.122219"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "118"
@@ -263,7 +263,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/EnterpriseCollectionViewController.swift"
-            timestampString = "531710990.945387"
+            timestampString = "531711792.122297"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
@@ -279,7 +279,7 @@
                   moduleName = "dees"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ldurazo/Documents/proyectos/dees/dees/EnterpriseCollectionViewController.swift"
-                  timestampString = "531710991.216088"
+                  timestampString = "531763920.26582"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "119"
@@ -294,7 +294,7 @@
                   moduleName = "dees"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ldurazo/Documents/proyectos/dees/dees/EnterpriseCollectionViewController.swift"
-                  timestampString = "531710991.219421"
+                  timestampString = "531763920.268588"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "119"
@@ -311,7 +311,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/GroupReducer.swift"
-            timestampString = "531710990.945432"
+            timestampString = "531763531.770494"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "57"
@@ -327,7 +327,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/WebSocketService.swift"
-            timestampString = "531710990.945479"
+            timestampString = "531711792.122444"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
@@ -343,7 +343,7 @@
                   moduleName = "dees"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ldurazo/Documents/proyectos/dees/dees/WebSocketService.swift"
-                  timestampString = "531710991.232725"
+                  timestampString = "531763920.276326"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "52"
@@ -358,7 +358,7 @@
                   moduleName = "dees"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ldurazo/Documents/proyectos/dees/dees/WebSocketService.swift"
-                  timestampString = "531710991.234614"
+                  timestampString = "531763920.277835"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "53"
@@ -375,7 +375,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/WebSocketService.swift"
-            timestampString = "531710990.945523"
+            timestampString = "531711792.122515"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
@@ -390,56 +390,8 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "dees/chatView_StoreSubscriber.swift"
-            timestampString = "531710990.94557"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "updateUI(changes:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "dees/chatView_StoreSubscriber.swift"
-            timestampString = "531710990.946044"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "updateUI(changes:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "dees/chatView_StoreSubscriber.swift"
-            timestampString = "531710990.946398"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "updateUI(changes:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "dees/WebSocketService.swift"
-            timestampString = "531710990.946634"
+            timestampString = "531711792.122586"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
@@ -454,61 +406,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "dees/chatView_StoreSubscriber.swift"
-            timestampString = "531710990.946684"
+            filePath = "dees/GroupReducer.swift"
+            timestampString = "531763531.770824"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "updateUI(changes:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "dees/chatView_StoreSubscriber.swift"
-            timestampString = "531710990.946905"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "updateUI(changes:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "dees/chatView_StoreSubscriber.swift"
-            timestampString = "531710990.947113"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "updateUI(changes:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "dees/chatView_StoreSubscriber.swift"
-            timestampString = "531710990.947318"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "updateUI(changes:)"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "sendMessage(m:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

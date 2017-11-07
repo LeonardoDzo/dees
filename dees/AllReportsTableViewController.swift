@@ -25,12 +25,6 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     var Bsection = -1
     var weeks = [Week]()
     var weekSelected: Int = 0
-    lazy var loading : KDLoadingView = {
-       var loading = KDLoadingView(frame: .zero)
-       loading.hidesWhenStopped = true
-       loading.firstColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-       return loading
-    }()
     lazy var weeksTitleView : weeksView? = weeksView(frame: .zero)
     let notificationCenter = NotificationCenter.default
     var lastContentOffset: CGFloat = 0
@@ -49,6 +43,9 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
             URLCache.shared.removeAllCachedResponses()
         }
     }
+    
+    
+    
     
     deinit {
         print("deinit")
@@ -183,17 +180,18 @@ extension AllReportsTableViewController : StoreSubscriber {
     func newState(state: ReportState) {
         self.view.isUserInteractionEnabled = true
         
-        self.loading.stopAnimating()
+       
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell else {
             return
         }
+        cell.loading.stopAnimating()
+        cell.loading.hidesWhenStopped = true
         cell.notificationToken?.invalidate()
         switch state.reports {
         case .loading:
             self.view.isUserInteractionEnabled = false
-            cell.loadingView.start()
-            self.loading.frame = CGRect(origin: self.view.center, size: CGSize(width: 100, height: 100))
-            self.loading.startAnimating()
+            cell.loading.startAnimating()
+            cell.loading.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
             return
             
         case .Finished(let tupla as (Report,Murmur)):
@@ -247,6 +245,7 @@ extension AllReportsTableViewController {
         didMove(toParentViewController: self)
     }
     @objc func getFocusOnMyEnterprises(){
+        self.enterpriseSelected = 0
         self.isFocus =  !self.isFocus
         if !isFocus {
             self.enterprises.removeAll()
@@ -257,6 +256,7 @@ extension AllReportsTableViewController {
     func getEnterprise() -> Void {
         if isFocus {
             self.enterprises = self.enterprises.filter({$0.users.contains(where: { $0.id == store.state.userState.user.id!})})
+            
         }else {
             if enterprises.count == 0 {
                 enterprises.removeAll()
