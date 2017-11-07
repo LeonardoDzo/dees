@@ -18,6 +18,7 @@ extension ReportDetailBindilble {
     var textViewDetails : UITextView! {return nil}
     var saveBtn : UIButton! {return nil}
     func bind(by report: Report) -> Void {
+        print(report)
         self.report = report
         bind()
     }
