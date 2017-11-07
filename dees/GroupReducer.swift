@@ -65,7 +65,7 @@ struct GroupReducer {
                     
                     realm.save(objs: group)
                     store.state.groupState.currentGroup = .Finished(group)
-                    if let _ = defaults.value(forKey: "Notification-Chat") as? Int,  let topController = UIApplication.topViewController() {
+                    if let _ = defaults.value(forKey: "Notification-Chat") as? String,  let topController = UIApplication.topViewController() {
                         defaults.removeObject(forKey: "Notification-Chat")
                           topController.pushToView(view: .chatView, sender: configuration(uid: group.userId, wid: store.state.weekState.getWeeks().last?.id! , type: group.type, eid: group.companyId, files: [], user: nil))
                     }

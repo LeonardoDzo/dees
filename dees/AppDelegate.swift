@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 if let lockey = alert["loc-key"] as? NSArray {
                     let state: UIApplicationState = UIApplication.shared.applicationState // or use  let state =  UIApplication.sharedApplication().applicationState
                     
-                  if state == .inactive {
+                  if state == .inactive || state == .background {
                          defaults.set(lockey[1], forKey: "Notification-Chat")
                         if let user =  store.state.userState.user, let gid = Int((defaults.value(forKey: "Notification-Chat") as? String)!)  {
                             

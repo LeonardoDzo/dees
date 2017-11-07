@@ -55,9 +55,16 @@ extension ChatViewController : StoreSubscriber {
             tableView.reloadData()
         case .update(_, _, _, _):
             // Query results have changed, so apply them to the UITableView
-            self.tableView.beginUpdates()
-            self.tableView.insertRows(at: [IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1)], with: .automatic)
-            self.tableView.endUpdates()
+           
+            if section_Messages.count == 1 {
+                tableView.reloadData()
+            }else{
+                 self.tableView.beginUpdates()
+                 self.tableView.insertRows(at: [IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1)], with: .automatic)
+                 self.tableView.endUpdates()
+            }
+            
+           
             self.tableView.scrollToRow(at: IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1), at: .bottom, animated: true)
         case .error:
             // handle error

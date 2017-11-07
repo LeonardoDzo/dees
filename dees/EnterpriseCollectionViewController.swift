@@ -22,10 +22,12 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         super.viewDidLoad()
         self.styleNavBarAndTab_1()
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureReconizer:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapPress(gestureReconizer:)))
         lpgr.minimumPressDuration = 0.5
         lpgr.delaysTouchesBegan = true
         lpgr.delegate = self
         self.collectionView?.addGestureRecognizer(lpgr)
+        self.collectionView?.addGestureRecognizer(tapGesture)
         self.hideKeyboardWhenTappedAround()
     }
     override func didReceiveMemoryWarning() {
@@ -120,6 +122,23 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
             AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "left")
         }else{
             self.pushToView(view: .allReports, sender: e)
+        }
+    }
+    @objc func handleTapPress(gestureReconizer: UITapGestureRecognizer) {
+        if gestureReconizer.state != UIGestureRecognizerState.ended {
+            return
+        }
+        
+        let p = gestureReconizer.location(in: self.collectionView)
+        if let indexPath = self.collectionView?.indexPathForItem(at: p) {
+            let e = enterprisesNav.items.last?[(indexPath.item)]
+            if (e?.business.count)! > 0 {
+                enterprisesNav.push((e?.business)!)
+                setupNavBar()
+                AnimatableReload.reload(collectionView: self.collectionView!, animationDirection: "left")
+            }else{
+                self.pushToView(view: .allReports, sender: e)
+            }
         }
     }
 
