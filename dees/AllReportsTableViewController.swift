@@ -174,6 +174,9 @@ extension AllReportsTableViewController : StoreSubscriber {
     
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
+        if let cell = tableView.cellForRow(at: IndexPath(row: 0,section: self.enterpriseSelected)) as? ResponsableTableViewCell {
+            cell.notificationToken?.invalidate()
+        }
         Whisper.hide(whisperFrom: self.navigationController!)
     }
     

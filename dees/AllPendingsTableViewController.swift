@@ -51,7 +51,7 @@
         cell.enterprise = pending.enterprise
         if let week = pending.weeks[weekSelected].week {
             cell.tag = week.id
-            //cell.gotoProtocol = self
+            cell.gotoProtocol = self
             cell.weekProtocol = self
             cell.users = pending.weeks[weekSelected].users
             cell.isPending = true
@@ -74,9 +74,7 @@
     
     func setupConf() -> Void {
         let nib = UINib(nibName: "EnterpriseHeader", bundle: nil)
-        
         self.styleNavBarAndTab_1()
-        
         self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "EnterpriseHeaderCell")
         self.hideKeyboardWhenTappedAround()
     }
@@ -158,6 +156,9 @@
     }
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
+        if let cell = tableView.cellForRow(at: IndexPath(row: 0,section: self.enterpriseSelected)) as? ResponsableTableViewCell {
+            cell.notificationToken?.invalidate()
+        }
         Whisper.hide(whisperFrom: self.navigationController!)
     }
     
@@ -176,7 +177,7 @@
         case .Finished(let tupla as (Report,Murmur)):
             Whisper.show(whistle: tupla.1, action: .show(2.5))
             cell.updated()
-            
+            cell.checkGroup()
             break
         case .Failed(let m as Murmur):
             Whisper.show(whistle: m, action: .show(2.5))
@@ -222,8 +223,6 @@
             
             
             AnimatableReload.reload(tableView: self.tableView!, animationDirection: animationStr)
-            //            self.tableView.reloadSections(IndexSet(integer: weekSelected), with: animation)
-            
             
         }
     }
@@ -302,5 +301,35 @@
             self.navigationItem.titleView?.addGestureRecognizer(tap)
             self.navigationItem.titleView?.isUserInteractionEnabled = true
         }
+    }
+ }
+ extension AllPendingsTableViewController : GoToProtocol {
+    func viewInfo(_ report: Report, _ type: String) {
+        func viewInfo(_ report: Report,_ type: String) {
+            let data = [
+                "report": report,
+                "type": type
+                ] as [String : Any]
+            self.performSegue(withIdentifier: "viewInfo", sender: data)
+        }
+    }
+    
+    func goTo(_ route: RoutingDestination, sender: Any?) {
+        var route = route
+        guard var conf = sender as? configuration else {
+            return
+        }
+        if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected)) as? ResponsableTableViewCell {
+            conf.user = cell.getUser()
+        }
+        if route == .chatView, store.state.userState.user.id  == conf.uid {
+            let group = realm.realm.objects(Group.self).filter("companyId = %@ AND type = %@", conf.eid, conf.type).toArray(ofType: Group.self)
+            
+            if group.count > 1 {
+                route = .chatResponsables
+            }
+        }
+        
+        self.pushToView(view: route, sender: conf)
     }
  }

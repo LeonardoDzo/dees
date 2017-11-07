@@ -61,16 +61,12 @@ class WebsocketService: WebSocketDelegate {
                         }
                     })
                 }else{
-                    
                     self.showNotification(group: group.first!, message: message)
                     try! realm.realm.write {
                         group.first?._messages.append(message)
                     }    
                     realm.save(objs: group.first!)
                 }
-                
-                
-                
             } catch {
                 print("error trying to convert data to JSON")
                 print(error)

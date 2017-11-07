@@ -86,23 +86,23 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
     }
     
     @IBAction func handleClickOp_Files(_ sender: UIButton) {
-        go(to: 0, for: 0)
+        go(to: .OPERATIVE, for: .filesView)
     }
     @IBAction func handleClickFi_Files(_ sender: UIButton) {
-        go(to: 1, for: 0)
+        go(to: .FINANCIAL, for: .filesView)
     }
     @IBAction func handleClickOp_Reply(_ sender: UIButton) {
-        go(to: 0, for: 1)
+        go(to: .OPERATIVE, for: .chatView)
     }
     
     @IBAction func handleClickFi_Reply(_ sender: UIButton) {
-        go(to: 1, for: 1)
+        go(to: .FINANCIAL, for: .chatView)
     }
-    func go(to type: Int, for t: Int) -> Void {
-        let conf = configuration(uid: self.report.uid, wid: report.wid, type: type, eid: report.eid, files: report.files, user: nil )
+    func go(to type: TYPE_ON_REPORT, for t: RoutingDestination) -> Void {
+        let conf = configuration(uid: self.report.uid, wid: report.wid, type: type.rawValue, eid: report.eid, files: report.files, user: nil )
         
         if report != nil {
-            gotoProtocol.goTo(t == 0 ? .filesView : .chatView, sender: conf)
+            gotoProtocol.goTo(t, sender: conf)
         }
         
     }
