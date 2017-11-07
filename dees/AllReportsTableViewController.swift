@@ -357,27 +357,27 @@ extension AllReportsTableViewController : EnterpriseProtocol {
         }
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "viewInfo" {
-//            if let data = sender as? [String:Any] {
-//                guard let report = data["report"] as? Report else {
-//                    return
-//                }
-//                guard let type = data["type"] as? String else {
-//                    return
-//                }
-//
-//                if let vc = segue.destination as? DetailsContentViewController {
-//                    vc.report = report
-//                    vc.type = type
-//                    if let e = enterprises.first(where: {$0.id == report.eid}) {
-//                        vc.enterprise = e
-//                        vc.user = e.users.count > 0 ? e.users.first(where: {$0.id == report.uid}) : store.state.userState.user
-//                    }
-//                }
-//            }
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "viewInfo" {
+            if let data = sender as? [String:Any] {
+                guard let report = data["report"] as? Report else {
+                    return
+                }
+                guard let type = data["type"] as? String else {
+                    return
+                }
+
+                if let vc = segue.destination as? DetailsContentViewController {
+                    vc.report = report
+                    vc.type = type
+                    if let e = enterprises.first(where: {$0.id == report.eid}) {
+                        vc.enterprise = e
+                        vc.user = e.users.count > 0 ? e.users.first(where: {$0.id == report.uid}) : store.state.userState.user
+                    }
+                }
+            }
+        }
+    }
 }
 extension AllReportsTableViewController : GoToProtocol {
     func goTo(_ route: RoutingDestination, sender: Any?) {
