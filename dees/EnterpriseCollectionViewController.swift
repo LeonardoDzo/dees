@@ -29,6 +29,7 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         self.collectionView?.addGestureRecognizer(lpgr)
         self.collectionView?.addGestureRecognizer(tapGesture)
         self.hideKeyboardWhenTappedAround()
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

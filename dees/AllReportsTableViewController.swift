@@ -94,6 +94,13 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         // self.tableView.reloadData()
     }
     
+    @IBAction func handleAction(_ sender: UIButton) {
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell else {
+            return
+        }
+        
+        self.pushToView(view: .chatResponsables, sender: configuration(uid: 0, wid: self.weeks[self.weekSelected].id, type: 3, eid: self.enterprises[self.enterpriseSelected].id, files: [], user: cell.getUser()))
+    }
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? ResponsableTableViewCell {
             if cell.users.count > 0 {

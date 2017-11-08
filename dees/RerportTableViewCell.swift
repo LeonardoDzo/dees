@@ -17,10 +17,10 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
     @IBOutlet weak var financialTxv: UITextView!
     @IBOutlet weak var observationsTxv: UITextView!
     @IBOutlet weak var loadingView: KDLoadingView!
-    @IBOutlet weak var filesF: UIButton!
-    @IBOutlet weak var filesOp: UIButton!
-    @IBOutlet weak var replyF: UIButtonX!
-    @IBOutlet weak var replyOp: UIButtonX!
+    @IBOutlet weak var filesF: MIBadgeButton!
+    @IBOutlet weak var filesOp: MIBadgeButton!
+    @IBOutlet weak var replyF: MIBadgeButton!
+    @IBOutlet weak var replyOp: MIBadgeButton!
     @IBOutlet weak var observationTitle: UIStackView!
     
     @IBOutlet weak var operativeStack: UIStackView!
@@ -43,6 +43,12 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         operativeStack.isUserInteractionEnabled = true
         financialStack.addGestureRecognizer(tapFi)
         financialStack.isUserInteractionEnabled = true
+        let x = #imageLiteral(resourceName: "message-1").withRenderingMode(.alwaysTemplate).maskWithColor(color: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1))
+        let c = #imageLiteral(resourceName: "cabinet").withRenderingMode(.alwaysTemplate).maskWithColor(color: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1))
+        replyOp.setImage(x, for: UIControlState.normal)
+        replyF.setImage(x, for: UIControlState.normal)
+        filesF.setImage(c, for: .normal)
+        filesOp.setImage(c, for: .normal)
         // Initialization code
     }
 
@@ -112,8 +118,17 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         }
     }
     func updateMessages() -> Void {
-        replyOp.setTitle("\(getMessages(type: 0))", for: .normal)
-        replyF.setTitle("\(getMessages(type: 1))", for: .normal)
+        let countOP = getMessages(type: 0)
+        
+        if countOP > 0 {
+           replyOp.badgeString = "\(countOP)"
+        }
+        
+        let countRe = getMessages(type: 1)
+        
+        if countOP > 0 {
+            replyF.badgeString = "\(countRe)"
+        }
         
     }
     func getMessages(type: Int) -> Int {

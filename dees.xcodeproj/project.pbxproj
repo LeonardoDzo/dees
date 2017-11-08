@@ -58,6 +58,7 @@
 		0280EF2C1F86B932003247F5 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280EF2B1F86B932003247F5 /* DesignableView.swift */; };
 		0280EF2E1F86BB2C003247F5 /* DetailsContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */; };
 		028E9FF01F880DF900ABE342 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028E9FEF1F880DF900ABE342 /* CloudKit.framework */; };
+		029018A71FB36DC8000903AB /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 029018A61FB36DC8000903AB /* Profile.storyboard */; };
 		02991C871F7ADD84006148EF /* Persmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02991C861F7ADD84006148EF /* Persmission.swift */; };
 		02A099BE1F9ECFAF008B459D /* UIViewXRadialGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A099B41F9ECFAF008B459D /* UIViewXRadialGradient.swift */; };
 		02A099BF1F9ECFAF008B459D /* UITextFieldX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A099B51F9ECFAF008B459D /* UITextFieldX.swift */; };
@@ -108,7 +109,11 @@
 		02E7AB1D1F3D24A80037B7D1 /* ReportState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7AB1C1F3D24A80037B7D1 /* ReportState.swift */; };
 		02E7AB1F1F3D32400037B7D1 /* Week.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7AB1E1F3D32400037B7D1 /* Week.swift */; };
 		02E7AB211F3D3BBD0037B7D1 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7AB201F3D3BBD0037B7D1 /* DateFormatter.swift */; };
+		02EA03BA1FB2AF5B00F9987A /* AnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EA03B91FB2AF5B00F9987A /* AnimationController.swift */; };
 		02EF1A771F9FD13800921F43 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EF1A761F9FD13800921F43 /* Message.swift */; };
+		02F2CC271FB28C4200595784 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F2CC261FB28C4200595784 /* PresentationController.swift */; };
+		02F2CC291FB28DF700595784 /* Presentation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02F2CC281FB28DF700595784 /* Presentation.storyboard */; };
+		02F2CC2D1FB2919100595784 /* PageOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F2CC2C1FB2919100595784 /* PageOnboardingViewController.swift */; };
 		02F4CC9A1F3B6F16008312A6 /* BusinessTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F4CC991F3B6F16008312A6 /* BusinessTableViewCell.swift */; };
 		02F4CC9E1F3B7310008312A6 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F4CC9D1F3B7310008312A6 /* UIColor.swift */; };
 		02F4CCA01F3BD4E8008312A6 /* ResponsableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F4CC9F1F3BD4E8008312A6 /* ResponsableCollectionViewCell.swift */; };
@@ -170,6 +175,7 @@
 		0280EF2B1F86B932003247F5 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsContentViewController.swift; sourceTree = "<group>"; };
 		028E9FEF1F880DF900ABE342 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		029018A61FB36DC8000903AB /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		02991C861F7ADD84006148EF /* Persmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persmission.swift; sourceTree = "<group>"; };
 		02A099B41F9ECFAF008B459D /* UIViewXRadialGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewXRadialGradient.swift; sourceTree = "<group>"; };
 		02A099B51F9ECFAF008B459D /* UITextFieldX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldX.swift; sourceTree = "<group>"; };
@@ -220,7 +226,11 @@
 		02E7AB1C1F3D24A80037B7D1 /* ReportState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportState.swift; sourceTree = "<group>"; };
 		02E7AB1E1F3D32400037B7D1 /* Week.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Week.swift; sourceTree = "<group>"; };
 		02E7AB201F3D3BBD0037B7D1 /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		02EA03B91FB2AF5B00F9987A /* AnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationController.swift; sourceTree = "<group>"; };
 		02EF1A761F9FD13800921F43 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		02F2CC261FB28C4200595784 /* PresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
+		02F2CC281FB28DF700595784 /* Presentation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Presentation.storyboard; sourceTree = "<group>"; };
+		02F2CC2C1FB2919100595784 /* PageOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageOnboardingViewController.swift; sourceTree = "<group>"; };
 		02F4CC991F3B6F16008312A6 /* BusinessTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTableViewCell.swift; sourceTree = "<group>"; };
 		02F4CC9D1F3B7310008312A6 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		02F4CC9F1F3BD4E8008312A6 /* ResponsableCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponsableCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -266,6 +276,9 @@
 				0280EF2B1F86B932003247F5 /* DesignableView.swift */,
 				0220BF511F97D4E900AD6303 /* ExpandableHeaderView.swift */,
 				0254C7A91F9AD37600C4340F /* Loader.swift */,
+				02F2CC261FB28C4200595784 /* PresentationController.swift */,
+				02F2CC2C1FB2919100595784 /* PageOnboardingViewController.swift */,
+				02EA03B91FB2AF5B00F9987A /* AnimationController.swift */,
 			);
 			name = extra;
 			sourceTree = "<group>";
@@ -299,6 +312,7 @@
 		025EB9841F34F43F0075611F /* dees */ = {
 			isa = PBXGroup;
 			children = (
+				029018A31FB36C7E000903AB /* Storyboards */,
 				02A099B31F9ECFAF008B459D /* DesignableX */,
 				02647F2D1F87FD3700E5AAC9 /* dees.entitlements */,
 				0238D2D11F745D3F0009B1F0 /* gifts */,
@@ -312,10 +326,10 @@
 				025EB9981F34F70C0075611F /* Reducers */,
 				025EB9971F34F7050075611F /* Actions */,
 				02DD8D321F3E235B00896850 /* Controllers */,
-				025EB9891F34F43F0075611F /* Main.storyboard */,
 				025EB98C1F34F43F0075611F /* Assets.xcassets */,
 				025EB98E1F34F43F0075611F /* LaunchScreen.storyboard */,
 				025EB9911F34F43F0075611F /* Info.plist */,
+				02F2CC281FB28DF700595784 /* Presentation.storyboard */,
 				025EB9851F34F43F0075611F /* AppDelegate.swift */,
 				025EB9AD1F35464F0075611F /* Constants.swift */,
 			);
@@ -402,6 +416,15 @@
 				025C8BCE1FA016DD0028BE91 /* RealManager.swift */,
 			);
 			name = Services;
+			sourceTree = "<group>";
+		};
+		029018A31FB36C7E000903AB /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				029018A61FB36DC8000903AB /* Profile.storyboard */,
+				025EB9891F34F43F0075611F /* Main.storyboard */,
+			);
+			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		02A099B31F9ECFAF008B459D /* DesignableX */ = {
@@ -609,9 +632,11 @@
 			files = (
 				025EB9901F34F43F0075611F /* LaunchScreen.storyboard in Resources */,
 				02C058341F82CD050022186A /* TitleView.xib in Resources */,
+				02F2CC291FB28DF700595784 /* Presentation.storyboard in Resources */,
 				025EB98D1F34F43F0075611F /* Assets.xcassets in Resources */,
 				0238D2D31F745D550009B1F0 /* firefly2.gif in Resources */,
 				02C058321F82B0E10022186A /* EnterpriseHeader.xib in Resources */,
+				029018A71FB36DC8000903AB /* Profile.storyboard in Resources */,
 				025EB98B1F34F43F0075611F /* Main.storyboard in Resources */,
 				02A3A4761F3A354D0048750E /* pirulen rg.ttf in Resources */,
 			);
@@ -711,6 +736,7 @@
 				025EB9A41F34FC660075611F /* UserReducer.swift in Sources */,
 				02A6148C1F96A00000A417A7 /* PendingReducer.swift in Sources */,
 				022CF0591F460129007EEF1C /* UsersTableViewController.swift in Sources */,
+				02F2CC271FB28C4200595784 /* PresentationController.swift in Sources */,
 				02A614881F969B8200A417A7 /* PendingsState.swift in Sources */,
 				02A099C31F9ECFAF008B459D /* UIViewControllerX.swift in Sources */,
 				02B8A1F61FA25F92002F623A /* GroupReducer.swift in Sources */,
@@ -735,6 +761,7 @@
 				02E7AB1D1F3D24A80037B7D1 /* ReportState.swift in Sources */,
 				02A3A47C1F3A54260048750E /* BusinessActions.swift in Sources */,
 				025C8BCF1FA016DD0028BE91 /* RealManager.swift in Sources */,
+				02F2CC2D1FB2919100595784 /* PageOnboardingViewController.swift in Sources */,
 				02A3A47A1F3A53C20048750E /* BusinessState.swift in Sources */,
 				0243F3641F75E73C00F85F8D /* weeksView.swift in Sources */,
 				02CD44D21F7198AD00F36987 /* RoutingSvc.swift in Sources */,
@@ -784,6 +811,7 @@
 				02B8A1F81FA261AC002F623A /* chatView_StoreSubscriber.swift in Sources */,
 				02F4CC9A1F3B6F16008312A6 /* BusinessTableViewCell.swift in Sources */,
 				027D911E1F393D37007AB6D2 /* ProfileViewController.swift in Sources */,
+				02EA03BA1FB2AF5B00F9987A /* AnimationController.swift in Sources */,
 				02C058361F82CD770022186A /* TitleHeader.swift in Sources */,
 				025EB9AE1F35464F0075611F /* Constants.swift in Sources */,
 				02D4AE191F71E13300623406 /* EnterprisesTableViewController.swift in Sources */,

@@ -96,10 +96,10 @@ protocol ReportBindible: AnyObject {
     var observationsTxv: UITextView! {get}
     var financialTxv: UITextView! {get}
     var anexosLbl: UILabel! {get}
-    var replyF: UIButtonX! {get}
-    var replyOp: UIButtonX! {get}
-    var filesF: UIButton! {get}
-    var filesOp: UIButton! {get}
+    var replyF: MIBadgeButton! {get}
+    var replyOp: MIBadgeButton! {get}
+    var filesF: MIBadgeButton! {get}
+    var filesOp: MIBadgeButton! {get}
     var observationTitle : UIStackView! {get}
 }
 
@@ -108,10 +108,10 @@ extension ReportBindible {
     var observationsTxv: UITextView! {return nil}
     var financialTxv: UITextView! {return nil}
     var anexosLbl: UILabel! {return nil}
-    var replyF: UIButtonX! {return nil}
-    var replyOp: UIButtonX! {return nil}
-    var filesF: UIButton! {return nil}
-    var filesOp: UIButton! {return nil}
+    var replyF: MIBadgeButton! {return nil}
+    var replyOp: MIBadgeButton! {return nil}
+    var filesF: MIBadgeButton! {return nil}
+    var filesOp: MIBadgeButton! {return nil}
     var observationTitle : UIStackView! {return nil}
     
     func bind(by report: Report) -> Void {
@@ -179,10 +179,10 @@ extension ReportBindible {
         }
         
         if let filesOp = self.filesOp {
-            filesOp.setTitle("anexos (\(report.files.filter({$0.type == 0}).count))", for: .normal)
+            filesOp.badgeString = "\(report.files.filter({$0.type == 0}).count)"
         }
         if let filesF = self.filesF {
-             filesF.setTitle("anexos (\(report.files.filter({$0.type == 1}).count))", for: .normal)
+             filesF.badgeString = "\(report.files.filter({$0.type == 1}).count)"
         }
         if let anexosLbl = anexosLbl {
             anexosLbl.text = report.files.count > 0 ? "Existen \(report.files.count)" : "No hay Reportes"

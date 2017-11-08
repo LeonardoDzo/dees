@@ -20,6 +20,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
        NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+       
     }
     override func viewWillAppear(_ animated: Bool) {
         verifyEnterprises()
@@ -29,7 +30,10 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
             })
         }
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+         let cell = self.collectionView?.cellForItem(at: IndexPath(item: 0, section: 0)) as! preHomeCollectionViewCell
+         let _ = AnimationController(target: self, controls: [])
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

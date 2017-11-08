@@ -152,7 +152,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/ChatViewController.swift"
-            timestampString = "531766203.794548"
+            timestampString = "531794794.404479"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
@@ -214,44 +214,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "dees/ResponsableTableViewController.swift"
-            timestampString = "531429899.569786"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "dees/ResponsableTableViewController.swift"
-            timestampString = "531429899.569843"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "dees/EnterpriseCollectionViewController.swift"
-            timestampString = "531711792.122219"
+            timestampString = "531805214.154475"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -263,11 +231,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dees/EnterpriseCollectionViewController.swift"
-            timestampString = "531711792.122297"
+            timestampString = "531805214.154549"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
             <Locations>
@@ -279,11 +247,11 @@
                   moduleName = "dees"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ldurazo/Documents/proyectos/dees/dees/EnterpriseCollectionViewController.swift"
-                  timestampString = "531763920.26582"
+                  timestampString = "531851550.172548"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "119"
-                  endingLineNumber = "119"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
                   offsetFromSymbolStart = "684">
                </Location>
                <Location
@@ -294,30 +262,14 @@
                   moduleName = "dees"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ldurazo/Documents/proyectos/dees/dees/EnterpriseCollectionViewController.swift"
-                  timestampString = "531763920.268588"
+                  timestampString = "531851550.174074"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "119"
-                  endingLineNumber = "119"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
                   offsetFromSymbolStart = "3244">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "dees/GroupReducer.swift"
-            timestampString = "531763531.770494"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "groupIn(_:gid:eid:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -343,7 +295,7 @@
                   moduleName = "dees"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ldurazo/Documents/proyectos/dees/dees/WebSocketService.swift"
-                  timestampString = "531763920.276326"
+                  timestampString = "531851550.177511"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "52"
@@ -358,7 +310,7 @@
                   moduleName = "dees"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ldurazo/Documents/proyectos/dees/dees/WebSocketService.swift"
-                  timestampString = "531763920.277835"
+                  timestampString = "531851550.179012"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "53"
@@ -413,6 +365,22 @@
             startingLineNumber = "97"
             endingLineNumber = "97"
             landmarkName = "sendMessage(m:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dees/EnterpriseViewViewController.swift"
+            timestampString = "531794794.405046"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "bind()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
