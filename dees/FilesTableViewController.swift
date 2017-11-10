@@ -49,8 +49,8 @@ class FilesTableViewController: UITableViewController, UINavigationControllerDel
         return cell
     }
     override func viewWillAppear(_ animated: Bool) {
-        files = conf.files.filter({$0.type == conf.type})
-        var name = conf.type != 0 ? "Financiero de " : "Operativo de "
+        files = (conf.report?.files.filter({$0.type == conf.type.rawValue}))!
+        var name = conf.type.getString()
         name.append(conf.user.name!)
         store.subscribe(self){
             $0.select({
@@ -70,6 +70,29 @@ class FilesTableViewController: UITableViewController, UINavigationControllerDel
     }
    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath) {
         cell.backgroundColor = UIColor(white: 1, alpha: 0.5)
+    }
+    
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let fileDelete = files[indexPath.row]
+            confirmDelete(fileDelete)
+        }
+    }
+    
+    func confirmDelete(_ file: File) {
+        let alert = UIAlertController(title: "Eliminar Archivo", message: "Estas seguro eliminar:  \(file.name!)?", preferredStyle: .actionSheet)
+        
+        let DeleteAction = UIAlertAction(title: "Eliminar", style: .destructive, handler: {_ in
+            store.dispatch(FileActions.delete(report: self.conf.report!, fid: file.id))
+        })
+        let CancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        
+        alert.addAction(DeleteAction)
+        alert.addAction(CancelAction)
+        
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
@@ -96,7 +119,9 @@ extension FilesTableViewController:  UIDocumentMenuDelegate,UIDocumentPickerDele
             let _ = URLSession.shared.dataTask(with: request as URLRequest) { (data, urlResponse, err) in
                 
                 if err == nil {
-                    store.dispatch(ReportsAction.UploadFile(report: Report(uid: self.conf.uid, eid: self.conf.eid, wid: self.conf.wid), type:self.conf.type, data: data!, name: name!))
+                    store.dispatch(ReportsAction.UploadFile(report: self.conf.report!, type: self.conf.type.rawValue, data: data!, name: name!))
+                    
+                    
                 } else {
                     print("Hubo un error")
                 }
@@ -153,7 +178,7 @@ extension FilesTableViewController : StoreSubscriber {
                 store.state.reportState.reports = .none
                 break
             case .Finished(let tupla as (Report, Murmur)):
-                self.files = tupla.0.files.filter({$0.type == conf.type})
+                self.files = tupla.0.files.filter({$0.type == conf.type.rawValue})
                 self.tableView.reloadData()
                 break
             default:

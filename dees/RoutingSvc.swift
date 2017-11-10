@@ -9,7 +9,12 @@
 import Foundation
 import ReSwift
 enum StoryBoard: String {
-    case main = "Main"
+    case main = "Main",
+         files = "Files",
+         chat = "Chat",
+         enterprises = "Enterprises",
+         pendings  = "Pendings",
+         reports = "Reports"
 }
 
 enum RoutingDestination: String {
@@ -26,8 +31,12 @@ enum RoutingDestination: String {
 extension RoutingDestination {
     func getStoryBoard() -> String {
         switch self {
-        case .weeksView, .allReports,.enterprises, .filesView, .none, .webView, .allPendings, .chatView, .chatResponsables:
+        case .weeksView,.enterprises, .allPendings, .allReports,.none:
             return StoryBoard.main.rawValue
+        case .chatView, .chatResponsables:
+            return StoryBoard.chat.rawValue
+        case .filesView, .webView:
+            return StoryBoard.files.rawValue
         }
     }
 }

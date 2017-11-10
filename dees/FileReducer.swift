@@ -9,7 +9,7 @@
 import Foundation
 import ReSwift
 import Moya
-
+import Whisper
 let fileProvider = MoyaProvider<FileService>(plugins: [authPlugin])
 
 struct FileReducer  {
@@ -22,6 +22,12 @@ struct FileReducer  {
             if !token.isEmpty {
                 state.files = .loading
                 get(action.eid, action.wid)
+            }
+            break
+        case let action as FileActions.delete:
+            if action.report != nil {
+                state.files = .loading
+                self.delete(action.report, fid: action.fid)
             }
             break
         default:
@@ -48,6 +54,26 @@ struct FileReducer  {
                 } catch {
                     print(":(")
                 }
+                break
+            case .failure(let error):
+                print(error)
+                break
+            }
+        })
+    }
+    func delete(_ report: Report, fid: Int) -> Void {
+        
+        fileProvider.request(.delete(report: report, fid: fid), completion: {
+            result in
+            switch result {
+            case .success(let response):
+        
+                    if response.statusCode == 200 {
+                        store.dispatch(ReportsAction.Get(eid: report.eid, wid: report.wid, uid: report.uid))
+                    }else{
+                        store.state.reportState.reports = .Failed(messages.error._06)
+                    }
+               
                 break
             case .failure(let error):
                 print(error)

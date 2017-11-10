@@ -57,7 +57,13 @@ struct GroupReducer {
                     let repos = response.data
                     var group = try JSONDecoder().decode(Group.self, from: repos)
                     group = self.verifymessage(group: group)
-                    
+                    group.messages.forEach({m in
+                        try! realm.realm.write {
+                            if !(group._messages.contains(where: {$0.id == m.id})) {
+                                group._messages.append(m)
+                            }
+                        }
+                    })
                     if group.party.count > 0 {
                         _ = group.party.map({group._party.append($0)})
                         group.party.removeAll()
@@ -67,7 +73,7 @@ struct GroupReducer {
                     store.state.groupState.currentGroup = .Finished(group)
                     if let _ = defaults.value(forKey: "Notification-Chat") as? String,  let topController = UIApplication.topViewController() {
                         defaults.removeObject(forKey: "Notification-Chat")
-                          topController.pushToView(view: .chatView, sender: configuration(uid: group.userId, wid: store.state.weekState.getWeeks().last?.id! , type: group.type, eid: group.companyId, files: [], user: nil))
+                        topController.pushToView(view: .chatView, sender: configuration(uid: group.userId, wid: store.state.weekState.getWeeks().last?.id! , type: TYPE_ON_REPORT(rawValue: group.type), eid: group.companyId, report: nil, user: nil))
                     }
                   
                 } catch MoyaError.jsonMapping(let error) {
@@ -168,7 +174,6 @@ struct GroupReducer {
     func verifymessage(group: Group) -> Group {
         if let group_db = realm.realm.object(ofType: Group.self, forPrimaryKey: group.id) {
             group._messages.append(objectsIn: group_db._messages)
-            group.messages.removeAll()
         }
         
         return group

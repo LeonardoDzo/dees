@@ -83,9 +83,9 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
             name?.append(e.users.count > 1 ?" (\(e.users.count))" : "")
         }
         if e.color != nil {
-             cell.borderColor.layer.backgroundColor = UIColor(hexString: "#\(e.color!)##")?.cgColor
+            cell.borderColor.layer.backgroundColor = UIColor(hexString: "#\(e.color!)##")?.cgColor
         }
-       
+        
         cell.setTitle(name!)
         return cell
     }
@@ -98,8 +98,11 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell else {
             return
         }
-        
-        self.pushToView(view: .chatResponsables, sender: configuration(uid: 0, wid: self.weeks[self.weekSelected].id, type: 3, eid: self.enterprises[self.enterpriseSelected].id, files: [], user: cell.getUser()))
+        var route : RoutingDestination = .chatResponsables
+        if store.state.userState.user.isDirectorCeo() {
+            route = .chatView
+        }
+        self.pushToView(view: route, sender: configuration(uid: cell.getUser()?.id, wid: self.weeks[self.weekSelected].id, type: .PDP, eid: self.enterprises[self.enterpriseSelected].id, report: nil, user: cell.getUser()))
     }
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? ResponsableTableViewCell {
@@ -187,7 +190,7 @@ extension AllReportsTableViewController : StoreSubscriber {
     func newState(state: ReportState) {
         self.view.isUserInteractionEnabled = true
         
-       
+        
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: self.enterpriseSelected )) as? ResponsableTableViewCell else {
             return
         }
@@ -232,8 +235,12 @@ extension AllReportsTableViewController {
     }
     func setupNavBar() -> Void {
         let add = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.updateReport))
-        let focusBtn = UIBarButtonItem(image: !isFocus ? #imageLiteral(resourceName: "myReports") : #imageLiteral(resourceName: "allReports"), style: .plain, target: self, action: #selector(self.getFocusOnMyEnterprises))
-        self.navigationItem.rightBarButtonItems = [add,focusBtn]
+        self.navigationItem.rightBarButtonItems = [add]
+        if store.state.userState.user.isDirectorCeo() {
+            let focusBtn = UIBarButtonItem(image: !isFocus ? #imageLiteral(resourceName: "myReports") : #imageLiteral(resourceName: "allReports"), style: .plain, target: self, action: #selector(self.getFocusOnMyEnterprises))
+            self.navigationItem.rightBarButtonItems?.append(focusBtn)
+        }
+        
     }
     
     
@@ -306,7 +313,7 @@ extension AllReportsTableViewController : weekProtocol {
         
         if animation != .none {
             didMove(toParentViewController: self)
-           
+            
             AnimatableReload.reload(tableView: self.tableView!, animationDirection: animationStr)
         }
     }
@@ -376,7 +383,7 @@ extension AllReportsTableViewController : EnterpriseProtocol {
                 guard let type = data["type"] as? String else {
                     return
                 }
-
+                
                 if let vc = segue.destination as? DetailsContentViewController {
                     vc.report = report
                     vc.type = type
@@ -399,13 +406,14 @@ extension AllReportsTableViewController : GoToProtocol {
             conf.user = cell.getUser()
         }
         if route == .chatView, store.state.userState.user.id  == conf.uid {
-            let group = realm.realm.objects(Group.self).filter("companyId = %@ AND type = %@", conf.eid, conf.type).toArray(ofType: Group.self)
-            
+            let group : [Group] = realm.realm.objects(Group.self).filter("companyId = %@ AND type = %@", conf.eid, conf.type.rawValue).toArray(ofType: Group.self)
             if group.count > 1 {
-               route = .chatResponsables
+                route = .chatResponsables
             }
+            
         }
-
+        
+        
         self.pushToView(view: route, sender: conf)
     }
     func viewInfo(_ report: Report,_ type: String) {

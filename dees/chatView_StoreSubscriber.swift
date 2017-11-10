@@ -49,29 +49,39 @@ extension ChatViewController : StoreSubscriber {
         }
     }
     func updateUI(changes: RealmCollectionChange<Results<Group>>) -> Void  {
-          isFiltered()
+       
+        let section = section_Messages.count
+        isFiltered()
         switch changes {
         case .initial:
-            
             tableView.reloadData()
+            if section_Messages.count > 0 {
+                self.tableView.scrollToRow(at: IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1), at: .bottom, animated: true)
+            }
         case .update(_, _, _, _):
             // Query results have changed, so apply them to the UITableView
            
-            if section_Messages.count == 1 {
+            if section_Messages.count <= 1 {
                 tableView.reloadData()
+                
             }else{
                  self.tableView.beginUpdates()
-                 self.tableView.insertRows(at: [IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1)], with: .automatic)
-                 self.tableView.endUpdates()
+                if self.section_Messages.count > section  {
+                    self.tableView.insertSections(IndexSet(integer: section_Messages.count - section), with: .automatic)
+                }else{
+                    self.tableView.insertRows(at: [IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1)], with: .automatic)
+                    
+                }
+                if section_Messages.count > 0 {
+                    self.tableView.scrollToRow(at: IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1), at: .bottom, animated: true)
+                }
+                self.tableView.endUpdates()
             }
             
            
-            self.tableView.scrollToRow(at: IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1), at: .bottom, animated: true)
+           
         case .error:
             ()
-        }
-        if messages_group != nil, (messages_group.count) > 0 {
-            self.tableView.scrollToRow(at: IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1), at: .bottom, animated: true)
         }
         
     }

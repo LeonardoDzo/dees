@@ -10,9 +10,10 @@ import Foundation
 import Alamofire
 import Whisper
 enum ip : String {
-    case ip_kike = "192.168.1.105"
+    case ip_kike = "192.168.1.109"
     case ip_Test = "192.168.1.191"
     case ip_Prod = "biapi.cotecnologias.com"
+    case ip_AWS = "ec2-54-183-230-51.us-west-1.compute.amazonaws.com"
 }
 extension ip  {
     func getPort() -> String {
@@ -21,14 +22,14 @@ extension ip  {
             return ":8085/"
         case .ip_Test:
             return ":83/"
-        case .ip_Prod:
+        case .ip_Prod, .ip_AWS:
             return "/"
         }
     }
 }
 struct Constants {
     struct ServerApi {
-        static let uri = ip.ip_Prod
+        static let uri = ip.ip_AWS
         static let url = "http://\(ServerApi.uri.rawValue)\(ServerApi.uri.getPort())api/"
         static let ws = "ws://\(ServerApi.uri.rawValue)\(ServerApi.uri.getPort())api/companies/"
         static let fileurl = "http://resapi.cotecnologias.com"

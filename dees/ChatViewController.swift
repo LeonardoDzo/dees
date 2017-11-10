@@ -13,12 +13,21 @@ import RealmSwift
 struct configuration{
     var uid : Int!
     var wid : Int!
-    var type : Int!
+    var type : TYPE_ON_REPORT!
     var eid : Int!
-    var files = [File]()
+    var report : Report?
     var user  : User!
     func getEnterprise() -> Business? {
-        return store.state.businessState.getEnterprise(id: eid) ?? store.state.userState.user.bussiness.first(where: {$0.id == eid})
+        var enterprise : Business!
+        if store.state.userState.user.isDirectorCeo() {
+            store.state.businessState.getEnterprise(id: eid, handler: { b in
+                enterprise = b
+            })
+        }else{
+            enterprise = store.state.userState.user.bussiness.first(where: {$0.id == eid})
+           
+        }
+         return enterprise
     }
     
 }
@@ -71,10 +80,10 @@ class ChatViewController: UIViewController {
         }
        
         let user = conf.user
-        var name = conf.type != 0 ? "Financiero de " : "Operativo de "
+        var name = conf.type.getString()
+        let enterprise = conf.getEnterprise()
         if store.state.userState.user.isDirectorCeo() {
             if user == nil {
-                let enterprise = store.state.businessState.getEnterprise(id: conf.eid)
                 name.append(enterprise?.users.first(where: {$0.id != store.state.userState.user.id})?.name ?? "Sin nombre")
             }else{
                 name.append((user?.name)!)
@@ -84,9 +93,9 @@ class ChatViewController: UIViewController {
         }
         
         
-        if let enterprise = conf.getEnterprise() {
-            self.navigationItem.titleView = titleNavBarView(title: enterprise.name!, subtitle:  name)
-        }
+        
+        self.navigationItem.titleView = titleNavBarView(title: (enterprise?.name!)!, subtitle:  name)
+        
  
         store.subscribe(self) {
             $0.select({ (state)  in
@@ -94,7 +103,7 @@ class ChatViewController: UIViewController {
             })
         }
         
-        store.dispatch(GroupsAction.GroupIn(m: _requestMessage(eid: conf.eid, wid: conf.wid, uid: conf.uid, type: TYPE_ON_REPORT(rawValue: conf.type), message: "")))
+        store.dispatch(GroupsAction.GroupIn(m: _requestMessage(eid: conf.eid, wid: conf.wid, uid: conf.uid, type:  conf.type, message: "")))
         self.tabBarController?.tabBar.isHidden = true
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: isFiltering ? #imageLiteral(resourceName: "filtered-Filled") : #imageLiteral(resourceName: "filter"), style: .plain, target: self, action: #selector(self.filtered))
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
@@ -121,7 +130,7 @@ class ChatViewController: UIViewController {
         if group != nil, let g = group.first?._party.first(where: {$0.id != store.state.userState.user.id}) {
             conf.uid = g.id
         }
-        let m = _requestMessage(eid: conf.eid, wid: conf.wid, uid: conf.uid, type: TYPE_ON_REPORT(rawValue: conf.type), message: messageTxtView.text)
+        let m = _requestMessage(eid: conf.eid, wid: conf.wid, uid: conf.uid, type: conf.type, message: messageTxtView.text)
         messageTxtView.text.removeAll()
         heightLayoutView.constant = 47
         
@@ -139,6 +148,10 @@ class ChatViewController: UIViewController {
     }
     
     func isFiltered() -> Void {
+        guard  group != nil  else {
+            return
+        }
+        print("Grupo", group.first?._party ?? "Nada")
         messages_group = isFiltering ? group.first?._messages.filter("weekId = %@", conf.wid) : group.first?._messages.sorted(byKeyPath: "timestamp")
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: isFiltering ? #imageLiteral(resourceName: "filtered-Filled") : #imageLiteral(resourceName: "filter"), style: .plain, target: self, action: #selector(self.filtered))

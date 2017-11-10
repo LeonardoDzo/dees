@@ -10,13 +10,14 @@ import UIKit
 import ReSwift
 class WeeksTableViewController: UITableViewController {
     var weeks = [Week]()
+    var preHome : PreHomeViewController!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.styleNavBarAndTab_1()
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         self.navigationItem.title = "Semanas"
         tableView.tableFooterView = UIView(frame: .zero)
-        
+        self.setupBack()
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,8 +56,11 @@ class WeeksTableViewController: UITableViewController {
                 vc.conf.wid = weeks[indexPath.row].id
                 self.navigationController?.popViewController(animated: true)
             }
-           
           
+        }else if preHome != nil  {
+                preHome.week = weeks[indexPath.row]
+                self.dismiss(animated: true, completion: nil)
+            
         }
     }
 

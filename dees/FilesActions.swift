@@ -17,6 +17,10 @@ struct FileActions {
             self.wid = wid
         }
     }
+    struct delete: Action {
+        var report : Report!
+        var fid: Int!
+    }
     
 }
 

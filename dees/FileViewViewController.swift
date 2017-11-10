@@ -13,7 +13,7 @@ class FileViewViewController: UIViewController {
     var file: File!
     var eid : Int!
     @IBOutlet var webView: WKWebView!
-    
+    var url : String!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.definesPresentationContext = true
@@ -28,7 +28,13 @@ class FileViewViewController: UIViewController {
     
 
     override func viewWillAppear(_ animated: Bool) {
-        guard let baseURL = URL(string: "\(Constants.ServerApi.url)companies/\(eid!)/res/reports/\(file.fid!)/files/\(file.id!)") else { return }
+        var baseURL : URL!
+        if url != nil {
+            baseURL = URL(string:Constants.ServerApi.url+self.url )
+        }else{
+            baseURL = URL(string: "\(Constants.ServerApi.url)companies/\(eid!)/res/reports/\(file.fid!)/files/\(file.id!)")
+        }
+       
     
         var request = URLRequest(url: baseURL)
         let session = URLSession.shared

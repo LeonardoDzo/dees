@@ -99,7 +99,10 @@ extension UIViewController {
         
         
         switch viewcontroller {
-        case _ as WeeksTableViewController:
+        case let vc as WeeksTableViewController:
+            if sender is PreHomeViewController {
+                vc.preHome = sender as! PreHomeViewController
+            }
             break
         case let vc as EnterprisesTableViewController:
             if sender is Bool {
@@ -130,6 +133,8 @@ extension UIViewController {
             if let tupla = sender as? (File, Int) {
                 vc.file = tupla.0
                 vc.eid = tupla.1
+            }else if let url = sender as? String {
+                vc.url = url
             }
             break
         case let vc as FilesTableViewController:

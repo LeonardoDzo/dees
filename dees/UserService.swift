@@ -11,7 +11,7 @@ import Alamofire
 import Moya
 enum UserService {
     case showUser(id: Int)
-    case getAll()
+    case getAll(eid: Int)
     case updateUser(id:Int, name: String)
     case token(eid: Int)
     case changePass(old: String, new: String)
@@ -22,8 +22,8 @@ extension UserService: TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return URL(string: Constants.ServerApi.url)! }
     var path: String {
         switch self {
-        case .getAll:
-            return "Users"
+        case .getAll(let eid):
+            return "companies/\(eid)/res/users"
         case .showUser(let id), .updateUser(let id, _):
             return "users/\(id)"
         case .changePass:

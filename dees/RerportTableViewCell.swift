@@ -36,7 +36,7 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         tapOp.numberOfTapsRequired = 1
         let tapFi = UITapGestureRecognizer(target: self, action: #selector(self.tapFi))
         tapFi.numberOfTapsRequired = 1
-
+        
         observationTitle.addGestureRecognizer(tap)
         observationTitle.isUserInteractionEnabled = true
         operativeStack.addGestureRecognizer(tapOp)
@@ -51,7 +51,7 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         filesOp.setImage(c, for: .normal)
         // Initialization code
     }
-
+    
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -105,7 +105,7 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         go(to: .FINANCIAL, for: .chatView)
     }
     func go(to type: TYPE_ON_REPORT, for t: RoutingDestination) -> Void {
-        let conf = configuration(uid: self.report.uid, wid: report.wid, type: type.rawValue, eid: report.eid, files: report.files, user: nil )
+        let conf = configuration(uid: self.report.uid, wid: report.wid, type: type, eid: report.eid, report:self.report, user: nil )
         
         if report != nil {
             gotoProtocol.goTo(t, sender: conf)
@@ -118,48 +118,57 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
         }
     }
     func updateMessages() -> Void {
-        let countOP = getMessages(type: 0)
         
-        if countOP > 0 {
-           replyOp.badgeString = "\(countOP)"
-        }
         
-        let countRe = getMessages(type: 1)
+        let count = getMessages(type: 0)
+        replyOp.badgeString = "\(count)"
         
-        if countOP > 0 {
-            replyF.badgeString = "\(countRe)"
-        }
+        
+        let countF : Int = getMessages(type: 1)
+        replyF.badgeString = "\(countF)"
+        
         
     }
     func getMessages(type: Int) -> Int {
         var count =  0
         if report != nil {
-            let groups = realm.realm.objects(Group.self).filter("companyId  = %@ AND userId = %@ AND type = %@", report.eid, report.uid, type)
             
-            groups.forEach({ (g) in
-                let userin_times = g._party.first(where: {$0.id == store.state.userState.user.id})?.timestamp
-                g._messages.forEach({ (m) in
-                    if userin_times! < m.timestamp {
-                        count += 1
-                    }
-                    
-                })
-            })
-            if !store.state.userState.user.isDirectorCeo(), groups.toArray(ofType: Group.self).filter({$0.type == type }).count == 0  {
+            let groups = realm.realm.objects(Group.self).filter("companyId  = %@ AND type = %@", report.eid, type)
+            if groups.count == 0,  !store.state.userState.user.isDirectorCeo(){
                 if type == 0 {
                     replyOp.isHidden = true
                 }else{
                     replyF.isHidden = true
                 }
+               
+
             }else{
-                if type == 0 {
-                    replyOp.isHidden = false
-                }else{
+                if type == 1 {
                     replyF.isHidden = false
+                }else{
+                    replyOp.isHidden = false
+                }
+                if store.state.userState.user.isDirectorCeo() {
+                    if let group = groups.filter("userId = %@",store.state.userState.user.id!).first {
+                        if let userin_times = group._party.first(where: {$0.id == store.state.userState.user.id}) {
+                            count = group._messages.filter("timestamp > %@", userin_times).count
+                        }
+                    }
+                }else{
+                    groups.forEach({ (group) in
+                        if let userin_times = group._party.first(where: {$0.id == store.state.userState.user.id})?.timestamp {
+                            count = group._messages.filter("timestamp > %@", userin_times).count
+                        }
+                    })
                 }
             }
+            
+            
+            
+            
         }
         
         return count
     }
+    
 }

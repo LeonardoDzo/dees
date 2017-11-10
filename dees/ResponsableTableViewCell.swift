@@ -266,20 +266,13 @@ extension ResponsableTableViewCell {
         }
     }
     func updateUI(changes: RealmCollectionChange<Results<Group>>) -> Void  {
-        switch changes {
-        case .initial: break;
-        //tableView.reloadData()
-        case .update(_, _, _, _):
-            // Query results have changed, so apply them to the UITableView
-            guard tableView.visibleCells.count > 0 , let cell = tableView.visibleCells[0] as? RerportTableViewCell else {
-                return
-            }
-            cell.updateMessages()
-        case .error:
-            // handle error
-            ()
+        reloadViews()
+    }
+    func reloadViews() -> Void {
+        guard tableView.visibleCells.count > 0 , let cell = tableView.visibleCells[0] as? RerportTableViewCell else {
+            return
         }
-        
+        cell.updateMessages()
     }
     
 }

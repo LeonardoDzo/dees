@@ -44,11 +44,12 @@ struct AuthActions {
 
 struct UsersAction {
     struct get: Action {
-        var uid: Int!
+        var eid: Int!
         var email: String!
-        init(uid: Int) {
-            self.uid = uid
+        init(eid: Int) {
+            self.eid = eid
         }
+        
         init(email: String) {
             self.email = email
         }

@@ -166,16 +166,6 @@ extension ReportBindible {
             if !store.state.userState.user.isDirectorCeo(), groups.toArray(ofType: Group.self).filter({$0.type == 1}).count == 0  {
                 replyF.isHidden = true
             }
-            var count =  0
-            groups.toArray(ofType: Group.self).filter({$0.type == 1}).forEach({ (g) in
-                let userin_times = g._party.first(where: {$0.id == store.state.userState.user.id})?.timestamp
-                g.messages.forEach({ (m) in
-                    if userin_times! < m.timestamp {
-                        count += g.messages.count
-                    }
-                })
-            })
-            replyF.setTitle("\(count)", for: .normal)
         }
         
         if let filesOp = self.filesOp {

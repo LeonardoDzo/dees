@@ -31,13 +31,11 @@ struct UserReducer {
             }
             break
         case let action as UsersAction.get:
-            if action.uid != nil {
+            if action.eid != nil {
                 state.status = .loading
-                if action.uid == -1{
-                    self.getUsers()
-                }else{
-                    self.getUser(by: action.uid)
-                }
+              
+                self.getUsers(eid: action.eid)
+                
             }
             break
         case let action as AuthActions.Token:
@@ -184,8 +182,8 @@ struct UserReducer {
             
         })
     }
-    func getUsers() -> Void {
-        userProvider.request(.getAll(), completion: {result in
+    func getUsers(eid: Int) -> Void {
+        userProvider.request(.getAll(eid: eid), completion: {result in
             switch result {
             case .success(let response):
                 do {
@@ -193,7 +191,6 @@ struct UserReducer {
                     let array : NSArray = repos.value(forKey: "users") as! NSArray
                     let users = User.from(array) ?? []
                     store.state.userState.users = users
-                    store.state.userState.status = .none
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
                 } catch {

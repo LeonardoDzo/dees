@@ -62,10 +62,16 @@ class WebsocketService: WebSocketDelegate {
                     })
                 }else{
                     self.showNotification(group: group.first!, message: message)
+                    var save = false
                     try! realm.realm.write {
-                        group.first?._messages.append(message)
-                    }    
-                    realm.save(objs: group.first!)
+                        if !(group.first?._messages.contains(where: {$0.id == message.id}))! {
+                            group.first?._messages.append(message)
+                            save = true
+                        }
+                    }
+                    if save {
+                        realm.save(objs: group.first!)
+                    }
                 }
             } catch {
                 print("error trying to convert data to JSON")
@@ -78,17 +84,18 @@ class WebsocketService: WebSocketDelegate {
         print("Received data: \(data.count)")
     }
     func showNotification(group : Group,message: MessageEntitie) -> Void {
-        let user = group._party.first(where: {$0.id == message.userId})!
-        let username = (user.name) + " " + (user.lastname)
-        if message.userId != store.state.userState.user.id, let topController = UIApplication.topViewController(), !store.state.groupState.isCurrentGroup(id: message.groupId) {
-
-            let announcement = Announcement(title: (username), subtitle: message.message, image: #imageLiteral(resourceName: "user_min"), duration: 3, action: {
+        if let user = group._party.first(where: {$0.id == message.userId})  {
+            let username = (user.name) + " " + (user.lastname)
+            if message.userId != store.state.userState.user.id, let topController = UIApplication.topViewController(), !store.state.groupState.isCurrentGroup(id: message.groupId) {
                 
-                topController.pushToView(view: .chatView, sender: configuration(uid: message.userId, wid: message.weekId, type: group.type, eid: group.companyId, files: [], user: nil) )
-            })
-            
-            Whisper.show(shout: announcement, to: topController)
-            // topController should now be your topmost view controller
+                let announcement = Announcement(title: (username), subtitle: message.message, image: #imageLiteral(resourceName: "user_min"), duration: 3, action: {
+                    
+                    topController.pushToView(view: .chatView, sender: configuration(uid: message.userId, wid: message.weekId, type: TYPE_ON_REPORT(rawValue: group.type), eid: group.companyId, report: nil, user: nil) )
+                })
+                
+                Whisper.show(shout: announcement, to: topController)
+                // topController should now be your topmost view controller
+            }
         }
     }
     

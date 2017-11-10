@@ -10,6 +10,7 @@ import Foundation
 import Moya
 enum FileService {
     case get(wid: Int?, eid: Int)
+    case delete(report: Report, fid: Int)
 }
 extension FileService : TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return URL(string: Constants.ServerApi.url)!}
@@ -21,11 +22,19 @@ extension FileService : TargetType, AccessTokenAuthorizable {
                 return "companies/\(eid)/res/library"
             }
             return "companies/\(eid)/res/library/week/\(wid!)"
+        case .delete(let report, let fid):
+            return "companies/\(report.eid!)/res/reports/\(report.id!)/files/\(fid)"
         }
     }
     
     var method: Moya.Method {
-        return .get
+        switch self {
+        case .get:
+            return .get
+        case .delete:
+            return .delete
+        }
+    
     }
     
     var sampleData: Data {

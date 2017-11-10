@@ -10,13 +10,15 @@ import UIKit
 import ReSwift
 import Whisper
 protocol preHomeProtocol : class {
-    var section : Int {get set}
+    var section : MENU_PRE {get set}
     func handleClick(sender: Int) -> Void
 }
 var enterprisesNav = [[Business]]()
 class PreHomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    var section = 0
+    var section = MENU_PRE.ENTRAR
     var enterprises = [Business]()
+    var enterprise : Int!
+    var week: Week!
     override func viewDidLoad() {
         super.viewDidLoad()
        NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
@@ -31,8 +33,36 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         }
     }
     override func viewDidAppear(_ animated: Bool) {
-         let cell = self.collectionView?.cellForItem(at: IndexPath(item: 0, section: 0)) as! preHomeCollectionViewCell
-         let _ = AnimationController(target: self, controls: [])
+         //let cell = self.collectionView?.cellForItem(at: IndexPath(item: 0, section: 0)) as! preHomeCollectionViewCell
+         //let _ = AnimationController(target: self, controls: [])
+        generatePDF()
+    }
+    
+    
+    func generatePDF() -> Void {
+        
+        if week != nil, enterprise != nil {
+            let name = enterprises[enterprise].name
+            
+            
+            
+            let alert = UIAlertController(title: "Generar PDF de: ", message: name!  + " de la semana \(self.week.getTitleOfWeek())", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancelar", style: .destructive, handler: { _ in
+                self.enterprise = nil
+                self.week = nil
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Ver", style: .default, handler: { (_alert) in
+                
+                self.pushToView(view: .webView, sender: "companies/\(self.enterprise + 1 )/res/week/\(self.week.id!)/generate" )
+                self.enterprise = nil
+                self.week = nil
+            }))
+        
+            
+            present(alert, animated: true, completion:nil)
+        }
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -44,11 +74,11 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "infoSegue" {
             let tb = segue.destination as! UITabBarController
-            tb.selectedIndex = section
+            tb.selectedIndex = section.hashValue
             singleton.enterpriseNav.removeAll()
             singleton.enterpriseNav.push(enterprises)
             
-            if let nb  = tb.childViewControllers[section] as? UINavigationController {
+            if let nb  = tb.childViewControllers[section.hashValue] as? UINavigationController {
                 if let vc = nb.childViewControllers[0] as? EnterpriseCollectionViewController {
                     vc.type = sender  as! Int + 1
                 }else  if let vc = nb.childViewControllers[0] as? AllReportsTableViewController {
@@ -113,9 +143,12 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
  }
 extension PreHomeViewController : preHomeProtocol {
     func handleClick(sender: Int) {
-        if enterprises.count > 0 {
+        if enterprises.count > 0, section != .PDF {
             enterprises = enterprises[sender].business
             self.performSegue(withIdentifier: "infoSegue", sender: sender)
+        }else{
+            enterprise = sender
+            self.pushToView(view: .weeksView, sender: self)
         }
     }
 

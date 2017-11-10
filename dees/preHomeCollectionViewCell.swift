@@ -8,12 +8,20 @@
 
 import UIKit
 
+enum MENU_PRE {
+    case ENTRAR,
+         REPORTES,
+         PENDIENTES,
+         PDF
+}
+
 class preHomeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var stackBtns: UIStackView!
     @IBOutlet weak var mainLogo: UIImageView!
     @IBOutlet weak var backgroundImg: UIImageView!
     
+    @IBOutlet weak var pdfBtn: UIButton!
     weak var prehome: preHomeProtocol!
     
     
@@ -22,19 +30,22 @@ class preHomeCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func handleClick(_ sender: UIButton) {
-        print("click inside \(self.tag)")
-        prehome.section = 0
+        prehome.section =  MENU_PRE.ENTRAR
         prehome.handleClick(sender: self.tag)
     }
    
     @IBAction func handleClickReports(_ sender: UIButton) {
-        print("click on reports \(self.tag)")
-        prehome.section = 1
+
+        prehome.section = .REPORTES
         prehome.handleClick(sender: self.tag)
     }
     @IBAction func handleClickPendinngs(_ sender: Any) {
-        print("click on pendings \(self.tag)")
-        prehome.section = 2
+
+        prehome.section = .PENDIENTES
+        prehome.handleClick(sender: self.tag)
+    }
+    @IBAction func handleClickPDF(_ sender: UIButton) {
+        prehome.section = .PDF
         prehome.handleClick(sender: self.tag)
     }
 }

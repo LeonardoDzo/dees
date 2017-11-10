@@ -29,6 +29,11 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         self.collectionView?.addGestureRecognizer(lpgr)
         self.collectionView?.addGestureRecognizer(tapGesture)
         self.hideKeyboardWhenTappedAround()
+        if !store.state.userState.user.isDirectorCeo() {
+            self.tabBarController?.viewControllers?.remove(at: 2)
+            self.tabBarController?.viewControllers?.remove(at: 2)
+        }
+        
         
     }
     override func didReceiveMemoryWarning() {
@@ -163,17 +168,18 @@ extension EnterpriseCollectionViewController : StoreSubscriber {
             })
         }
         
-        
+         setupNavBar()
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         store.unsubscribe(self)
+        
     }
     
     func newState(state: BusinessState) {
         self.user = store.state.userState.user
-        setupNavBar()
+       
         setTitle()
         collectionView?.reloadData()
 
@@ -283,16 +289,13 @@ extension EnterpriseCollectionViewController {
         }
     }
     func setupNavBar() -> Void {
-        
-        
-        //let actions = UIBarButtonItem(barButtonSystemItem: #imageLiteral(resourceName: "more_icon_vertical") as UIBarButtonSystemItem, target: self, action: #selector(self.preSelect(sender:)))
         let actions = UIBarButtonItem(image: #imageLiteral(resourceName: "more_icon_vertical"), style: .plain, target: self, action: #selector(self.preSelect(sender:)))
         self.navigationItem.rightBarButtonItems = []
         if enterprisesNav.items.count == 1 {
             let back = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back))
             self.navigationItem.leftBarButtonItem = nil
             
-            if self.tabBarController?.selectedIndex == 0 && store.state.userState.user.permissions.contains(where: {$0.rid.rawValue >= 602}) {
+            if store.state.userState.user.isDirectorCeo() {
                 self.navigationItem.leftBarButtonItem = back
             }
         }else{

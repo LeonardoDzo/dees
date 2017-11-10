@@ -11,7 +11,21 @@ import Moya
 
 enum TYPE_ON_REPORT : Int {
     case OPERATIVE,
-    FINANCIAL
+    FINANCIAL,
+    PDP
+}
+extension TYPE_ON_REPORT {
+    func getString() -> String {
+        switch self {
+
+        case .OPERATIVE:
+           return  "Operativo de "
+        case .FINANCIAL:
+           return "Financiero de "
+        case .PDP:
+            return "Pend/Pet/Dudas de "
+        }
+    }
 }
 
 protocol _request {
