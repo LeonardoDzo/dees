@@ -39,7 +39,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reporte Empresarial Semanal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qhk-tV-Zwm">
-                                <rect key="frame" x="108" y="150" width="159.5" height="20"/>
+                                <rect key="frame" x="44" y="150" width="287.5" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="1Aq-ph-mxR"/>
                                 </constraints>
@@ -127,6 +127,9 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright  ©  Co.Tecnologias.     All     rights     reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wRV-Qz-5ZK">
                                 <rect key="frame" x="50" y="625" width="265" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="19" id="ASj-Ov-OzI"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="DiwanMishafi" family="Mishafi" pointSize="13"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -147,12 +150,11 @@
                         <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
                         <constraints>
                             <constraint firstItem="YTB-ML-9CS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="2px-GZ-YGs"/>
-                            <constraint firstItem="wRV-Qz-5ZK" firstAttribute="top" secondItem="YTB-ML-9CS" secondAttribute="bottom" constant="-42" id="69l-M3-dJ6"/>
                             <constraint firstItem="dyM-3F-Qof" firstAttribute="centerX" secondItem="Stj-WI-LI8" secondAttribute="centerX" id="75G-f1-1IJ"/>
                             <constraint firstItem="dyM-3F-Qof" firstAttribute="top" secondItem="Iqc-St-5pD" secondAttribute="bottom" constant="15" id="A35-pn-EL9"/>
                             <constraint firstItem="KJe-yU-P03" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="162" id="A3g-co-NOp"/>
                             <constraint firstItem="YTB-ML-9CS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="BOo-v9-mtY"/>
-                            <constraint firstItem="wRV-Qz-5ZK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="34" id="DF1-bP-Jdj"/>
+                            <constraint firstItem="wRV-Qz-5ZK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="CjV-WY-EOJ"/>
                             <constraint firstItem="dyM-3F-Qof" firstAttribute="leading" secondItem="Iqc-St-5pD" secondAttribute="leading" id="DSw-o6-VLq"/>
                             <constraint firstItem="Qlt-RQ-Oov" firstAttribute="top" secondItem="dyM-3F-Qof" secondAttribute="bottom" constant="27" id="Eqe-uX-4q9"/>
                             <constraint firstItem="Qlt-RQ-Oov" firstAttribute="leading" secondItem="dyM-3F-Qof" secondAttribute="leading" id="GNE-yU-4FQ"/>
@@ -164,17 +166,18 @@
                             <constraint firstItem="YTB-ML-9CS" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="OoU-dj-gfa"/>
                             <constraint firstItem="Qhk-tV-Zwm" firstAttribute="centerX" secondItem="Stj-WI-LI8" secondAttribute="centerX" id="Pv2-ES-BHV"/>
                             <constraint firstItem="Stj-WI-LI8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="S0e-JY-cMn"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wRV-Qz-5ZK" secondAttribute="bottom" constant="23" id="SIp-jg-Cil"/>
                             <constraint firstItem="KJe-yU-P03" firstAttribute="top" secondItem="Iqc-St-5pD" secondAttribute="bottom" constant="32" id="Utn-Nz-Df3"/>
                             <constraint firstItem="Stj-WI-LI8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="V8Z-Kg-0Dk"/>
                             <constraint firstItem="YTB-ML-9CS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="awv-2h-mZT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Stj-WI-LI8" secondAttribute="trailing" constant="20" id="jM7-bG-Hgh"/>
-                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="wRV-Qz-5ZK" secondAttribute="trailing" id="k1N-38-x8E"/>
                             <constraint firstItem="YTB-ML-9CS" firstAttribute="centerX" secondItem="Iqc-St-5pD" secondAttribute="centerX" id="m61-cf-N8W"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="YTB-ML-9CS" secondAttribute="bottom" id="oZ9-ai-tlQ"/>
                             <constraint firstItem="KJe-yU-P03" firstAttribute="centerX" secondItem="YTB-ML-9CS" secondAttribute="centerX" id="ofi-g3-eD3"/>
                             <constraint firstAttribute="trailing" secondItem="YTB-ML-9CS" secondAttribute="trailing" id="peR-oN-GTO"/>
                             <constraint firstItem="Qhk-tV-Zwm" firstAttribute="top" secondItem="Stj-WI-LI8" secondAttribute="bottom" constant="10" id="q3J-X9-kvy"/>
                             <constraint firstItem="Iqc-St-5pD" firstAttribute="top" secondItem="Qhk-tV-Zwm" secondAttribute="bottom" constant="30" id="u4s-5j-FmU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wRV-Qz-5ZK" secondAttribute="trailing" constant="44" id="wi2-dF-sw2"/>
                         </constraints>
                     </view>
                     <connections>
@@ -751,7 +754,7 @@
         <scene sceneID="MyL-yL-54v">
             <objects>
                 <viewControllerPlaceholder storyboardName="Profile" id="Eed-ph-ors" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="6np-6Z-vlc"/>
+                    <tabBarItem key="tabBarItem" title="Perfil" image="User" selectedImage="User" id="6np-6Z-vlc"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pFI-TW-9ke" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -761,7 +764,7 @@
         <scene sceneID="Ftj-rP-DvP">
             <objects>
                 <viewControllerPlaceholder storyboardName="Pendings" id="0dv-c2-wX4" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="XUz-VX-5Hk"/>
+                    <tabBarItem key="tabBarItem" title="Pendientes" image="Pendings" id="XUz-VX-5Hk"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vNq-5i-oH7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -781,7 +784,7 @@
         <scene sceneID="Hly-NR-Pvm">
             <objects>
                 <viewControllerPlaceholder storyboardName="Library" id="1u2-mw-ann" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="lWD-qb-Vjc"/>
+                    <tabBarItem key="tabBarItem" title="Biblioteca" image="Library" id="lWD-qb-Vjc"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMc-Ur-eGk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1179,12 +1182,12 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Persona" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYR-ff-3JT">
-                                                    <rect key="frame" x="97.5" y="20.5" width="62.5" height="20.5"/>
+                                                    <rect key="frame" x="97.5" y="20.5" width="62.5" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Operativo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iVm-Tk-RGE">
-                                                    <rect key="frame" x="98" y="41" width="61.5" height="16.5"/>
+                                                    <rect key="frame" x="74.5" y="40.5" width="108.5" height="17"/>
                                                     <fontDescription key="fontDescription" name="PirulenRg-Regular" family="Pirulen" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1268,9 +1271,12 @@
     </scenes>
     <resources>
         <image name="Delete-500" width="500" height="500"/>
+        <image name="Library" width="29" height="29"/>
         <image name="Lock" width="50" height="50"/>
         <image name="Mail" width="50" height="50"/>
+        <image name="Pendings" width="29" height="29"/>
         <image name="RES-white" width="489" height="152"/>
+        <image name="User" width="23" height="22"/>
         <image name="background-opessa" width="719" height="624"/>
         <image name="background_main" width="719" height="1280"/>
         <image name="bullet" width="69" height="22"/>

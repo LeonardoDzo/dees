@@ -11,6 +11,6 @@ import ReSwift
 struct UserState: StateType {
     var user: User!
     var type: Int!
-    var users = [User]()
+    var users = [UserCD]()
     var status: Result<Any>
 }

@@ -30,6 +30,11 @@ class UIImageViewX: UIImageView {
             layer.cornerRadius = cornerRadius
         }
     }
+    @IBInspectable public var maskColor: UIColor = UIColor.clear {
+        didSet {
+            image = image?.maskWithColor(color: maskColor)
+        }
+    }
     
     @IBInspectable var pulseDelay: Double = 0.0
     

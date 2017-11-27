@@ -81,42 +81,4 @@ extension MessageBindible {
     }
 }
 
-class Group: Object, Codable {
 
-    @objc dynamic var companyId: Int = -1
-    @objc dynamic var id: Int = -1
-    @objc dynamic var type: Int = -1
-    @objc dynamic var userId: Int = -1
-    var _party = List<PartyMember>()
-    var party = [PartyMember]()
-    var _messages = List<MessageEntitie>()
-    var messages = [MessageEntitie]()
-    private enum CodingKeys: String, CodingKey {
-        case companyId
-        case type
-        case id
-        case userId
-        case party
-        case messages
-    }
-
-    override static func primaryKey() -> String? {
-        return "id"
-    }
-    override static func ignoredProperties() -> [String] {
-        return ["party","messages"]
-    }
-}
-class PartyMember : Object, Codable {
-    @objc dynamic var id: Int = -1
-    @objc dynamic var name: String = ""
-    @objc dynamic var lastname: String = ""
-    @objc dynamic var dateIn: String = ""
-    @objc dynamic var email: String = ""
-    @objc dynamic var timestamp : Int = -1
-    
-    override static func primaryKey() -> String? {
-        return "id"
-    }
-   
-}

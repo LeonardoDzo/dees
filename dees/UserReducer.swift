@@ -187,9 +187,9 @@ struct UserReducer {
             switch result {
             case .success(let response):
                 do {
-                    let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                    let array : NSArray = repos.value(forKey: "users") as! NSArray
-                    let users = User.from(array) ?? []
+                    let dic = try response.mapJSON()
+                    print(dic)
+                    let users : [UserCD] = try JSONDecoder().decode([UserCD].self, from: response.data)
                     store.state.userState.users = users
                 } catch MoyaError.jsonMapping(let error) {
                     print(error )
@@ -214,6 +214,7 @@ struct UserReducer {
         store.state.reportState.reports = .none
         store.state.userState = UserState(user: nil, type: 0, users: [], status: .none)
         singleton.enterpriseNav.removeAll()
+        realm.deleteDatabase()
     }
 }
 

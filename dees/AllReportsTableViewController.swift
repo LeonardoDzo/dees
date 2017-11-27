@@ -32,6 +32,7 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         super.viewDidLoad()
         setupConf()
         setupNavBar()
+        self.setupBack()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -65,11 +66,12 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ResponsableTableViewCell
-        cell.enterprise = enterprises[indexPath.section]
-        cell.tag = self.weeks[self.weekSelected].id
-        cell.gotoProtocol = self
-        cell.changeEnterpriseProtocol = self
-        
+        if weeks.count > 0 && enterprises.count > 0 {
+            cell.enterprise = enterprises[indexPath.section]
+            cell.tag = self.weeks[self.weekSelected].id
+            cell.gotoProtocol = self
+            cell.changeEnterpriseProtocol = self
+        }
         return cell
     }
     
@@ -255,7 +257,6 @@ extension AllReportsTableViewController {
         self.user = store.state.userState.user
         getEnterprise()
         self.weeks = store.state.weekState.getWeeks()
-        
         didMove(toParentViewController: self)
     }
     @objc func getFocusOnMyEnterprises(){

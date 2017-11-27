@@ -14,9 +14,7 @@ class RealmManager {
     
     var realm = try! Realm()
     private init(){
-        try! realm.write {
-            realm.deleteAll()
-        }
+       
     }
     static let shared = RealmManager()
     

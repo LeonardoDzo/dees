@@ -32,6 +32,11 @@ class UIButtonX: UIButton {
             direction = FromDirection(rawValue: directionIndex) ?? .Left
         }
     }
+    @IBInspectable public var maskColor: UIColor = UIColor.clear {
+        didSet {
+            setImage( self.imageView?.image?.maskWithColor(color: maskColor), for: .normal)
+        }
+    }
     
     @IBInspectable var popIn: Bool = false
     @IBInspectable var popInDelay: Double = 0.4

@@ -67,13 +67,16 @@ extension ChatViewController : StoreSubscriber {
             }else{
                  self.tableView.beginUpdates()
                 if self.section_Messages.count > section  {
-                    self.tableView.insertSections(IndexSet(integer: section_Messages.count - section), with: .automatic)
+                    self.tableView.insertSections(IndexSet(integer: section_Messages.count - section), with: .none)
                 }else{
-                    self.tableView.insertRows(at: [IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1)], with: .automatic)
+                    self.tableView.insertRows(at: [IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1)], with: .none)
                     
                 }
                 if section_Messages.count > 0 {
-                    self.tableView.scrollToRow(at: IndexPath(row: ((section_Messages.last?.messages.count)!-1), section: section_Messages.count-1), at: .bottom, animated: true)
+                    DispatchQueue.main.async {
+                      self.scrollToBottom()
+                    }
+                  
                 }
                 self.tableView.endUpdates()
             }
@@ -86,7 +89,15 @@ extension ChatViewController : StoreSubscriber {
         
     }
 
-
+    func scrollToBottom() {
+        guard var count = self.section_Messages.last?.messages.count else {
+            return
+        }
+        count-=1
+        let indexPath = IndexPath(row: count, section: self.section_Messages.count-1)
+        
+        self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+    }
     
 }
 

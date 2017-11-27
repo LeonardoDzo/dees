@@ -79,16 +79,12 @@ class PenginsTableViewController: UITableViewController {
                 self.enterprises.insert(b1, at: count)
             })
         })
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.setupBack()
         
         tableView.register(nib, forHeaderFooterViewReuseIdentifier: "TitleHeaderCell")
         self.tableView.tableFooterView = UIView()
         self.navigationItem.titleView = titleNavBarView(title: "Pendientes", subtitle: "")
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(self.back))
+       
         self.styleNavBarAndTab_1()
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = true

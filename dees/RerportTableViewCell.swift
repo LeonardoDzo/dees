@@ -140,27 +140,21 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
                 }else{
                     replyF.isHidden = true
                 }
-               
-
+                
+                
             }else{
                 if type == 1 {
                     replyF.isHidden = false
                 }else{
                     replyOp.isHidden = false
                 }
-                if store.state.userState.user.isDirectorCeo() {
-                    if let group = groups.filter("userId = %@",store.state.userState.user.id!).first {
-                        if let userin_times = group._party.first(where: {$0.id == store.state.userState.user.id}) {
-                            count = group._messages.filter("timestamp > %@", userin_times).count
-                        }
+                
+                groups.forEach({ (group) in
+                    if let userin_times = group._party.first(where: {$0.id == store.state.userState.user.id})?.timestamp {
+                        count = group._messages.filter("timestamp > %@", userin_times).count
                     }
-                }else{
-                    groups.forEach({ (group) in
-                        if let userin_times = group._party.first(where: {$0.id == store.state.userState.user.id})?.timestamp {
-                            count = group._messages.filter("timestamp > %@", userin_times).count
-                        }
-                    })
-                }
+                })
+                
             }
             
             

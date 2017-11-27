@@ -42,7 +42,7 @@ class WebsocketService: WebSocketDelegate {
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-
+        
         if let data = text.data(using: String.Encoding.utf8) {
             do {
                 let decoder = JSONDecoder()
@@ -64,7 +64,7 @@ class WebsocketService: WebSocketDelegate {
                     self.showNotification(group: group.first!, message: message)
                     var save = false
                     try! realm.realm.write {
-                        if !(group.first?._messages.contains(where: {$0.id == message.id}))! {
+                        if !(group.first?._messages.contains(where: {$0.id == message.id}))!, !save{
                             group.first?._messages.append(message)
                             save = true
                         }

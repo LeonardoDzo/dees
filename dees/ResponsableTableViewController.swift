@@ -13,7 +13,7 @@ import Whisper
 class ResponsableTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var group = [Group]()
     var conf : configuration!
-    var users = [User]()
+    var users = [UserCD]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
@@ -23,8 +23,9 @@ class ResponsableTableViewController: UITableViewController, UIGestureRecognizer
         setupBack()
     }
     override func viewWillAppear(_ animated: Bool) {
-       group = realm.realm.objects(Group.self).filter("companyId = %@ AND type = %@", conf.eid, conf.type.rawValue).toArray(ofType: Group.self)
-        if group.count == 0 {
+        group = realm.realm.objects(Group.self).filter("companyId = %@ AND type = %@", conf.eid, conf.type.rawValue).toArray(ofType: Group.self)
+    
+        if !store.state.userState.user.isDirectorCeo() {
             store.subscribe(self) {
                 $0.select({ (s)  in
                     s.userState
@@ -47,7 +48,7 @@ class ResponsableTableViewController: UITableViewController, UIGestureRecognizer
         
         let p = gestureReconizer.location(in: self.tableView)
         if let indexPath = self.tableView?.indexPathForRow(at: p) {
-            if group.count == 0 {
+            if !store.state.userState.user.isDirectorCeo() {
                 let user = users[indexPath.row]
                 conf.uid = user.id
                 self.pushToView(view: .chatView, sender: conf)
@@ -69,17 +70,16 @@ class ResponsableTableViewController: UITableViewController, UIGestureRecognizer
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return group.count == 0 ? self.users.count : group.count
+        return !store.state.userState.user.isDirectorCeo() ? self.users.count : group.count
         
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        if group.count == 0 {
+        if !store.state.userState.user.isDirectorCeo() {
             let user = users[indexPath.row]
             cell.textLabel?.text = user.name
             cell.detailTextLabel?.text = user.email
-            
         }else{
             if let user = group[indexPath.row]._party.first(where: {$0.id != store.state.userState.user.id}) {
                 cell.textLabel?.text = user.name

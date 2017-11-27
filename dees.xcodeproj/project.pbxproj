@@ -58,7 +58,6 @@
 		0280EF2C1F86B932003247F5 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280EF2B1F86B932003247F5 /* DesignableView.swift */; };
 		0280EF2E1F86BB2C003247F5 /* DetailsContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */; };
 		028E9FF01F880DF900ABE342 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028E9FEF1F880DF900ABE342 /* CloudKit.framework */; };
-		029018AC1FB36F70000903AB /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 029018AB1FB36F70000903AB /* Profile.storyboard */; };
 		029018AE1FB37095000903AB /* Reports.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 029018AD1FB37095000903AB /* Reports.storyboard */; };
 		029018B01FB370C9000903AB /* Pendings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 029018AF1FB370C9000903AB /* Pendings.storyboard */; };
 		029018B21FB370F0000903AB /* Enterprises.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 029018B11FB370F0000903AB /* Enterprises.storyboard */; };
@@ -83,7 +82,6 @@
 		02A3A47C1F3A54260048750E /* BusinessActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47B1F3A54260048750E /* BusinessActions.swift */; };
 		02A3A47E1F3A55C60048750E /* BusinessReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47D1F3A55C60048750E /* BusinessReducer.swift */; };
 		02A3A4801F3A56B00048750E /* EnterprisesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A3A47F1F3A56B00048750E /* EnterprisesService.swift */; };
-		02A477821F9E8E0B00B4E707 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A477811F9E8E0B00B4E707 /* ChatViewController.swift */; };
 		02A614841F9697A600A417A7 /* PendingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A614831F9697A600A417A7 /* PendingsProvider.swift */; };
 		02A614861F969B0100A417A7 /* PendingsActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A614851F969B0100A417A7 /* PendingsActions.swift */; };
 		02A614881F969B8200A417A7 /* PendingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A614871F969B8200A417A7 /* PendingsState.swift */; };
@@ -117,8 +115,11 @@
 		02E7AB211F3D3BBD0037B7D1 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7AB201F3D3BBD0037B7D1 /* DateFormatter.swift */; };
 		02EA03BA1FB2AF5B00F9987A /* AnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EA03B91FB2AF5B00F9987A /* AnimationController.swift */; };
 		02EF1A771F9FD13800921F43 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EF1A761F9FD13800921F43 /* Message.swift */; };
+		02F1494F1FCC9EE300618D22 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02F1494E1FCC9EE300618D22 /* Profile.storyboard */; };
 		02F2CC271FB28C4200595784 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F2CC261FB28C4200595784 /* PresentationController.swift */; };
 		02F2CC2D1FB2919100595784 /* PageOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F2CC2C1FB2919100595784 /* PageOnboardingViewController.swift */; };
+		02F48CD21FB66AEB002679DC /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F48CD11FB66AEB002679DC /* ChatViewController.swift */; };
+		02F48CD61FB681A9002679DC /* GroupEntitie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F48CD51FB681A9002679DC /* GroupEntitie.swift */; };
 		02F4CC9A1F3B6F16008312A6 /* BusinessTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F4CC991F3B6F16008312A6 /* BusinessTableViewCell.swift */; };
 		02F4CC9E1F3B7310008312A6 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F4CC9D1F3B7310008312A6 /* UIColor.swift */; };
 		02F4CCA01F3BD4E8008312A6 /* ResponsableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F4CC9F1F3BD4E8008312A6 /* ResponsableCollectionViewCell.swift */; };
@@ -180,7 +181,6 @@
 		0280EF2B1F86B932003247F5 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsContentViewController.swift; sourceTree = "<group>"; };
 		028E9FEF1F880DF900ABE342 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		029018AB1FB36F70000903AB /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Profile.storyboard; path = ../../../../.Trash/Profile.storyboard; sourceTree = "<group>"; };
 		029018AD1FB37095000903AB /* Reports.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Reports.storyboard; sourceTree = "<group>"; };
 		029018AF1FB370C9000903AB /* Pendings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Pendings.storyboard; sourceTree = "<group>"; };
 		029018B11FB370F0000903AB /* Enterprises.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Enterprises.storyboard; sourceTree = "<group>"; };
@@ -205,7 +205,6 @@
 		02A3A47B1F3A54260048750E /* BusinessActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessActions.swift; sourceTree = "<group>"; };
 		02A3A47D1F3A55C60048750E /* BusinessReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessReducer.swift; sourceTree = "<group>"; };
 		02A3A47F1F3A56B00048750E /* EnterprisesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterprisesService.swift; sourceTree = "<group>"; };
-		02A477811F9E8E0B00B4E707 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		02A614831F9697A600A417A7 /* PendingsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingsProvider.swift; sourceTree = "<group>"; };
 		02A614851F969B0100A417A7 /* PendingsActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingsActions.swift; sourceTree = "<group>"; };
 		02A614871F969B8200A417A7 /* PendingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingsState.swift; sourceTree = "<group>"; };
@@ -239,8 +238,11 @@
 		02E7AB201F3D3BBD0037B7D1 /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		02EA03B91FB2AF5B00F9987A /* AnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationController.swift; sourceTree = "<group>"; };
 		02EF1A761F9FD13800921F43 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		02F1494E1FCC9EE300618D22 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		02F2CC261FB28C4200595784 /* PresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
 		02F2CC2C1FB2919100595784 /* PageOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageOnboardingViewController.swift; sourceTree = "<group>"; };
+		02F48CD11FB66AEB002679DC /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		02F48CD51FB681A9002679DC /* GroupEntitie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEntitie.swift; sourceTree = "<group>"; };
 		02F4CC991F3B6F16008312A6 /* BusinessTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTableViewCell.swift; sourceTree = "<group>"; };
 		02F4CC9D1F3B7310008312A6 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		02F4CC9F1F3BD4E8008312A6 /* ResponsableCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponsableCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -322,9 +324,9 @@
 		025EB9841F34F43F0075611F /* dees */ = {
 			isa = PBXGroup;
 			children = (
+				02647F2D1F87FD3700E5AAC9 /* dees.entitlements */,
 				029018A31FB36C7E000903AB /* Storyboards */,
 				02A099B31F9ECFAF008B459D /* DesignableX */,
-				02647F2D1F87FD3700E5AAC9 /* dees.entitlements */,
 				0238D2D11F745D3F0009B1F0 /* gifts */,
 				0238D2D01F745D1D0009B1F0 /* extra */,
 				02A3A4811F3A8F420048750E /* cells */,
@@ -435,11 +437,19 @@
 				029018B11FB370F0000903AB /* Enterprises.storyboard */,
 				029018AF1FB370C9000903AB /* Pendings.storyboard */,
 				029018AD1FB37095000903AB /* Reports.storyboard */,
-				029018AB1FB36F70000903AB /* Profile.storyboard */,
 				025EB9891F34F43F0075611F /* Main.storyboard */,
 				029018B81FB37523000903AB /* Library.storyboard */,
+				02F1494E1FCC9EE300618D22 /* Profile.storyboard */,
 			);
 			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		0296B6251FBB694100A8A20A /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				027D911D1F393D37007AB6D2 /* ProfileViewController.swift */,
+			);
+			name = Profile;
 			sourceTree = "<group>";
 		};
 		02A099B31F9ECFAF008B459D /* DesignableX */ = {
@@ -500,9 +510,9 @@
 		02A477801F9E8DFA00B4E707 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				02A477811F9E8E0B00B4E707 /* ChatViewController.swift */,
 				022A907F1FA259A400601965 /* MyMessageTableViewCell.swift */,
 				02B8A1F71FA261AC002F623A /* chatView_StoreSubscriber.swift */,
+				02F48CD11FB66AEB002679DC /* ChatViewController.swift */,
 			);
 			name = Chat;
 			sourceTree = "<group>";
@@ -527,6 +537,7 @@
 		02DD8D321F3E235B00896850 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0296B6251FBB694100A8A20A /* Profile */,
 				02A477801F9E8DFA00B4E707 /* Chat */,
 				02671DFF1F968CAD001B087D /* Pendings */,
 				02BE44C71F8E9B52002D3578 /* Library */,
@@ -534,7 +545,6 @@
 				02B5A21D1F671E4B001CD113 /* Reports */,
 				025EB9871F34F43F0075611F /* ViewController.swift */,
 				025EB9A91F3507590075611F /* WeeksTableViewController.swift */,
-				027D911D1F393D37007AB6D2 /* ProfileViewController.swift */,
 				02E0EFB71F43C5CC00CE405A /* PreHomeViewController.swift */,
 				02E0EFB91F43C97D00CE405A /* ChengePasswordViewController.swift */,
 				022CF0581F460129007EEF1C /* UsersTableViewController.swift */,
@@ -551,6 +561,7 @@
 			isa = PBXGroup;
 			children = (
 				02EF1A761F9FD13800921F43 /* Message.swift */,
+				02F48CD51FB681A9002679DC /* GroupEntitie.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -649,7 +660,6 @@
 				029018B01FB370C9000903AB /* Pendings.storyboard in Resources */,
 				025EB9901F34F43F0075611F /* LaunchScreen.storyboard in Resources */,
 				02C058341F82CD050022186A /* TitleView.xib in Resources */,
-				029018AC1FB36F70000903AB /* Profile.storyboard in Resources */,
 				025EB98D1F34F43F0075611F /* Assets.xcassets in Resources */,
 				029018B21FB370F0000903AB /* Enterprises.storyboard in Resources */,
 				029018B41FB37165000903AB /* Chat.storyboard in Resources */,
@@ -658,6 +668,7 @@
 				025EB98B1F34F43F0075611F /* Main.storyboard in Resources */,
 				02A3A4761F3A354D0048750E /* pirulen rg.ttf in Resources */,
 				029018AE1FB37095000903AB /* Reports.storyboard in Resources */,
+				02F1494F1FCC9EE300618D22 /* Profile.storyboard in Resources */,
 				029018B91FB37523000903AB /* Library.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -695,7 +706,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D4AD8F978E0DFBA5B9B51D9B /* [CP] Embed Pods Frameworks */ = {
@@ -765,6 +776,7 @@
 				024CAFF41F8D4200008D2922 /* WeekReducer.swift in Sources */,
 				02DD8D311F3E1CBE00896850 /* UINavigationBar.swift in Sources */,
 				02E7AB1F1F3D32400037B7D1 /* Week.swift in Sources */,
+				02F48CD21FB66AEB002679DC /* ChatViewController.swift in Sources */,
 				0280EF2E1F86BB2C003247F5 /* DetailsContentViewController.swift in Sources */,
 				02EF1A771F9FD13800921F43 /* Message.swift in Sources */,
 				0279A4B61F4F55970085030D /* ResponsableTableViewController.swift in Sources */,
@@ -777,7 +789,6 @@
 				02A099C11F9ECFAF008B459D /* UILabelX.swift in Sources */,
 				02F4CCA01F3BD4E8008312A6 /* ResponsableCollectionViewCell.swift in Sources */,
 				02B5A2211F672599001CD113 /* AllReportsTableViewController.swift in Sources */,
-				02A477821F9E8E0B00B4E707 /* ChatViewController.swift in Sources */,
 				02E7AB1D1F3D24A80037B7D1 /* ReportState.swift in Sources */,
 				02A3A47C1F3A54260048750E /* BusinessActions.swift in Sources */,
 				025C8BCF1FA016DD0028BE91 /* RealManager.swift in Sources */,
@@ -817,6 +828,7 @@
 				02C0582E1F82AF1D0022186A /* EnterpriseHeader.swift in Sources */,
 				0220BF521F97D4E900AD6303 /* ExpandableHeaderView.swift in Sources */,
 				02A099C61F9ECFAF008B459D /* UIVisualEffectViewX.swift in Sources */,
+				02F48CD61FB681A9002679DC /* GroupEntitie.swift in Sources */,
 				02A099BF1F9ECFAF008B459D /* UITextFieldX.swift in Sources */,
 				025EB9B01F354B740075611F /* UserService.swift in Sources */,
 				0238D2CE1F745D180009B1F0 /* UIImageView.swift in Sources */,

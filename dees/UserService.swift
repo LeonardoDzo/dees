@@ -23,7 +23,8 @@ extension UserService: TargetType, AccessTokenAuthorizable {
     var path: String {
         switch self {
         case .getAll(let eid):
-            return "companies/\(eid)/res/users"
+            let path =  "companies/\(eid)/res/users"
+            return path
         case .showUser(let id), .updateUser(let id, _):
             return "users/\(id)"
         case .changePass:

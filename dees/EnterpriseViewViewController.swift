@@ -19,7 +19,6 @@ class EnterpriseViewViewController: UIViewController {
         super.viewDidLoad()
         self.navigationItem.titleView = titleNavBarView(title: "Perfil", subtitle: "")
         setupBack()
-        // Do any additional setup after loading the view.
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,7 +57,7 @@ class EnterpriseViewViewController: UIViewController {
             
             let firstTextField = alertController.textFields![0] as UITextField
             
-            guard let name = firstTextField.text, !name.isEmpty, (firstTextField.text?.characters.count)! > 4 else {
+            guard let name = firstTextField.text, !name.isEmpty, (firstTextField.text?.count)! > 4 else {
                 return
             }
             self.enterprise.name = name

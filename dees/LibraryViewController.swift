@@ -50,6 +50,7 @@ class LibraryViewController: UIViewController {
         navigationItem.searchController = searchController
         self.navigationItem.title = "Biblioteca"
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)]
+        self.setupBack()
     }
     
     override func didReceiveMemoryWarning() {
