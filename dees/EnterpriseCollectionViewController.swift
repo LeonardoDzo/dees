@@ -32,8 +32,11 @@ class EnterpriseCollectionViewController: UICollectionViewController, UICollecti
         if !store.state.userState.user.isDirectorCeo() {
             self.tabBarController?.viewControllers?.remove(at: 2)
             self.tabBarController?.viewControllers?.remove(at: 2)
+            
         }
         
+        self.tabBarController?.tabBar.items?.last?.image = #imageLiteral(resourceName: "User")
+        self.tabBarController?.tabBar.items?.last?.title = "Perfil"
         
     }
     override func didReceiveMemoryWarning() {

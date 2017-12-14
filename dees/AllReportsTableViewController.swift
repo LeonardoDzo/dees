@@ -32,7 +32,11 @@ class AllReportsTableViewController: UITableViewController, UIGestureRecognizerD
         super.viewDidLoad()
         setupConf()
         setupNavBar()
-        self.setupBack()
+        self.user = store.state.userState.user
+        if user.isDirectorCeo() {
+            self.setupBack()
+        }
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -254,7 +258,7 @@ extension AllReportsTableViewController {
     }
     
     func setVars() -> Void {
-        self.user = store.state.userState.user
+        
         getEnterprise()
         self.weeks = store.state.weekState.getWeeks()
         didMove(toParentViewController: self)
