@@ -212,6 +212,8 @@ struct UserReducer {
         UserDefaults().removeObject(forKey: "password")
         store.state.businessState = BusinessState(business: [], status: .none)
         store.state.reportState.reports = .none
+        store.state.businessState.status = .none
+        store.state.businessState.business = []
         store.state.userState = UserState(user: nil, type: 0, users: [], status: .none)
         singleton.enterpriseNav.removeAll()
         realm.deleteDatabase()

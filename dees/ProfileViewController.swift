@@ -43,6 +43,7 @@ class ProfileViewController: UIViewController, UserBindible {
         label.text = "No hay notificaciones"
         view.addSubview(label)
         self.tableView.backgroundView = view
+        
         self.backgrounView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background-opessa"))
         
     }
