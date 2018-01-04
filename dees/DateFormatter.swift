@@ -92,6 +92,27 @@ extension DateFormatter {
         formatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd'T'HH:mm:ss")
         return formatter
     }()
+    
+    @nonobjc static let ddMMMyyyy: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("dd MMM yyyy")
+        return formatter
+    }()
+    @nonobjc static let MMMddHHmm: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("MMM. dd, HH:mm")
+        return formatter
+    }()
+    @nonobjc static let MMMyyyy: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("MMM-yyyy")
+        return formatter
+    }()
+    @nonobjc static let MMddyyyy: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("MM dd yyyy")
+        return formatter
+    }()
 }
 extension Date {
     
@@ -103,13 +124,13 @@ extension Date {
     func MonthDayYearHourMinute() -> String {
         return DateFormatter.MonthDayYearHourMinute.string(from: self as Date)
     }
-    
-    /// Creates an `NSDate` from the given string and formatter. Nil if the string couldn't be parsed
+    init?(_ date: Int) {
+        self.init(timeIntervalSince1970: TimeInterval(date/1000))
+    }
     init?(string: String, formatter: DateFormatter) {
         guard let date = formatter.date(from: string) else { return nil }
         self.init(timeIntervalSince1970: date.timeIntervalSince1970)
     }
-    
     var monthYearLabel: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM yyyy"
@@ -117,5 +138,28 @@ extension Date {
     }
     func toMillis() -> Int! {
         return Int(self.timeIntervalSince1970 * 1000)
+    }
+    func startOfMonth() -> Date {
+        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: self)))!
+    }
+    
+    func endOfMonth() -> Date {
+        return Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
+    }
+    
+    func midnight() -> Date {
+        let gregorian = Calendar.current
+        let components = gregorian.dateComponents([.year, .month, .day], from: self)
+        return gregorian.date(from: components)!
+    }
+    
+    func isToday() -> Bool {
+        let gregorian = Calendar.current
+        return gregorian.isDateInToday(self)
+    }
+    
+    func isYesterday() -> Bool {
+        let gregorian = Calendar.current
+        return gregorian.isDateInYesterday(self)
     }
 }

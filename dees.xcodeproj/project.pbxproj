@@ -57,6 +57,8 @@
 		027FE2281F3CFB54005C6FF8 /* RerpotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2271F3CFB54005C6FF8 /* RerpotService.swift */; };
 		0280EF2C1F86B932003247F5 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280EF2B1F86B932003247F5 /* DesignableView.swift */; };
 		0280EF2E1F86BB2C003247F5 /* DetailsContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */; };
+		028C91C51FFD71D5008ECDCB /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028C91C41FFD71D5008ECDCB /* Notification.swift */; };
+		028C91C71FFDA6AA008ECDCB /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028C91C61FFDA6AA008ECDCB /* NotificationCell.swift */; };
 		028E9FF01F880DF900ABE342 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028E9FEF1F880DF900ABE342 /* CloudKit.framework */; };
 		029018AE1FB37095000903AB /* Reports.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 029018AD1FB37095000903AB /* Reports.storyboard */; };
 		029018B01FB370C9000903AB /* Pendings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 029018AF1FB370C9000903AB /* Pendings.storyboard */; };
@@ -180,6 +182,8 @@
 		027FE2271F3CFB54005C6FF8 /* RerpotService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RerpotService.swift; sourceTree = "<group>"; };
 		0280EF2B1F86B932003247F5 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		0280EF2D1F86BB2C003247F5 /* DetailsContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsContentViewController.swift; sourceTree = "<group>"; };
+		028C91C41FFD71D5008ECDCB /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		028C91C61FFDA6AA008ECDCB /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		028E9FEF1F880DF900ABE342 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		029018AD1FB37095000903AB /* Reports.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Reports.storyboard; sourceTree = "<group>"; };
 		029018AF1FB370C9000903AB /* Pendings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Pendings.storyboard; sourceTree = "<group>"; };
@@ -399,6 +403,7 @@
 				02B974D11F465E2500884A82 /* File.swift */,
 				02991C861F7ADD84006148EF /* Persmission.swift */,
 				02A614891F969C0100A417A7 /* Pending.swift */,
+				028C91C41FFD71D5008ECDCB /* Notification.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -448,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				027D911D1F393D37007AB6D2 /* ProfileViewController.swift */,
+				028C91C61FFDA6AA008ECDCB /* NotificationCell.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -619,9 +625,9 @@
 				TargetAttributes = {
 					025EB9811F34F43F0075611F = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = T699XAU225;
+						DevelopmentTeam = XSFS8X2N87;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -759,6 +765,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0243F3621F75D96500F85F8D /* titleNavBarView.swift in Sources */,
+				028C91C71FFDA6AA008ECDCB /* NotificationCell.swift in Sources */,
 				02A3A4711F3A1D6F0048750E /* UIVIew.swift in Sources */,
 				023611021F7EC24C009D2294 /* EnterpriseNavBar.swift in Sources */,
 				02A3A4801F3A56B00048750E /* EnterprisesService.swift in Sources */,
@@ -808,6 +815,7 @@
 				02A099C41F9ECFAF008B459D /* UIImageViewX.swift in Sources */,
 				02F4CC9E1F3B7310008312A6 /* UIColor.swift in Sources */,
 				02A3A4731F3A22450048750E /* UIViewcontroller.swift in Sources */,
+				028C91C51FFD71D5008ECDCB /* Notification.swift in Sources */,
 				02A099C71F9ECFAF008B459D /* UISliderX.swift in Sources */,
 				0209D4D71F8FDBD70089805C /* FileService.swift in Sources */,
 				02DAC0A21F4D02950063B08F /* EnterpriseViewViewController.swift in Sources */,
@@ -996,15 +1004,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dees/dees.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = T699XAU225;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = XSFS8X2N87;
 				INFOPLIST_FILE = dees/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ReporteEmpresarialSemanalApp;
+				PRODUCT_BUNDLE_IDENTIFIER = res.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "018c16db-6290-4877-87ad-093013287a1f";
+				PROVISIONING_PROFILE_SPECIFIER = "Notification PUSH RES";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1018,15 +1026,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dees/dees.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = T699XAU225;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = XSFS8X2N87;
 				INFOPLIST_FILE = dees/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ReporteEmpresarialSemanalApp;
+				PRODUCT_BUNDLE_IDENTIFIER = res.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "018c16db-6290-4877-87ad-093013287a1f";
+				PROVISIONING_PROFILE_SPECIFIER = "Notification PUSH RES";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

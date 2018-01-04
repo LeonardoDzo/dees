@@ -8,9 +8,12 @@
 
 import UIKit
 import ReSwift
+import RealmSwift
 import UserNotifications
 class ProfileViewController: UIViewController, UserBindible {
     var user: User!
+    var notificationToken: NotificationToken? = nil
+    var notifications : Results<NotificationModel>!
     var previousScrollOffset: CGFloat = 0;
     @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLbl: UILabel!
@@ -28,26 +31,21 @@ class ProfileViewController: UIViewController, UserBindible {
     let maxHeaderHeight: CGFloat = 143;
     let minHeaderHeight: CGFloat = 44;
     let center = UNUserNotificationCenter.current()
-    var notifications  = [UNNotificationRequest]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.styleNavBarAndTab_1()
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
-        let view = UIView(frame: self.tableView.frame)
-        let label = UILabel()
-        label.center = view.center
-        label.text = "No hay notificaciones"
-        view.addSubview(label)
-        self.tableView.backgroundView = view
-        
-        self.backgrounView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background-opessa"))
+        if notificationarray.count > 0{
+            
+            
+        }
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -56,7 +54,7 @@ class ProfileViewController: UIViewController, UserBindible {
     @IBAction func logout(_ sender: Any) {
         store.dispatch(AuthActions.LogOut())
     }
-
+    
 }
 
 extension ProfileViewController: StoreSubscriber{
@@ -73,12 +71,42 @@ extension ProfileViewController: StoreSubscriber{
                 s in s.userState
             })
         }
-        center.getPendingNotificationRequests(completionHandler: { requests in
-            self.notifications = requests
-        })
-        
         updateHeader()
-        self.tableView.reloadData()
+        realm.saveObjects(objs: notificationarray)
+        
+        tableView.tableFooterView = UIView()
+        notifications = realm.realm.objects(NotificationModel.self).sorted(byKeyPath: "timestamp", ascending: false)
+        
+        if notifications.count == 0 {
+            
+        }else{
+            self.tableView.backgroundView = UIView()
+        }
+        // Observe Results Notifications
+        notificationToken = notifications.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let tableView = self?.tableView else { return }
+            switch changes {
+            case .initial:
+                // Results are now populated and can be accessed without blocking the UI
+                tableView.reloadData()
+            case .update(_, let deletions, let insertions, let modifications):
+                // Query results have changed, so apply them to the UITableView
+                tableView.beginUpdates()
+                self?.tableView.backgroundView = UIView()
+                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
+                                     with: .automatic)
+                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
+                                     with: .automatic)
+                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
+                                     with: .automatic)
+                tableView.endUpdates()
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+            }
+            
+            self?.tableView.reloadData()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -102,18 +130,30 @@ extension ProfileViewController: StoreSubscriber{
 }
 extension ProfileViewController : UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-       return 1
+        return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notifications.count
-        
+        return notifications != nil ? notifications.count : 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let not = notifications[indexPath.row]
-        cell.textLabel?.text = not.content.title
-        cell.detailTextLabel?.text = not.content.body
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationCell
+        let notification = notifications[indexPath.row]
+        print(notification)
+        if !notification.seen {
+            cell.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 0.08)
+        }else{
+            cell.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        }
+        cell.bind(notification)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let notification = notifications[indexPath.row]
+        try! realm.realm.write {
+            notification.seen = true
+            self.tableView.reloadRows(at: [indexPath], with: .fade)
+        }
     }
 }
 extension ProfileViewController : UITableViewDelegate {
@@ -180,7 +220,7 @@ extension ProfileViewController : UITableViewDelegate {
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 0.2, animations: {
             self.headerHeightConstraint.constant = self.minHeaderHeight
-
+            
             self.updateHeader()
             self.view.layoutIfNeeded()
         })

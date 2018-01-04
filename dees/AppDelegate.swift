@@ -14,7 +14,7 @@ import RealmSwift
 let store = Store<AppState>(
     reducer: AppReducer().handleAction,
     state: nil)
-
+var notificationarray = [NotificationModel]()
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
@@ -37,7 +37,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         application.registerForRemoteNotifications()
         UIApplication.shared.statusBarStyle = .lightContent
         
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            
+            application.registerUserNotificationSettings(settings)
+        }
         
+        if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] {
+            // 2
+            let aps = notification["aps"] as! [String: AnyObject]
+            print(aps)
+        }
+        
+        UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { (notifications) in
+            notifications.enumerated().forEach({ (index, notification) in
+               
+                let not = NotificationModel(notifiaction: notification)
+                notificationarray.append(not)
+            })
+        })
         UISearchBar.appearance().barTintColor = #colorLiteral(red: 0.07843137255, green: 0.1019607843, blue: 0.1647058824, alpha: 1)
         UISearchBar.appearance().tintColor = .white
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = #colorLiteral(red: 0.07843137255, green: 0.1019607843, blue: 0.1647058824, alpha: 1)
@@ -47,27 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        if let data : NSDictionary = userInfo["aps"] as? NSDictionary {
-            if let alert = data["alert"] as? NSDictionary {
-                if let lockey = alert["loc-key"] as? NSArray {
-                    let state: UIApplicationState = UIApplication.shared.applicationState // or use  let state =  UIApplication.sharedApplication().applicationState
-                    
-                    if state == .inactive || state == .background {
-                        if lockey.count == 2 {
-                            defaults.set(lockey[1], forKey: "Notification-Chat")
-                            if let user =  store.state.userState.user, let gid = Int((defaults.value(forKey: "Notification-Chat") as? String)!)  {
-                                
-                                store.dispatch(GroupsAction.GroupIn(gid: gid, eid: user.bussiness[0].id))
-                            }
-                        }else{
-                            
-                        }
-                        
-                    }
-                    
-                }
-            }
-        }
+        let not = NotificationModel(dic: userInfo)
+        realm.save(objs: not)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
