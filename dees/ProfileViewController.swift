@@ -75,7 +75,7 @@ extension ProfileViewController: StoreSubscriber{
         realm.saveObjects(objs: notificationarray)
         
         tableView.tableFooterView = UIView()
-        notifications = realm.realm.objects(NotificationModel.self).sorted(byKeyPath: "timestamp", ascending: false)
+        notifications = realm.realm.objects(NotificationModel.self).filter("type = %@", 1).sorted(byKeyPath: "timestamp", ascending: false)
         
         if notifications.count == 0 {
             

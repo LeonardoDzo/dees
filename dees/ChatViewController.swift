@@ -95,7 +95,8 @@ class ChatViewController: UIViewController {
         
         
         self.navigationItem.titleView = titleNavBarView(title: (enterprise?.name!)!, subtitle:  name)
-        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.setupBack()
  
         store.subscribe(self) {
             $0.select({ (state)  in
@@ -116,7 +117,7 @@ class ChatViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         store.unsubscribe(self)
         store.state.groupState.currentGroup = .none
     }
@@ -126,7 +127,7 @@ class ChatViewController: UIViewController {
         
     }
     @IBAction func handleSendMessage(_ sender: UIButton) {
-       
+        
         if group != nil, let g = group.first?._party.first(where: {$0.id != store.state.userState.user.id}) {
             conf.uid = g.id
         }

@@ -22,11 +22,10 @@ func gotoNotification(_ not: NotificationModel) -> Void {
         return Int(val) ?? -1
     })
     
-    if array.count > 2 {
+    if array.count > 3 {
         var enterprise: Business!
         var user: User!
         var week: Week!
-        var all = store.state.businessState.business
         store.state.businessState.getEnterprise(id: array[0], handler: { (bussines) in
             enterprise = bussines
             user = enterprise.users.first(where: {$0.id == array[1]})
@@ -37,6 +36,15 @@ func gotoNotification(_ not: NotificationModel) -> Void {
             }
         })
        
+    }else{
+        if let message = realm.realm.object(ofType: MessageEntitie.self, forPrimaryKey: array[0]) {
+            if let group = realm.realm.object(ofType: Group.self, forPrimaryKey: message.groupId) {
+                let conf = configuration(uid: message.userId, wid: message.weekId, type: TYPE_ON_REPORT(rawValue: group.type), eid: group.companyId, report: nil, user: nil)
+                if let top =  UIApplication.topViewController() {
+                    top.pushToView(view: .chatView,  sender: conf)
+                }
+            }
+        }
     }
 }
 
