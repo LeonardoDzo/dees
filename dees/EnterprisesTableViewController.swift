@@ -11,6 +11,7 @@ import ReSwift
 class EnterprisesTableViewController: UITableViewController {
     var user: User!
     var isFocus = false
+    var preHome : PreHomeViewController!
     var enterprises = [Business]()
     var filtered = [Business]()
     let searchController = UISearchController(searchResultsController: nil)
@@ -76,6 +77,10 @@ class EnterprisesTableViewController: UITableViewController {
                 
                 self.navigationController?.popViewController(animated: true)
             }
+        }else if preHome != nil  {
+            preHome.enterprise = enterprises[indexPath.row]
+            self.dismiss(animated: true, completion: nil)
+            
         }
     }
     
@@ -101,6 +106,8 @@ class EnterprisesTableViewController: UITableViewController {
 extension EnterprisesTableViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = BusinessState
     override func viewWillAppear(_ animated: Bool) {
+    self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.setupBack()
         store.subscribe(self) {
             $0.select({s in s.businessState})
         }
@@ -124,10 +131,6 @@ extension EnterprisesTableViewController : StoreSubscriber {
             })
         })
         getEnterprise()
-  
-        
-        
-        tableView.reloadData()
     }
     func getEnterprise() -> Void {
         if isFocus {

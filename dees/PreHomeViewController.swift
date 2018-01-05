@@ -17,7 +17,7 @@ var enterprisesNav = [[Business]]()
 class PreHomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     var section = MENU_PRE.ENTRAR
     var enterprises = [Business]()
-    var enterprise : Int!
+    var enterprise : Business!
     var week: Week!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,27 +26,55 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
     }
     override func viewWillAppear(_ animated: Bool) {
         verifyEnterprises()
+        self.section = .ENTRAR
         store.subscribe(self) {
             $0.select({ subscription in
                 subscription.businessState
             })
         }
     }
+    
     override func viewDidAppear(_ animated: Bool) {
          //let cell = self.collectionView?.cellForItem(at: IndexPath(item: 0, section: 0)) as! preHomeCollectionViewCell
          //let _ = AnimationController(target: self, controls: [])
-        generatePDF()
+        if week != nil, enterprise == nil {
+            selectEnterprise()
+        }else if week != nil, enterprise != nil {
+            generatePDF()
+        }
     }
-    
+    func selectEnterprise() {
+        let alert = UIAlertController(title: "Seleccione una", message: "", preferredStyle: .actionSheet)
+        let enterprise = enterprises[store.state.userState.type - 1]
+        let parentEnterpriseAction = UIAlertAction(title: enterprise.name ?? "", style: .default, handler: {_ in
+            self.enterprise = enterprise
+            self.generatePDF()
+        })
+        let anotherEnterprise = UIAlertAction(title: "Alguna otra de \(enterprise.name ?? "")", style: .default, handler: {_ in
+            self.enterprise = enterprise
+            self.pushToView(view: .enterprises, sender: self)
+        })
+        let CancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: {_ in
+            self.enterprise = nil
+            self.week = nil
+        })
+        
+        alert.addAction(parentEnterpriseAction)
+        alert.addAction(anotherEnterprise)
+        alert.addAction(CancelAction)
+        
+        
+        self.present(alert, animated: true, completion: nil)
+    }
     
     func generatePDF() -> Void {
         
         if week != nil, enterprise != nil {
-            let name = enterprises[enterprise].name
+            let name = enterprise.name ?? ""
             
             
             
-            let alert = UIAlertController(title: "Generar PDF de: ", message: name!  + " de la semana \(self.week.getTitleOfWeek())", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Generar PDF de: ", message: name  + " de la semana \(self.week.getTitleOfWeek())", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancelar", style: .destructive, handler: { _ in
                 self.enterprise = nil
                 self.week = nil
@@ -54,7 +82,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
             
             alert.addAction(UIAlertAction(title: "Ver", style: .default, handler: { (_alert) in
                 
-                self.pushToView(view: .webView, sender: "companies/\(self.enterprise + 1 )/res/week/\(self.week.id!)/generate" )
+                self.pushToView(view: .webView, sender: "companies/\(self.enterprise.id!)/res/week/\(self.week.id!)/generate" )
                 self.enterprise = nil
                 self.week = nil
             }))
@@ -147,7 +175,7 @@ extension PreHomeViewController : preHomeProtocol {
             enterprises = enterprises[sender].business
             self.performSegue(withIdentifier: "infoSegue", sender: sender)
         }else{
-            enterprise = sender
+            store.state.userState.type = sender + 1
             self.pushToView(view: .weeksView, sender: self)
         }
     }
@@ -164,6 +192,15 @@ extension PreHomeViewController : preHomeProtocol {
         case .finished:
             
             collectionView?.reloadData()
+            if store.state.userState.user.isDirectorCeo() {
+                if store.state.userState.user.bussiness.filter({$0.parentId == nil}).count == state.business.count {
+                    if  pendingToOpen != nil {
+                        gotoNotification(pendingToOpen)
+                        pendingToOpen = nil
+                    }
+                }
+            }
+            
             verifyEnterprises()
             break
         case .Failed(let m as Murmur):

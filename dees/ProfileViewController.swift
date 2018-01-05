@@ -140,7 +140,7 @@ extension ProfileViewController : UITableViewDataSource {
         let notification = notifications[indexPath.row]
         print(notification)
         if !notification.seen {
-            cell.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 0.08)
+            cell.backgroundColor = #colorLiteral(red: 0.1788346171, green: 0.3957612514, blue: 0.5594384074, alpha: 0.1828601819)
         }else{
             cell.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         }
@@ -153,6 +153,7 @@ extension ProfileViewController : UITableViewDataSource {
         try! realm.realm.write {
             notification.seen = true
             self.tableView.reloadRows(at: [indexPath], with: .fade)
+            gotoNotification(notification)
         }
     }
 }

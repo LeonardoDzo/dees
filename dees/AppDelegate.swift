@@ -15,6 +15,32 @@ let store = Store<AppState>(
     reducer: AppReducer().handleAction,
     state: nil)
 var notificationarray = [NotificationModel]()
+
+var pendingToOpen : NotificationModel!
+func gotoNotification(_ not: NotificationModel) -> Void {
+    let array = not.mydata.components(separatedBy: ",").map({ (val) -> Int in
+        return Int(val) ?? -1
+    })
+    
+    if array.count > 2 {
+        var enterprise: Business!
+        var user: User!
+        var week: Week!
+        var all = store.state.businessState.business
+        store.state.businessState.getEnterprise(id: array[0], handler: { (bussines) in
+            enterprise = bussines
+            user = enterprise.users.first(where: {$0.id == array[1]})
+            week = store.state.weekState.getWeeks().first(where: {$0.id == array[2]})
+            let pending = pendingModel(enterprise: enterprise, users: [modelUser(user: user, weeks: [week])], weeks: [modelWeek(week: week, users: [user])], toggle: false)
+            if let top =  UIApplication.topViewController() {
+                top.pushToView(view: .allPendings, sender: [pending])
+            }
+        })
+       
+    }
+}
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
@@ -32,10 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 // Enable or disable features based on authorization.
             }
             application.registerForRemoteNotifications()
-            
         }
-        application.registerForRemoteNotifications()
-        UIApplication.shared.statusBarStyle = .lightContent
         
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
@@ -53,23 +76,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] {
             // 2
-            let aps = notification["aps"] as! [String: AnyObject]
-            print(aps)
+            let notification = NotificationModel(dic: notification)
+            notificationarray.append(notification)
+            pendingToOpen = notification
+            
         }
-        
-        UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { (notifications) in
+       UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { (notifications) in
             notifications.enumerated().forEach({ (index, notification) in
-               
+                
                 let not = NotificationModel(notifiaction: notification)
                 notificationarray.append(not)
             })
         })
+        realm.saveObjects(objs: notificationarray)
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UISearchBar.appearance().barTintColor = #colorLiteral(red: 0.07843137255, green: 0.1019607843, blue: 0.1647058824, alpha: 1)
         UISearchBar.appearance().tintColor = .white
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = #colorLiteral(red: 0.07843137255, green: 0.1019607843, blue: 0.1647058824, alpha: 1)
         
         return true
     }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if pendingToOpen == nil {
+            let not = NotificationModel(notifiaction: response.notification)
+            realm.save(objs: not)
+            gotoNotification(not)
+        }
+        
+    }
+    
+    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
@@ -80,6 +117,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
         completionHandler([UNNotificationPresentationOptions.alert,UNNotificationPresentationOptions.sound,UNNotificationPresentationOptions.badge])
+        let not = NotificationModel(notifiaction: notification)
+        realm.save(objs: not)
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

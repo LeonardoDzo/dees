@@ -108,6 +108,10 @@ extension UIViewController {
             if sender is Bool {
                  vc.isFocus = sender as! Bool
             }
+            if sender is PreHomeViewController {
+                vc.preHome = sender as! PreHomeViewController
+            }
+            
             break
         case let vc as AllReportsTableViewController:
             if sender is Business {

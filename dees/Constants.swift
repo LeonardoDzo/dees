@@ -79,11 +79,46 @@ struct Constants {
                 error.title = "Falló el servidor :("
                 return error
             }()
+            /// Favor verificar que las contraseñas sean iguales
+            static let _07 : Murmur! = {
+                var error = messages.error._00
+                error.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+                error.title = "Favor verificar que las contraseñas sean iguales"
+                return error
+            }()
+            /// Minimo de caracteres 6
+            static let _08 : Murmur! = {
+                var error = messages.error._00
+                error.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+                error.title = "Minimo de caracteres 6"
+                return error
+            }()
+            /// No puede dejar campos vacíos
+            static let _09 : Murmur! = {
+                var error = messages.error._00
+                error.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+                error.title = "No puede dejar campos vacíos"
+                return error
+            }()
+            /// Constraseña antigua incorrect
+            static let _10 : Murmur! = {
+                var error = messages.error._00
+                error.backgroundColor = #colorLiteral(red: 1, green: 0.2155154347, blue: 0.1931709349, alpha: 1)
+                error.title = "Constraseña antigua incorrecta"
+                return error
+            }()
+            /// Máximo de caracteres 16
+            static let _11 : Murmur! = {
+                var error = messages.error._00
+                error.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+                error.title = "Máximo de caracteres 16"
+                return error
+            }()
         }
         /// Lista de mensajes de respuestas que salieron exitosas
         struct success {
             /// Success Generico
-            static let _00 = Murmur(title: "Todo salió correctament!",  backgroundColor: #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1), titleColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+            static let _00 = Murmur(title: "Todo salió correctamente!",  backgroundColor: #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1), titleColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
             ///Se vio el reporte
             static let _01 : Murmur! = {
                 var s = messages.success._00

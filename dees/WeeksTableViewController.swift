@@ -69,6 +69,7 @@ class WeeksTableViewController: UITableViewController {
 extension WeeksTableViewController : StoreSubscriber {
     typealias StoreSubscriberStateType = WeekState
     override func viewWillAppear(_ animated: Bool) {
+        self.setupBack()
         store.subscribe(self) {
             $0.select({s in s.weekState})
         }

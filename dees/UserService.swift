@@ -28,7 +28,7 @@ extension UserService: TargetType, AccessTokenAuthorizable {
         case .showUser(let id), .updateUser(let id, _):
             return "users/\(id)"
         case .changePass:
-            return "Users/Reset_Password"
+            return "users/\(store.state.userState.user.id!)/password"
         case .token(let eid):
             return "companies/\(eid)/res/token"
             
@@ -61,8 +61,8 @@ extension UserService: TargetType, AccessTokenAuthorizable {
         case .updateUser(_, let name):
             return [User.kName: name]
         case .changePass(let old,let new):
-            return  ["old_password": old,
-                     "new_password": new]
+            return  ["oldPassword": old,
+                     "newPassword": new]
         case .token:
             if let s =  defaults.value(forKey: "device") as? String {
                 return ["device": s]

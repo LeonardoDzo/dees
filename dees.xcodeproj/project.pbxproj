@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		020123A91F982452000D302E /* AllPendingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020123A81F982452000D302E /* AllPendingsTableViewController.swift */; };
+		020612B81FFEC275006C93F8 /* ChangePassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020612B71FFEC275006C93F8 /* ChangePassViewController.swift */; };
 		0209D4D51F8FDB4F0089805C /* FilesActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209D4D41F8FDB4F0089805C /* FilesActions.swift */; };
 		0209D4D71F8FDBD70089805C /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209D4D61F8FDBD70089805C /* FileService.swift */; };
 		0209D4D91F8FDDCD0089805C /* FileReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209D4D81F8FDDCD0089805C /* FileReducer.swift */; };
@@ -130,6 +131,7 @@
 
 /* Begin PBXFileReference section */
 		020123A81F982452000D302E /* AllPendingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPendingsTableViewController.swift; sourceTree = "<group>"; };
+		020612B71FFEC275006C93F8 /* ChangePassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassViewController.swift; sourceTree = "<group>"; };
 		0209D4D41F8FDB4F0089805C /* FilesActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesActions.swift; sourceTree = "<group>"; };
 		0209D4D61F8FDBD70089805C /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
 		0209D4D81F8FDDCD0089805C /* FileReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReducer.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 			children = (
 				027D911D1F393D37007AB6D2 /* ProfileViewController.swift */,
 				028C91C61FFDA6AA008ECDCB /* NotificationCell.swift */,
+				020612B71FFEC275006C93F8 /* ChangePassViewController.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -825,6 +828,7 @@
 				0279A4BE1F4F84700085030D /* ChildTableViewCell.swift in Sources */,
 				02991C871F7ADD84006148EF /* Persmission.swift in Sources */,
 				02B974D41F4660F900884A82 /* FileViewViewController.swift in Sources */,
+				020612B81FFEC275006C93F8 /* ChangePassViewController.swift in Sources */,
 				0238D2CF1F745D180009B1F0 /* loadingView.swift in Sources */,
 				0220BF541F97DBCF00AD6303 /* ResponsablePendingTableViewCell.swift in Sources */,
 				0272A3751F4E5BC1008D3287 /* EnterpriseCollectionViewCell.swift in Sources */,

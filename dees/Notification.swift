@@ -34,22 +34,21 @@ class NotificationModel : Object {
     convenience required init(notifiaction: UNNotification) {
         self.init()
         let content = notifiaction.request.content
-        print(content.userInfo)
         self.id = notifiaction.request.identifier
         
         
         self.title = content.title
         self.body = content.body
         self.timestamp = notifiaction.date.toMillis()
-        if let lockey = content.userInfo["loc-key"] as? NSArray {
+        if let aps = content.userInfo["aps"] as? NSDictionary, let alert = aps["alert"] as? NSDictionary, let lockey = alert["loc-key"] as? NSArray {
+           
             if lockey.count == 2 {
                 self.type = .chat
             }else{
                 self.type = .report
             }
-            lockey.forEach({ (value) in
-                self.mydata += String(describing: value) + ","
-            })
+            self.mydata = lockey.componentsJoined(by: ",")
+
         }
     }
     convenience required init(dic: [AnyHashable: Any]) {

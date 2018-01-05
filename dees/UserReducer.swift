@@ -152,26 +152,18 @@ struct UserReducer {
         userProvider.request(.changePass(old: old, new: new), completion: { result in
             switch result {
             case .success(let response):
-                do {
-                    let repos : NSDictionary = try response.mapJSON() as! NSDictionary
-                    print(repos)
-                    if response.statusCode == 200 {
-                        defaults.set(new, forKey: "password")
-                        store.state.userState.status = .finished
-                    }else if response.statusCode == 401{
-                        store.state.userState.status = .Failed("Contraseña actual incorrecta")
-                    }else if response.statusCode == 403 {
-                        store.state.userState.status = .Failed("Hubo algun error")
-                    }
-                    
-                    store.state.userState.status = .none
-                    
-                } catch MoyaError.jsonMapping(let error) {
-                    print(error )
-                    store.state.userState.status = .Failed("Hubo algun error")
-                } catch {
-                    print(":(")
+                
+                if response.statusCode == 200 {
+                    defaults.set(new, forKey: "password")
+                    store.state.userState.status = .finished
+                }else if response.statusCode >= 500 {
+                    store.state.userState.status = .Failed(messages.error._06)
                 }
+                else if response.statusCode >= 400 {
+                    store.state.userState.status = .Failed(messages.error._10)
+                }
+                store.state.userState.status = .none
+             
                 break
             case .failure(let error):
                 print(error)

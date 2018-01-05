@@ -39,7 +39,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reporte Empresarial Semanal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qhk-tV-Zwm">
-                                <rect key="frame" x="108" y="150" width="159.5" height="20"/>
+                                <rect key="frame" x="44" y="150" width="287.5" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="1Aq-ph-mxR"/>
                                 </constraints>
@@ -1187,7 +1187,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Operativo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iVm-Tk-RGE">
-                                                    <rect key="frame" x="98" y="41" width="61.5" height="16.5"/>
+                                                    <rect key="frame" x="74.5" y="41" width="108.5" height="16.5"/>
                                                     <fontDescription key="fontDescription" name="PirulenRg-Regular" family="Pirulen" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>

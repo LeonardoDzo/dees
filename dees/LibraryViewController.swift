@@ -20,6 +20,7 @@ class LibraryViewController: UIViewController {
     var weeks: [Week] = []
     var weekSelected = 0
     var enterpriseSelected = 0
+    var fileDeleted: File!
     var enterprises: [Business] = []
     var files = [file_Section]()
     lazy var weeksTitleView : weeksView? = weeksView(frame: .zero)
@@ -178,6 +179,25 @@ extension LibraryViewController : StoreSubscriber {
         default:
             break
         }
+        
+        switch store.state.reportState.reports {
+        case .Finished(let tupla as (Report,Murmur)):
+            if fileDeleted != nil {
+                let fid =  fileDeleted.id
+                fileDeleted = nil
+                store.dispatch(FileActions.delete(report: tupla.0, fid: fid!))
+                
+            }else{
+                store.state.reportState.reports = .none
+                changeEnterprise(direction: .down)
+            }
+            
+            break
+        default:
+            
+            break
+        }
+        
     }
     
 }
@@ -209,6 +229,31 @@ extension LibraryViewController : UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Semana " + files[section].week.getTitleOfWeek()
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let tupla =  isFiltering() ? (filtered[indexPath.section].files[indexPath.row], enterprises[self.enterpriseSelected].id) : (files[indexPath.section].files[indexPath.row], enterprises[self.enterpriseSelected].id)
+            confirmDelete(tupla.0)
+        }
+    }
+    
+    func confirmDelete(_ file: File) {
+        let alert = UIAlertController(title: "Eliminar Archivo", message: "Estas seguro eliminar:  \(file.name!)?", preferredStyle: .actionSheet)
+        
+        let DeleteAction = UIAlertAction(title: "Eliminar", style: .destructive, handler: {_ in
+            
+            store.dispatch(ReportsAction.Get(eid: self.enterprises[self.enterpriseSelected].id, wid: file.wid!, uid: file.uid))
+            self.fileDeleted = file
+            
+        })
+        let CancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        
+        alert.addAction(DeleteAction)
+        alert.addAction(CancelAction)
+        
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     
