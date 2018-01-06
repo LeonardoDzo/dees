@@ -66,6 +66,7 @@ extension ChatViewController : StoreSubscriber {
                 
             }else{
                  self.tableView.beginUpdates()
+                
                 if self.section_Messages.count > section  {
                     self.tableView.insertSections(IndexSet(integer: section_Messages.count - section), with: .none)
                 }else{
@@ -78,6 +79,7 @@ extension ChatViewController : StoreSubscriber {
                     }
                   
                 }
+                self.setBackground()
                 self.tableView.endUpdates()
             }
             

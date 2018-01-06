@@ -151,7 +151,8 @@ class RerportTableViewCell: UITableViewCell, ReportBindible, UITextViewDelegate 
                 
                 groups.forEach({ (group) in
                     if let userin_times = group._party.first(where: {$0.id == store.state.userState.user.id})?.timestamp {
-                        count = group._messages.filter("timestamp > %@", userin_times).count
+                        print(userin_times)
+                        count = group._messages.filter("timestamp >= %@", userin_times).count
                     }
                 })
                 

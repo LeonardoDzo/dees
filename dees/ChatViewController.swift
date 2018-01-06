@@ -148,14 +148,7 @@ class ChatViewController: UIViewController {
         self.pushToView(view: .weeksView)
     }
     
-    func isFiltered() -> Void {
-        guard  group != nil  else {
-            return
-        }
-        print("Grupo", group.first?._party ?? "Nada")
-        messages_group = isFiltering ? group.first?._messages.filter("weekId = %@", conf.wid) : group.first?._messages.sorted(byKeyPath: "timestamp")
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: isFiltering ? #imageLiteral(resourceName: "filtered-Filled") : #imageLiteral(resourceName: "filter"), style: .plain, target: self, action: #selector(self.filtered))
+    func setBackground() {
         let backgroundImage = #imageLiteral(resourceName: "nomessages")
         if messages_group.count == 0 {
             let imageView = UIImageView(image: backgroundImage)
@@ -163,7 +156,18 @@ class ChatViewController: UIViewController {
             self.tableView.backgroundView = imageView
         }else{
             self.tableView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            
         }
+    }
+    
+    func isFiltered() -> Void {
+        guard  group != nil  else {
+            return
+        }
+        messages_group = isFiltering ? group.first?._messages.filter("weekId = %@", conf.wid) : group.first?._messages.sorted(byKeyPath: "timestamp")
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: isFiltering ? #imageLiteral(resourceName: "filtered-Filled") : #imageLiteral(resourceName: "filter"), style: .plain, target: self, action: #selector(self.filtered))
+        setBackground()
         getSections()
         
     }

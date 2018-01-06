@@ -22,7 +22,7 @@ func gotoNotification(_ not: NotificationModel) -> Void {
         return Int(val) ?? -1
     })
     
-    if array.count > 3 {
+    if array.count == 3 {
         var enterprise: Business!
         var user: User!
         var week: Week!

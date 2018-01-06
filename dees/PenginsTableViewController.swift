@@ -94,8 +94,13 @@ class PenginsTableViewController: UITableViewController {
         navigationItem.searchController = searchController
         self.tableView.addSubview(self.refCtrl)
         
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Ver todos", style: .plain, target: self, action: #selector(self.seeAll))
+        
     }
     
+    @objc func seeAll() -> Void{
+         self.pushToView(view: .allPendings, sender: sections[0].1)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -146,7 +151,7 @@ class PenginsTableViewController: UITableViewController {
             sections[indexPath.section].1[row].toggle = !sections[indexPath.section].1[row].toggle
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }else if indexPath.section == 0 {
-            self.pushToView(view: .allPendings, sender: sections[indexPath.section].1)
+            self.pushToView(view: .allPendings, sender: [sections[indexPath.section].1[indexPath.row]])
         }
         
     }
