@@ -29,7 +29,7 @@ extension ip  {
 }
 struct Constants {
     struct ServerApi {
-        static let uri = ip.Test
+        static let uri = ip.AWS
         static let url = "http://\(ServerApi.uri.rawValue)\(ServerApi.uri.getPort())api/"
         static let ws = "ws://\(ServerApi.uri.rawValue)\(ServerApi.uri.getPort())api/companies/"
         static let fileurl = "http://resapi.cotecnologias.com"

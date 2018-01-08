@@ -12,7 +12,8 @@ import Mapper
 enum Rol: Int {
     case Operative = 601,
          Director,
-         CEO
+         CEO,
+         Super = 1
 }
 
 struct User : Mappable {

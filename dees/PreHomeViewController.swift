@@ -45,26 +45,27 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
     }
     func selectEnterprise() {
         let alert = UIAlertController(title: "Seleccione una", message: "", preferredStyle: .actionSheet)
-        let enterprise = enterprises[store.state.userState.type - 1]
-        let parentEnterpriseAction = UIAlertAction(title: enterprise.name ?? "", style: .default, handler: {_ in
-            self.enterprise = enterprise
-            self.generatePDF()
-        })
-        let anotherEnterprise = UIAlertAction(title: "Alguna otra de \(enterprise.name ?? "")", style: .default, handler: {_ in
-            self.enterprise = enterprise
-            self.pushToView(view: .enterprises, sender: self)
-        })
-        let CancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: {_ in
-            self.enterprise = nil
-            self.week = nil
-        })
-        
-        alert.addAction(parentEnterpriseAction)
-        alert.addAction(anotherEnterprise)
-        alert.addAction(CancelAction)
-        
-        
-        self.present(alert, animated: true, completion: nil)
+        if let enterprise = enterprises.first(where: {$0.id == store.state.userState.type}) {
+            let parentEnterpriseAction = UIAlertAction(title: enterprise.name ?? "", style: .default, handler: {_ in
+                self.enterprise = enterprise
+                self.generatePDF()
+            })
+            let anotherEnterprise = UIAlertAction(title: "Alguna otra de \(enterprise.name ?? "")", style: .default, handler: {_ in
+                self.enterprise = enterprise
+                self.pushToView(view: .enterprises, sender: self)
+            })
+            let CancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: {_ in
+                self.enterprise = nil
+                self.week = nil
+            })
+            
+            alert.addAction(parentEnterpriseAction)
+            alert.addAction(anotherEnterprise)
+            alert.addAction(CancelAction)
+            
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func generatePDF() -> Void {
@@ -108,12 +109,12 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
             
             if let nb  = tb.childViewControllers[section.hashValue] as? UINavigationController {
                 if let vc = nb.childViewControllers[0] as? EnterpriseCollectionViewController {
-                    vc.type = sender  as! Int + 1
+                    vc.type = sender  as! Int
                 }else  if let vc = nb.childViewControllers[0] as? AllReportsTableViewController {
-                    vc.type = sender as! Int + 1
+                    vc.type = sender as! Int
                     
                 }
-                store.state.userState.type = sender as! Int + 1
+                store.state.userState.type = sender as! Int 
             }
            
         }
@@ -128,7 +129,7 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath) as! preHomeCollectionViewCell
         let e = enterprises[indexPath.row]
-        cell.tag = indexPath.row
+        cell.tag = e.id
         cell.prehome = self
         if e.id == 2 {
             cell.backgroundImg.image = #imageLiteral(resourceName: "background-gde")
@@ -141,7 +142,8 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
         return cell
     }
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        handleClick(sender: indexPath.item)
+        let e = enterprises[indexPath.row]
+        handleClick(sender: e.id)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height = 0
@@ -172,10 +174,10 @@ class PreHomeViewController: UICollectionViewController, UICollectionViewDelegat
 extension PreHomeViewController : preHomeProtocol {
     func handleClick(sender: Int) {
         if enterprises.count > 0, section != .PDF {
-            enterprises = enterprises[sender].business
+            enterprises = (enterprises.first(where: {$0.id == sender})?.business) ?? []
             self.performSegue(withIdentifier: "infoSegue", sender: sender)
         }else{
-            store.state.userState.type = sender + 1
+            store.state.userState.type = sender
             self.pushToView(view: .weeksView, sender: self)
         }
     }

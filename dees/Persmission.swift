@@ -19,6 +19,6 @@ struct Permission : Mappable {
     
     init(map: Mapper) throws {
         try cid = map.from(p.kcompanyId)
-        try self.rid =  Rol(rawValue: map.from(p.kroleId))
+        try self.rid =  Rol(rawValue: map.from(p.kroleId)) ?? Rol(rawValue: 1000)
     }
 }
